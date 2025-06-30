@@ -1,0 +1,12 @@
+.newMealContainer {
+    width: 100%;
+}
+
+.newMealDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    width: 300px;
+}
