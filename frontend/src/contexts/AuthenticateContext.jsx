@@ -94,7 +94,7 @@ export function AuthenticateContext({ children }) {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    email: email,
+                    username: email,
                     password: password
                 })
             })
@@ -104,7 +104,12 @@ export function AuthenticateContext({ children }) {
             if (!response.ok) {
                throw Error(response.message)
             }
-            setTokens(data.tokens);
+
+            
+            setTokens({
+                access: data.access,
+                refresh: data.refresh
+            });
             setIsAuthenticated(true);
             return {success: true, data: data}
         } catch (e) {
@@ -129,10 +134,10 @@ export function AuthenticateContext({ children }) {
         checkAuthentication();
     }, [])
 
-    const contextContent = {accessToken, isAuthenticated, isLoading, refreshAccessToken, register, login, logout}
+    const contextValue = {accessToken, isAuthenticated, isLoading, refreshAccessToken, register, login, logout}
     
     return (
-        <InternalContext.Provider value={contextContent}>
+        <InternalContext.Provider value={contextValue}>
             {children}
         </InternalContext.Provider>
     )

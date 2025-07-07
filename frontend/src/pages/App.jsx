@@ -6,12 +6,14 @@ import AuthenticationLayout from '../layouts/AuthenticationLayout';
 import './App.css';
 import ProfileForm from './profileForm/ProfileForm';
 import {AuthenticateContext} from '../contexts/AuthenticateContext';
+import { MealsContext } from '../contexts/MealsContext';
 
 export default function App() {
   // Requisição para backend, para verificar se está logado ou não!
 
   return (
-    <AuthenticateContext >
+    <AuthenticateContext>
+      <MealsContext>
       <div>
         <h1>KCalculator</h1>
 
@@ -35,6 +37,7 @@ export default function App() {
           </Routes>
         </BrowserRouter>
       </div>
+      </MealsContext>
     </AuthenticateContext>
   );
 }

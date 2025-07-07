@@ -3,7 +3,7 @@ import { useState, useRef } from "react"
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
 
 export default function Login({}) {
-    const { isAuthenticated } = useAuthenticate();
+    const { isAuthenticated, login } = useAuthenticate();
 
 
 
@@ -13,27 +13,11 @@ export default function Login({}) {
     const emailInputRef = useRef(null)
     const passwordInputRef = useRef(null)
     
-    function handleLogin(event) {
+    async function handleLogin(event) {
         event.preventDefault()
         console.log(`email: ${email} password: ${password}`);
-        
-        fetch("http://localhost:8000/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({      
-                email: email,
-                password: password
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.message)
-            emailInputRef.current.value = "";
-            passwordInputRef.current.value = "";
-        })
-        
+        let response = await login(email, password);
+        console.log(response)
     }
     
     if (!isAuthenticated) {

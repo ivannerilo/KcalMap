@@ -1,16 +1,20 @@
-import { useState, useEffect, createContext, useMemo } from "react";
+import { useState, useEffect } from "react";
 import CaloriesDash from "../../components/caloriesDash/CaloriesDash";
 import NewMeal from "../../components/newMeal/NewMeal";
 import Meal from "../../components/meal/Meal";
 import styles from "./Dashboard.module.css";
-const MealsContext = createContext();
+import { useAuthenticate } from "../../contexts/AuthenticateContext";
+import { useMeals } from "../../contexts/MealsContext";
 
 export default function Dashboard() {
-    const [meals, setMeals] = useState([]);
     const [caloriesGoal, setCaloriesGoal] = useState(1000);
     const [openNewMeal, setOpenNewMeal] = useState(false);
+    
+    const { meals, isLoading } = useMeals();
 
-    const calories = useMemo(() => {
+    const calories = 1000;
+
+/*     const calories = useMemo(() => {
         let caloriesConsumed = 0
         meals.forEach(meal => {
             caloriesConsumed = meal.itens.reduce((cals, mealItem) => {
@@ -20,7 +24,7 @@ export default function Dashboard() {
         })
         console.log(`caloriesConsumed`, caloriesConsumed)
         return caloriesConsumed
-    }, [meals])
+    }, [meals]) */
 
     useEffect(() => {
         fetch("http://localhost:8000/api/calories/")
@@ -30,15 +34,6 @@ export default function Dashboard() {
             setCaloriesGoal(data.calories_goal);
         });
     }, []);
-
-    useEffect(() => {
-        fetch("http://localhost:8000/api/meals/")
-        .then((response) => response.json())
-        .then((data) => {
-            setMeals(data.meals);
-        }); 
-    }, []);
-
 
 
     return (
@@ -50,17 +45,13 @@ export default function Dashboard() {
             {/* Botão para abrir o formulário de nova refeição! */}
             <button onClick={() => setOpenNewMeal(!openNewMeal)}>New Meal</button> 
             {/* // Formulário de nova refeição! */}
-            {openNewMeal && <NewMeal setMeals={setMeals} />} 
+            {openNewMeal && <NewMeal />} 
 
             {/* Renderização das refeições! */}
-            {meals.map((meal) => ( 
-                <MealsContext.Provider value={{meal: meal, setMeals: setMeals}}>
-                    <Meal key={meal.id} /> 
-                </MealsContext.Provider>
+            {meals && !isLoading && meals.map((meal) => ( 
+                <Meal key={meal.id} meal={meal}/> 
             ))}
 
         </div>
     );
 }
-
-export { MealsContext };

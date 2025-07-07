@@ -7,7 +7,6 @@ export default function NewMeal({ setMeals }) {
 
     function handleCreateMeal(event) {
         event.preventDefault();
-        console.log(mealName);
         setMeals((prevMeals) => [...prevMeals, { id: prevMeals.length + 1, name: mealName, itens: [] }]);
     }
 
