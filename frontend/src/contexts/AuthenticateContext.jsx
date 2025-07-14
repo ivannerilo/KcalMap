@@ -78,10 +78,10 @@ export function AuthenticateContext({ children }) {
             }
             setTokens(data.tokens);
             setIsAuthenticated(true);
-            return {success: true, data: data}
+            return data
         } catch (e) {
             setIsAuthenticated(false);
-            return {success: false, message: e.message}
+            return e.message
         } finally {
             setIsLoading(false)
         }
@@ -113,10 +113,10 @@ export function AuthenticateContext({ children }) {
                 refresh: data.refresh
             });
             setIsAuthenticated(true);
-            return {success: true, data: data}
+            return data
         } catch (e) {
             setIsAuthenticated(false);
-            return {success: false, message: e.message}
+            return e.message
         } finally {
             setIsLoading(false)
         }

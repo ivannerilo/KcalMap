@@ -59,9 +59,9 @@ export function MealsContext({ children }){
             await getMeals()
 
             return data
-        } catch (error) {
-            console.log("error", error.message)
-            return {success: false, message: error.message}
+        } catch (e) {
+            console.log("error", e.message)
+            return e.message
         }
     }
 
@@ -87,13 +87,13 @@ export function MealsContext({ children }){
             await getMeals()
 
             return data
-        } catch (error) {
-            console.log("error", error.message)
-            return {success: false, message: error.message}
+        } catch (e) {
+            console.log("error", e.message)
+            return e.message
         }
     }
 
-    async function addTemplateFood(mealId, foodId) {
+    async function addTemplateFood(foodId, mealId) {
         try {
             let response = await authFetch("http://localhost:8000/api/template", {
                 method: "POST",
@@ -116,9 +116,9 @@ export function MealsContext({ children }){
             await getMeals()
 
             return data
-        } catch (error) {
-            console.log("error", error.message)
-            return {success: false, message: error.message}
+        } catch (e) {
+            console.log("error", e.message)
+            return e.message
         }
     }
     

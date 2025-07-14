@@ -28,6 +28,7 @@ def get_meals(request):
 
         serialized_meal_obj = serializers.TemplateMealSerializer(instance=meal)
         serialized_meal_data = serialized_meal_obj.data
+        print(serialized_meal_obj)
         
         user_foods = models.TemplateFood.objects.filter(template_meal=meal.pk)
         foods_objects = []
@@ -99,13 +100,29 @@ def template_food(request):
     match request.method:
         case "POST":
             try:
-                meal = models.TemplateMeal.objects.get(pk=data['mealId'], user=request.user)
+                meal = models.TemplateMeal.objects.get(pk=data['mealId'])
                 food = models.Food.objects.get(pk=data['foodId'])
-                new_template_food = models.TemplateFood.objects.create(meal=meal, food=food)
+                new_template_food = models.TemplateFood.objects.create(template_meal=meal, food=food)
                 new_template_food.save()
                 return Response({"success": True, "message": "Template food created with success!"})
             except Exception:
                 return Response({"success": False, "message": "Failed to create template food!"})
+            
+@api_view(['GET'])
+def get_global_foods(request):
+    global_foods_obj = models.Food.objects.filter(is_global=True)
+
+    global_foods = []
+    for food in global_foods_obj:
+        serialized_food = serializers.FoodSerializer(instance=food)
+        global_foods.append(serialized_food.data)
+
+    return Response({"success": True, "foods": global_foods})
+    # try:
+    # except Exception:
+    #     return Response({"success": False, "message": "Failed to get the global foods!"})
+            
+
             
 
         
