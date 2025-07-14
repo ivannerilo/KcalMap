@@ -10,7 +10,7 @@ export default function Dashboard() {
     const [caloriesGoal, setCaloriesGoal] = useState(1000);
     const [openNewMeal, setOpenNewMeal] = useState(false);
     
-    const { meals, isLoading } = useMeals();
+    const { meals, isLoading, createMeal } = useMeals();
 
     const calories = 1000;
 
@@ -27,7 +27,7 @@ export default function Dashboard() {
     }, [meals]) */
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/calories/")
+        fetch("http://localhost:8000/api/calories")
         .then((response) => response.json())
         .then((data) => {
             /* setCalories(data.calories_consumed); */
@@ -45,7 +45,7 @@ export default function Dashboard() {
             {/* Botão para abrir o formulário de nova refeição! */}
             <button onClick={() => setOpenNewMeal(!openNewMeal)}>New Meal</button> 
             {/* // Formulário de nova refeição! */}
-            {openNewMeal && <NewMeal />} 
+            {openNewMeal && <NewMeal createMeal={createMeal} />} 
 
             {/* Renderização das refeições! */}
             {meals && !isLoading && meals.map((meal) => ( 

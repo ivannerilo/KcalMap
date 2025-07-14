@@ -26,7 +26,7 @@ export function AuthenticateContext({ children }) {
         const refreshToken = getRefreshToken()
         if (!refreshToken){
             setIsLoading(false)
-            return
+            return {ok: false, message: "You need to Register / Login"}
         }
         try {
             let response = await fetch("http://localhost:8000/api/token/refresh", {
@@ -47,8 +47,10 @@ export function AuthenticateContext({ children }) {
     
             setAcessToken(data.access);
             setIsAuthenticated(true)
+            return {ok: true, token: data.access}
         } catch (e) {
             setIsAuthenticated(false)
+            return {ok: false, message: e}
         } finally {
             setIsLoading(false)
         }
@@ -128,7 +130,7 @@ export function AuthenticateContext({ children }) {
     
     useEffect(() => {
         async function checkAuthentication() {
-            await refreshAccessToken()
+            let token = await refreshAccessToken()
             setIsLoading(false)
         }
         checkAuthentication();

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import styles from "./NewMeal.module.css";
 
-export default function NewMeal({ setMeals }) {
+export default function NewMeal({ createMeal }) {
     const [mealName, setMealName] = useState("");
     
 
-    function handleCreateMeal(event) {
+    async function handleCreateMeal(event) {
         event.preventDefault();
-        setMeals((prevMeals) => [...prevMeals, { id: prevMeals.length + 1, name: mealName, itens: [] }]);
+        createMeal(mealName)
+        .then(response => console.log(response));
     }
 
     return (

@@ -11,10 +11,18 @@ urlpatterns = [
     path("api/token/refresh", TokenRefreshView.as_view(), name="token-refresh-view"),
     path("api/token", TokenObtainPairView.as_view(), name="token-authentication-view"),
 
+    #Multi Mehtod Routes
+    path('api/template', views.template_food, name='template_food'),
+
     # GET Routes
-    path('api/calories/', views.get_calories, name='get-calories'),
-    path('api/meals/', views.get_meals, name='get-meals'),
+    path('api/calories', views.get_calories, name='get-calories'),
+    path('api/meals', views.get_meals, name='get-meals'),
 
     #POST Routes
     path('api/register', views.register, name='register'),
+    path('api/create', views.create_meal, name='create_meal'),
+
+    #DELETE Routes
+    path("api/delete", views.delete_meal, name='delete_meal')
+
 ]

@@ -12,24 +12,6 @@ from . import serializers
 calories_object = {
     "calories_goal": 3000
 }
-""" 
-meals_objects = [
-    {
-        "id": 1,
-        "name": "Café da manhã!",
-        "itens": [{"name": "Café", "calories": 100}, {"name": "Pão", "calories": 200}, {"name": "Manteiga", "calories": 300}]
-    },
-    {
-        "id": 2,                        
-        "name": "Almoço!",
-        "itens": [{"name": "Arroz", "calories": 100}, {"name": "Feijão", "calories": 200}, {"name": "Carne", "calories": 300}]
-    },
-    {
-        "id": 3,
-        "name": "Janta!",
-        "itens": [{"name": "Salada", "calories": 100}, {"name": "Fruta", "calories": 200}, {"name": "Pudim", "calories": 300}]
-    }
-] """
 
 @api_view(['GET'])
 def get_calories(request):
@@ -85,6 +67,49 @@ def register(request):
 
     # except:
     #   return Response({"message": "User not registered! Invalid credentials."}, status=400)
+
+@api_view(['POST'])
+def create_meal(request):
+    data = request.data
+
+    print(f"Meal name: {data['name']} \nUserId {request.user.pk}")
+    try:
+        new_meal = models.TemplateMeal.objects.create(name=data['name'], user=request.user)
+        new_meal.save()
+        
+        return Response({"success": True, "message": "Meal created with success!"})
+    except Exception:
+        return Response({"success": False, "message": "Failed to create this meal!"})
+    
+@api_view(['DELETE'])
+def delete_meal(request):
+    data = request.data
+
+    try:
+        meal = models.TemplateMeal.objects.get(pk=data['id'], user=request.user)    
+        meal.delete()
+        return Response({"success": True, "message": "Meal deleted with success!"})
+    except Exception:
+        return Response({"success": False, "message": "Failed to delete this meal!"})
+    
+@api_view(['POST'])
+def template_food(request):
+    data = request.data
+
+    match request.method:
+        case "POST":
+            try:
+                meal = models.TemplateMeal.objects.get(pk=data['mealId'], user=request.user)
+                food = models.Food.objects.get(pk=data['foodId'])
+                new_template_food = models.TemplateFood.objects.create(meal=meal, food=food)
+                new_template_food.save()
+                return Response({"success": True, "message": "Template food created with success!"})
+            except Exception:
+                return Response({"success": False, "message": "Failed to create template food!"})
+            
+
+        
+        
 
 
 
