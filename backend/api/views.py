@@ -110,19 +110,56 @@ def template_food(request):
             
 @api_view(['GET'])
 def get_global_foods(request):
-    global_foods_obj = models.Food.objects.filter(is_global=True)
+    try:
+        global_foods_obj = models.Food.objects.filter(is_global=True)
 
-    global_foods = []
-    for food in global_foods_obj:
-        serialized_food = serializers.FoodSerializer(instance=food)
-        global_foods.append(serialized_food.data)
+        global_foods = []
+        for food in global_foods_obj:
+            serialized_food = serializers.FoodSerializer(instance=food)
+            global_foods.append(serialized_food.data)
 
-    return Response({"success": True, "foods": global_foods})
+        return Response({"success": True, "foods": global_foods})
+    except Exception:
+        return Response({"success": False, "message": "Failed to get the global foods!"})
+            
+@api_view(['POST'])
+def log(request):
+    data = request.data
+    if data['mealId']:
+        meal = models.TemplateMeal.objects.get(pk=data['mealId'])
+        food = models.Food.objects.get(pk=data['foodId'])
+        same_food_logs = models.FoodLog.objects.filter(
+            user=request.user,
+            meal=meal,
+            food=food,
+            timestamp__date=datetime.now().date()
+        )
+        if same_food_logs:
+            print("This Log already Exist!")
+            same_food_log = same_food_logs[0]
+            same_food_log.quantity = int(same_food_log.quantity) + int(data['quantity'])
+            same_food_log.save()
+        else:
+            print("This Log dont exist")
+            log = models.FoodLog.objects.create(
+                user=request.user,
+                meal=meal,
+                food=food,
+                quantity=data['quantity']
+            )
+            log.save()      
+    else: 
+        log = models.FoodLog.objects.create(
+            user=request.user,
+            food=food,
+            quantity=data['quantity']
+        )        
+        log.save()
+
+    return Response({"success": True, "message": "Food Logged with success!"})
     # try:
     # except Exception:
-    #     return Response({"success": False, "message": "Failed to get the global foods!"})
-            
-
+    #     return Response({"success": False, "message": "Failed to delete this meal!"})
             
 
         

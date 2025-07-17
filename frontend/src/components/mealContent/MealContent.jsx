@@ -14,7 +14,7 @@ export default function MealContent({ style }) {
                 <p>Consumed:</p>
                 <ul>
                     {meal?.logs.map((item, index) => (
-                        <li key={index}>{item.name}</li>
+                        <li key={index}>Qtd:{item.quantity} Food:{item.food}</li>
                     ))}
                 </ul>
                 <button onClick={() => setIsAddFoodsOpen(!isAddFoodOpen)}>Add Item</button>
