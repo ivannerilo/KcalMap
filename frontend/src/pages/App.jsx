@@ -9,6 +9,7 @@ import {AuthenticateContext} from '../contexts/AuthenticateContext';
 import { MealsContext } from '../contexts/MealsContext';
 import { FetchContext } from '../hooks/useFetch';
 import { FoodContext } from '../contexts/FoodContext';
+import CaloriesContext from '../contexts/CaloriesContext';
 
 export default function App() {
   // Requisição para backend, para verificar se está logado ou não!
@@ -16,37 +17,38 @@ export default function App() {
   return (
     <AuthenticateContext>
       <FetchContext>
-        <MealsContext>
-          <FoodContext>
+        <CaloriesContext>
+          <MealsContext>
+            <FoodContext>
 
 
-            <div>
-              <h1>KCalculator</h1>
+              <div>
+                <h1>KCalculator</h1>
 
-              <BrowserRouter>
-                <Routes>
+                <BrowserRouter>
+                  <Routes>
 
-                  {/* Rotas Autenticadas */}
-                  <Route path="/" element={<AuthenticationLayout/>}>
-                    <Route index element={<Dashboard />} />
-                  </Route>
+                    {/* Rotas Autenticadas */}
+                    <Route path="/" element={<AuthenticationLayout/>}>
+                      <Route index element={<Dashboard />} />
+                    </Route>
 
-                  {/* Se já estiver logado, redirecionar ao perfil */}
-                  <Route path="profile-form" element={<ProfileForm />} /> 
+                    {/* Se já estiver logado, redirecionar ao perfil */}
+                    <Route path="profile-form" element={<ProfileForm />} /> 
 
-                  {/* Rotas Login / Register */}
-                  <Route path="/login" element={<Login />}  />
-                  <Route path="/register" element={<Register />}  />
+                    {/* Rotas Login / Register */}
+                    <Route path="/login" element={<Login />}  />
+                    <Route path="/register" element={<Register />}  />
 
-                  {/* Rota NOT FOUND */}
-                  <Route path="*" element={<h1>Not Found</h1>} /> 
-                </Routes>
-              </BrowserRouter>
-            </div>
+                    {/* Rota NOT FOUND */}
+                    <Route path="*" element={<h1>Not Found</h1>} /> 
+                  </Routes>
+                </BrowserRouter>
+              </div>
 
-
-          </FoodContext>
-        </MealsContext>
+            </FoodContext>
+          </MealsContext>
+        </CaloriesContext>
       </FetchContext>
     </AuthenticateContext>
   );

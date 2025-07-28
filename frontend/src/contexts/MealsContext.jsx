@@ -1,6 +1,7 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { useAuthenticate } from "./AuthenticateContext";
 import { useFetch } from "../hooks/useFetch"
+import { useCalories } from "./CaloriesContext";
 
 const InternalContext = createContext()
 
@@ -9,7 +10,7 @@ export function MealsContext({ children }){
     const [isLoading, setIsLoading] = useState(true);
     const { accessToken, isAuthenticated, refreshAccessToken } = useAuthenticate();
     const { authFetch } = useFetch()
-    console.log(meals)
+    const { calculateCalories } = useCalories()
     console.log("Componente renderizado")
     
     async function getMeals() {
@@ -30,7 +31,9 @@ export function MealsContext({ children }){
                 throw Error("Fail jsonfy data." + response.message);
             }
     
+            console.log("meals", data.meals);
             setMeals(data.meals);
+            calculateCalories(data.meals);
             setIsLoading(false);
         } catch(error) {
             console.log("error", error)

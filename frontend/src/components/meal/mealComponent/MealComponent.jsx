@@ -2,7 +2,7 @@ import styles from "../../meal/Meal.module.css";
 
 import { useContext, useState } from "react";
 import { useMeals } from "../../../contexts/MealsContext";
-import MealContent from "../../mealContent/MealContent";
+import MealContent from "../mealContent/MealContent";
 import { MealContext } from "../../meal/Meal";
 
 export default function MealComponent() {

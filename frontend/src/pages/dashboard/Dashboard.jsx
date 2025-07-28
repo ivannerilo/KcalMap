@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import CaloriesDash from "../../components/caloriesDash/CaloriesDash";
-import NewMeal from "../../components/newMeal/NewMeal";
+import NewMeal from "../../components/meal/newMeal/NewMeal";
 import Meal from "../../components/meal/Meal";
 import styles from "./Dashboard.module.css";
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import { useMeals } from "../../contexts/MealsContext";
+import { useCalories } from "../../contexts/CaloriesContext";
 
 export default function Dashboard() {
     const [caloriesGoal, setCaloriesGoal] = useState(1000);
     const [openNewMeal, setOpenNewMeal] = useState(false);
     
     const { meals, isLoading, createMeal } = useMeals();
-
-    const calories = 1000;
+    const { calories } = useCalories();
 
 /*     const calories = useMemo(() => {
         let caloriesConsumed = 0

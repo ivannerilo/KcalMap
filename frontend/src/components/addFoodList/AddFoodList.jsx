@@ -47,7 +47,7 @@ export default function AddFoodList(){
     return (
         <div>
             <span>Template Foods:</span>
-            <input label={"Quantity: "} type="number" onChange={(e) => setFoodQuantity(e.target.value)} ref={inputRef}/>
+            <input place={"Quantity: "} type="number" onChange={(e) => setFoodQuantity(e.target.value)} ref={inputRef}/>
             <ul>
                 {meal?.itens && meal?.itens.map((item, index) => (
                     <div key={index}>

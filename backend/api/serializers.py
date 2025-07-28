@@ -51,10 +51,17 @@ class FoodSerializer(serializers.ModelSerializer):
         model = models.Food
         fields = '__all__'
 
+class FoodForLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Food
+        fields = ['id', 'name', 'calories_per_unit', 'unit']
+
 class FoodLogSerializer(serializers.ModelSerializer):
+    food = FoodForLogSerializer(read_only=True)
+
     class Meta:
         model = models.FoodLog
-        fields = '__all__'
+        fields = ['food', 'quantity']
 
                         
 
