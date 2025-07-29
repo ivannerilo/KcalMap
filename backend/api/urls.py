@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/log', views.log, name='log'),
 
     #DELETE Routes
-    path("api/delete", views.delete_meal, name='delete_meal')
+    path("api/delete", views.delete_meal, name='delete_meal'),
+    path("api/log/delete", views.delete_log, name='delete_log')
 
 ]

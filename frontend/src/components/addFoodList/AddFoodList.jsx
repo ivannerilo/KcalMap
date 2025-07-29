@@ -6,7 +6,7 @@ import { useFood } from "../../contexts/FoodContext";
 export default function AddFoodList(){
     const meal = useContext(MealContext)
     const meals = useMeals()
-    const { getGlobalFoods, addFoodLog } = useFood()
+    const { getGlobalFoods, addFoodLog, removeFoodLog } = useFood()
 
     const inputRef = useRef(null)
 
@@ -24,8 +24,11 @@ export default function AddFoodList(){
         inputRef.current.value = ""
     }
 
-    function handleRemoveFood(item){
+    async function handleRemoveFood(item){
         console.log("RemoveFood", item.name)
+        let response = await removeFoodLog(item.id, foodQuantity, meal.id)
+        console.log(response)
+        inputRef.current.value = ""
     }
 
     async function handleSubmit(e, formData) {
