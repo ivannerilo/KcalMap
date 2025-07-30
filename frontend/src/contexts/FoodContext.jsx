@@ -60,8 +60,6 @@ export function FoodContext({ children }) {
 
             let data = await response.json()
 
-            await getMeals()
-
             return data
         } catch (e) {
             console.log("error", e.message)
@@ -91,7 +89,6 @@ export function FoodContext({ children }) {
 
             // Adicionar essa função que atualiza o estado, sempre que um novo componente com essas infos é aberto
             // Assim não precisamos fazer um request de getMeal toda vez que há uma atualização
-            await getMeals()
 
             return data
         } catch (e) {
@@ -102,7 +99,13 @@ export function FoodContext({ children }) {
     
 
 
-    const value = {getGlobalFoods, getUserFoods, addFoodLog, removeFoodLog}
+    const value = {
+        getGlobalFoods, 
+        getUserFoods, 
+        addFoodLog, 
+        removeFoodLog
+    }
+
     return (
         <InternalContext.Provider value={value}>
             {children}

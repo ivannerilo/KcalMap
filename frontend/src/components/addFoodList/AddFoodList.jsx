@@ -2,10 +2,12 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { MealContext } from "../meal/Meal";
 import { useMeals } from "../../contexts/MealsContext";
 import { useFood } from "../../contexts/FoodContext";
+import { useCalories } from "../../contexts/CaloriesContext";
 
 export default function AddFoodList(){
     const meal = useContext(MealContext)
     const meals = useMeals()
+    const { updateCalories } = useCalories()
     const { getGlobalFoods, addFoodLog, removeFoodLog } = useFood()
 
     const inputRef = useRef(null)
@@ -19,11 +21,19 @@ export default function AddFoodList(){
     async function handleAddFood(item){
         let response = await addFoodLog(item.id, foodQuantity, meal.mealState.id)
         inputRef.current.value = ""
+        if (response.success) {
+            meal.setNewMealLog(response.result)
+            updateCalories(response.result)
+        } 
     }
 
     async function handleRemoveFood(item){
         let response = await removeFoodLog(item.id, foodQuantity, meal.mealState.id)
         inputRef.current.value = ""
+        if (response.success) {
+            meal.removeMealLog(response.result)
+            updateCalories(response.result)
+        } 
     }
 
     async function handleSubmit(e) {
@@ -31,6 +41,7 @@ export default function AddFoodList(){
         let response = await meals.addTemplateFood(newTemplateFoodId, meal.mealState.id)
         if (response.success) {
             meal.setNewMealItem(response.result)
+            updateCalories(response.result)
         } 
 
     }

@@ -61,7 +61,7 @@ class FoodLogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.FoodLog
-        fields = ['food', 'quantity']
+        fields = ['id', 'food', 'quantity']
 
                         
 

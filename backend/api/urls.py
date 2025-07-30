@@ -15,8 +15,8 @@ urlpatterns = [
     path('api/template', views.template_food, name='template_food'),
 
     # GET Routes
-    path('api/calories', views.get_calories, name='get-calories'),
-    path('api/meals', views.get_meals, name='get-meals'),
+    path('api/calories', views.get_calories, name='get_calories'),
+    path('api/meals', views.get_meals, name='get_meals'),
     path('api/global-food', views.get_global_foods, name='get_global_foods'),
 
     #POST Routes

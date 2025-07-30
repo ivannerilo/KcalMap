@@ -20,32 +20,28 @@ export function FetchContext({ children }){
         })
     
         if (response.status === 401){
-            console.log("Authfetch: Unauthorized!")
             try {
                 let newAccessToken = await refreshAccessToken()
                 
-                refreshAccessToken()
-                .then(response => async function() {
-                    if (!response.ok) {
-                        throw new Error(newAccessToken.message)
+                if (!newAccessToken.ok) {
+                    throw new Error(newAccessToken.message)
+                }
+
+
+                authHeader = {"Authorization": "Bearer " + newAccessToken.token}
+    
+                response = await fetch(url, {
+                    ...options,
+                    headers: {
+                        ...options.headers,
+                        ...authHeader,
                     }
-                    authHeader = {"Authorization": "Bearer " + newAccessToken}
-        
-                    console.log("Authfetch: Fizemos o fetch denovo.")
-                    response = await fetch(url, {
-                        ...options,
-                        headers: {
-                            ...options.headers,
-                            ...authHeader,
-                        }
-                    })
-        
-                    return response
                 })
+
+                return response
             } catch (error) {
-                console.log("Authfetch: Logout")
                 logout()
-                return error
+                throw new Error(error.message)
             }
         }
     

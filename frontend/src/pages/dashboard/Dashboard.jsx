@@ -13,28 +13,6 @@ export default function Dashboard() {
     const { meals, isLoading, createMeal } = useMeals();
     const { calories, caloriesGoal } = useCalories();
 
-/*     const calories = useMemo(() => {
-        let caloriesConsumed = 0
-        meals.forEach(meal => {
-            caloriesConsumed = meal.itens.reduce((cals, mealItem) => {
-                console.log(`Cals acc ${cals}, mealCalIte ${mealItem.calories}`)
-                return Number(cals) + Number(mealItem.calories)
-            }, caloriesConsumed)
-        })
-        console.log(`caloriesConsumed`, caloriesConsumed)
-        return caloriesConsumed
-    }, [meals]) */
-
-    // useEffect(() => {
-    //     fetch("http://localhost:8000/api/calories")
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //         /* setCalories(data.calories_consumed); */
-    //         setCaloriesGoal(data.calories_goal);
-    //     });
-    // }, []);
-
-
     console.log(`Calories: ${calories} Calories Goal: ${caloriesGoal}`)
     return (
         <div className={styles.dashboard}>

@@ -8,7 +8,7 @@ const InternalContext = createContext()
 export function MealsContext({ children }){
     const [meals, setMeals] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const { accessToken, isAuthenticated, refreshAccessToken } = useAuthenticate();
+    const { isAuthenticated } = useAuthenticate();
     const { authFetch } = useFetch()
     const { calculateCalories } = useCalories()
     
@@ -17,17 +17,19 @@ export function MealsContext({ children }){
         try {
             let response = await authFetch("http://localhost:8000/api/meals")
             
-            if (!response.ok) { //melhorar esse error handling aqui.
-                throw Error("Fail to fetch meals." + response.message);
+            if (!response.ok) { 
+                throw Error(response.message);
             }
-    
+            
             let data = await response.json()
-            if (!data){
-                throw Error("Fail jsonfy data." + response.message);
+            
+            if (!data.success){
+                throw Error(data.message);
             }
     
-            setMeals(data.meals);
-            calculateCalories(data.meals);
+            setMeals(data.result);
+            calculateCalories(data.result);
+            console.log("Meals", data.result)
             setIsLoading(false);
         } catch(error) {
             console.log("error", error)
@@ -106,8 +108,6 @@ export function MealsContext({ children }){
             }
 
             let data = await response.json()
-
-            // await getMeals()
 
             return data
         } catch (e) {

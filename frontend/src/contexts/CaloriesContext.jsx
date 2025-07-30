@@ -6,12 +6,16 @@ const InternalContext = createContext()
 export default function CaloriesContext({ children }) {
     const [calories, setCalories] = useState(0);
     const [caloriesGoal, setCaloriesGoal] = useState(0);
+    const [logHistory, setLogHistory] = useState([])
+    console.log("logHistory", logHistory)
 
     const { authFetch } = useFetch()
 
     async function getCaloriesGoal() {
         try {
-            let response = await authFetch("http://localhost:8000/api/calories")
+            let response = await authFetch("http://localhost:8000/api/calories", {
+                method: "GET"
+            })
             if (!response.ok) {
                 throw Error(response.message)
             }
@@ -53,7 +57,7 @@ export default function CaloriesContext({ children }) {
         }
     }
     
-
+    // FUNÇÃO PARA ATUALIZAR AS CALORIAS
     
     function calculateCalories(meals){
         if (meals) {
