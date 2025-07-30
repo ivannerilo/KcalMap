@@ -1,17 +1,89 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { useAuthenticate } from "./AuthenticateContext";
 import { useFetch } from "../hooks/useFetch"
-import { useCalories } from "./CaloriesContext";
 
 const InternalContext = createContext()
 
 export function MealsContext({ children }){
+
+    //Meals States
     const [meals, setMeals] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { isAuthenticated } = useAuthenticate();
     const { authFetch } = useFetch()
-    const { calculateCalories } = useCalories()
+
+    // Calories States: 
+    const [calories, setCalories] = useState(0);
+    const [caloriesGoal, setCaloriesGoal] = useState(0);
+    const [logHistory, setLogHistory] = useState([])
+
+    // Calories Functions
+    async function getCaloriesGoal() {
+        try {
+            let response = await authFetch("http://localhost:8000/api/calories", {
+                method: "GET"
+            })
+            if (!response.ok) {
+                throw Error(response.message)
+            }
+
+            let data = await response.json()
+
+            setCaloriesGoal(data.result)
+        } catch(e) {
+            console.log(e.message)
+        }
+    }
+
+    async function createProfile(height, weight, sex, age, goal) {
+        try {
+            let response = await authFetch("http://localhost:8000/api/profile", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    height: height,
+                    weight: weight,
+                    sex: sex,
+                    age: age,
+                    goal: goal,
+                }) 
+            })
+
+            if (!response.ok) {
+                throw Error(response.message)
+            }
+
+            let data = await response.json()
+
+            setCaloriesGoal(goal);
+            return {ok: true, result: data.result}
+        } catch(e) {
+            return {ok: false, message: e.message}
+        }
+    }
     
+    
+    function calculateCalories(meals){
+        if (meals) {
+            let cals = 0;
+            meals.forEach(meal => {
+                meal.logs.forEach(log => {
+                    cals += parseFloat(log.quantity) * parseFloat(log.food.calories_per_unit)
+                })
+            });
+            setCalories(cals)
+        }
+    }
+
+    useEffect(() => {
+        getCaloriesGoal();
+    }, [])
+
+
+
+    // Meals Functions:
     async function getMeals() {
         setIsLoading(true);
         try {
@@ -115,7 +187,22 @@ export function MealsContext({ children }){
             return e.message
         }
     }
-    
+
+    function updateMeals(meal) {
+        setMeals((prevMeals) => {
+            return prevMeals.map((mealItem) => {
+                if (mealItem.id === meal.id) {
+                    return meal
+                }
+                return mealItem
+            })
+        })
+    }
+
+    useEffect(() => {
+        calculateCalories(meals)
+    }, [meals])
+
 
     useEffect(() => {
         async function startMeals() {
@@ -127,7 +214,21 @@ export function MealsContext({ children }){
         startMeals();
     }, [isAuthenticated])
 
-    const contextValue = {meals, isLoading, createMeal, deleteMeal, addTemplateFood}
+    const contextValue = {
+        // Meals
+        meals,
+        updateMeals, 
+        isLoading, 
+        createMeal, 
+        deleteMeal, 
+        addTemplateFood,
+
+        //Calories 
+        calories,
+        calculateCalories,
+        caloriesGoal,
+        createProfile,
+    }
     return(
         <InternalContext.Provider value={contextValue}>
             {children}

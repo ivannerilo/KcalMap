@@ -10,7 +10,7 @@ import {AuthenticateContext} from '../contexts/AuthenticateContext';
 import { MealsContext } from '../contexts/MealsContext';
 import { FetchContext } from '../hooks/useFetch';
 import { FoodContext } from '../contexts/FoodContext';
-import CaloriesContext from '../contexts/CaloriesContext';
+
 
 export default function App() {
   // Requisição para backend, para verificar se está logado ou não!
@@ -18,7 +18,6 @@ export default function App() {
   return (
     <AuthenticateContext>
       <FetchContext>
-        <CaloriesContext>
           <MealsContext>
             <FoodContext>
 
@@ -51,7 +50,6 @@ export default function App() {
 
             </FoodContext>
           </MealsContext>
-        </CaloriesContext>
       </FetchContext>
     </AuthenticateContext>
   );

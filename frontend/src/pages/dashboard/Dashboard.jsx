@@ -5,13 +5,11 @@ import Meal from "../../components/meal/Meal";
 import styles from "./Dashboard.module.css";
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import { useMeals } from "../../contexts/MealsContext";
-import { useCalories } from "../../contexts/CaloriesContext";
 
 export default function Dashboard() {
     const [openNewMeal, setOpenNewMeal] = useState(false);
     
-    const { meals, isLoading, createMeal } = useMeals();
-    const { calories, caloriesGoal } = useCalories();
+    const { meals, isLoading, createMeal, calories, caloriesGoal } = useMeals();
 
     console.log(`Calories: ${calories} Calories Goal: ${caloriesGoal}`)
     return (

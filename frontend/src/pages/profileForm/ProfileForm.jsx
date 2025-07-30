@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useState, useRef } from "react"
 import styles from "./ProfileForm.module.css"
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
-import { useCalories } from "../../contexts/CaloriesContext";
+import { useMeals } from "../../contexts/MealsContext";
 
 export default function ProfileForm() {
     const [weight, setWeight] = useState(0);
@@ -12,7 +12,7 @@ export default function ProfileForm() {
     const [caloriesGoal, setCaloriesGoal] = useState(0)
 
     const { setIsNewUser } = useAuthenticate();
-    const { createProfile } = useCalories();
+    const { createProfile } = useMeals();
 
     const wheightInputRef = useRef(null);
     const heightInputRef = useRef(null);

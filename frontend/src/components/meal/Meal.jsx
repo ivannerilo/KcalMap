@@ -1,12 +1,16 @@
-import { useCalories } from "../../contexts/CaloriesContext";
+import { useMeals } from "../../contexts/MealsContext";
 import MealComponent from "./mealComponent/MealComponent";
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 const MealContext = createContext()
 
 export default function Meal({ meal }) {
     const [mealState, setMealState] = useState({...meal})
-    
+    const { updateMeals } = useMeals()
+
+    useEffect(() => {
+        updateMeals(mealState)
+    }, [mealState])
 
     function setNewMealItem(mealItem) {
         setMealState((prevState) => {
