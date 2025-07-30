@@ -14,6 +14,9 @@ export function AuthenticateContext({ children }) {
     const [accessToken, setAcessToken] = useState("");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isNewUser, setIsNewUser] = useState(false);
+
+    console.log("newUser", isNewUser)
     
     function setTokens(tokenPair) {
         setAcessToken(tokenPair.access);
@@ -78,10 +81,11 @@ export function AuthenticateContext({ children }) {
             }
             setTokens(data.tokens);
             setIsAuthenticated(true);
-            return data
+            setIsNewUser(true);
+            return {ok: true, result: data.message}
         } catch (e) {
             setIsAuthenticated(false);
-            return e.message
+            return {ok: false, message: e.message}
         } finally {
             setIsLoading(false)
         }
@@ -113,10 +117,10 @@ export function AuthenticateContext({ children }) {
                 refresh: data.refresh
             });
             setIsAuthenticated(true);
-            return data
+            return {ok: true, result: data.message}
         } catch (e) {
             setIsAuthenticated(false);
-            return e.message
+            return {ok: false, message: e.message}
         } finally {
             setIsLoading(false)
         }
@@ -136,7 +140,17 @@ export function AuthenticateContext({ children }) {
         checkAuthentication();
     }, [])
 
-    const contextValue = {accessToken, isAuthenticated, isLoading, refreshAccessToken, register, login, logout}
+    const contextValue = {
+        accessToken,
+        isAuthenticated,
+        isLoading,
+        refreshAccessToken,
+        register,
+        login,
+        logout,
+        isNewUser,
+        setIsNewUser,
+    }
     
     return (
         <InternalContext.Provider value={contextValue}>

@@ -11,16 +11,11 @@ export function MealsContext({ children }){
     const { accessToken, isAuthenticated, refreshAccessToken } = useAuthenticate();
     const { authFetch } = useFetch()
     const { calculateCalories } = useCalories()
-    console.log("Componente renderizado")
     
     async function getMeals() {
         setIsLoading(true);
         try {
-            let response = await authFetch("http://localhost:8000/api/meals", {
-                headers: {
-                    "Authorization": "Bearer " + accessToken,
-                }
-            })
+            let response = await authFetch("http://localhost:8000/api/meals")
             
             if (!response.ok) { //melhorar esse error handling aqui.
                 throw Error("Fail to fetch meals." + response.message);
@@ -31,7 +26,6 @@ export function MealsContext({ children }){
                 throw Error("Fail jsonfy data." + response.message);
             }
     
-            console.log("meals", data.meals);
             setMeals(data.meals);
             calculateCalories(data.meals);
             setIsLoading(false);
@@ -46,7 +40,6 @@ export function MealsContext({ children }){
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + accessToken,
                 },
                 body: JSON.stringify({
                     name: name
@@ -74,7 +67,6 @@ export function MealsContext({ children }){
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + accessToken,
                 },
                 body: JSON.stringify({
                     id: mealId 
@@ -102,7 +94,6 @@ export function MealsContext({ children }){
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + accessToken,
                 },
                 body: JSON.stringify({
                     mealId: mealId,
@@ -116,7 +107,7 @@ export function MealsContext({ children }){
 
             let data = await response.json()
 
-            await getMeals()
+            // await getMeals()
 
             return data
         } catch (e) {

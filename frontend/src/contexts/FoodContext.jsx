@@ -12,11 +12,7 @@ export function FoodContext({ children }) {
 
     async function getUserFoods() {
         try {
-            let response = await authFetch("http://localhost:8000/api/food", {
-                headers: {
-                    "Authorization": "Bearer " + accessToken,
-                }
-            })
+            let response = await authFetch("http://localhost:8000/api/food")
             
             if (!response.ok) { //melhorar esse error handling aqui.
                 throw Error("Fail to fetch meals." + response.message);
@@ -31,11 +27,7 @@ export function FoodContext({ children }) {
 
     async function getGlobalFoods() {
         try {
-            let response = await authFetch("http://localhost:8000/api/global-food", {
-                headers: {
-                    "Authorization": "Bearer " + accessToken,
-                }
-            })
+            let response = await authFetch("http://localhost:8000/api/global-food")
             
             if (!response.ok) { //melhorar esse error handling aqui.
                 throw Error("Fail to fetch meals." + response.message);
@@ -54,7 +46,6 @@ export function FoodContext({ children }) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + accessToken,
                 },
                 body: JSON.stringify({
                     foodId: foodId,
@@ -84,7 +75,6 @@ export function FoodContext({ children }) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer " + accessToken,
                 },
                 body: JSON.stringify({
                     foodId: foodId,

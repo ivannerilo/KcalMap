@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/register', views.register, name='register'),
     path('api/create', views.create_meal, name='create_meal'),
     path('api/log', views.log, name='log'),
+    path('api/profile', views.profile, name='profile'),
 
     #DELETE Routes
     path("api/delete", views.delete_meal, name='delete_meal'),

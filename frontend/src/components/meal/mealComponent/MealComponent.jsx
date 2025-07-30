@@ -6,7 +6,7 @@ import MealContent from "../mealContent/MealContent";
 import { MealContext } from "../../meal/Meal";
 
 export default function MealComponent() {
-    const meal = useContext(MealContext)
+    const { mealState } = useContext(MealContext)
     const { deleteMeal } = useMeals()
     const [isMealOpen, setIsMealOpen] = useState(false);
 
@@ -18,9 +18,9 @@ export default function MealComponent() {
     return (
         <div className={styles.mealContainer}>
             <div className={styles.mealDiv}>
-                <h1>{meal.name}</h1>    
+                <h1>{mealState.name}</h1>    
                 <button onClick={() => setIsMealOpen(!isMealOpen)}>Open Meal</button>
-                <button onClick={() => hanldeDeleteMeal(meal.id)}>Delete Meal</button>
+                <button onClick={() => hanldeDeleteMeal(mealState.id)}>Delete Meal</button>
             </div>
             <MealContent style={{ display: isMealOpen ? "block" : "none" }} />
         </div>

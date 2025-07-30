@@ -5,6 +5,7 @@ import Register from './register/Register';
 import AuthenticationLayout from '../layouts/AuthenticationLayout';
 import './App.css';
 import ProfileForm from './profileForm/ProfileForm';
+import ProfileFormLayout from './profileForm/ProfileFormLayout';
 import {AuthenticateContext} from '../contexts/AuthenticateContext';
 import { MealsContext } from '../contexts/MealsContext';
 import { FetchContext } from '../hooks/useFetch';
@@ -34,7 +35,9 @@ export default function App() {
                     </Route>
 
                     {/* Se já estiver logado, redirecionar ao perfil */}
-                    <Route path="profile-form" element={<ProfileForm />} /> 
+                    <Route path="profile-form" element={<ProfileFormLayout />}>
+                      <Route index  element={<ProfileForm />} />
+                    </Route> 
 
                     {/* Rotas Login / Register */}
                     <Route path="/login" element={<Login />}  />

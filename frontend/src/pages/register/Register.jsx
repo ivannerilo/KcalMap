@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useRef } from "react"
 import {useAuthenticate} from "../../contexts/AuthenticateContext";
+import styles from "./Register.module.css"
+
 
 export default function Register() {
     const { register, isAuthenticated } = useAuthenticate();
@@ -9,6 +11,7 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [name, setName] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const nameInputRef = useRef(null);
     const emailInputRef = useRef(null);
@@ -26,30 +29,77 @@ export default function Register() {
     
     async function handleRegister(event) {
         event.preventDefault();
-        let res = await register(name, email, password);
-        if (res.success) {
-            console.log(res.data.message);
-            clearForm();
-        } 
+        if (email && password && passwordConfirmation && name) {
+
+            if (password === passwordConfirmation) {
+                let response = await register(name, email, password);
+
+                if (response.ok) {
+                    clearForm();
+                    setErrorMessage("");
+                    navigate("/profile-form");
+                } else {
+                    setErrorMessage(response.message);
+                    clearForm();
+                }
+
+            } else {
+                passwordInputRef.current.value = "";
+                passwordConfirmationInputRef.current.value = "";
+                setErrorMessage("You need to type the same password in both fields!");
+            }
+        }
+
     }
 
     return(
-        <div>
-            <h1>Register!!!</h1>
-            <form>
-                <input type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} ref={nameInputRef}/>
-                <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} ref={emailInputRef}/>
-                <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} ref={passwordInputRef}/>
-                <input type="password" placeholder="Repeat your Password" onChange={(e) => setPasswordConfirmation(e.target.value)} ref={passwordConfirmationInputRef}/>
+        <div className={styles.extarnal}>
+            <div className={styles.container}>
+                <h1 className={styles.header}>Register!!!</h1>
+                <form className={styles.form}>
+                    <input
+                        className={styles.input}
+                        type="text" 
+                        placeholder="Name" 
+                        onChange={(e) => setName(e.target.value)}
+                        ref={nameInputRef}
+                    />
+                    <input
+                        className={styles.input} 
+                        type="text" 
+                        placeholder="Email" 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        ref={emailInputRef}
+                    />
+                    <input
+                        className={styles.input}
+                        type="password" 
+                        placeholder="Password" 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        ref={passwordInputRef}
+                    />
+                    <input
+                        className={styles.input}
+                        type="password" 
+                        placeholder="Repeat your Password" 
+                        onChange={(e) => setPasswordConfirmation(e.target.value)} 
+                        ref={passwordConfirmationInputRef}
+                    />
+                    <button 
+                        className={styles.button}
+                        onClick={handleRegister}
+                    >Register</button>
+                </form>
 
-                <button onClick={handleRegister}>Register</button>
-            </form>
+                {errorMessage && <h3 style={{ color: "red" }}>{errorMessage}</h3>}
 
-            <Link to="/login">
-                Já tem conta?
-            </Link>
-
-            <h1>A: {isAuthenticated}</h1>
+                <Link
+                    className={styles.link}  
+                    to="/login"
+                >
+                    Já tem conta?
+                </Link>
+            </div>
         </div>
     )
 }

@@ -8,11 +8,10 @@ import { useMeals } from "../../contexts/MealsContext";
 import { useCalories } from "../../contexts/CaloriesContext";
 
 export default function Dashboard() {
-    const [caloriesGoal, setCaloriesGoal] = useState(1000);
     const [openNewMeal, setOpenNewMeal] = useState(false);
     
     const { meals, isLoading, createMeal } = useMeals();
-    const { calories } = useCalories();
+    const { calories, caloriesGoal } = useCalories();
 
 /*     const calories = useMemo(() => {
         let caloriesConsumed = 0
@@ -26,16 +25,17 @@ export default function Dashboard() {
         return caloriesConsumed
     }, [meals]) */
 
-    useEffect(() => {
-        fetch("http://localhost:8000/api/calories")
-        .then((response) => response.json())
-        .then((data) => {
-            /* setCalories(data.calories_consumed); */
-            setCaloriesGoal(data.calories_goal);
-        });
-    }, []);
+    // useEffect(() => {
+    //     fetch("http://localhost:8000/api/calories")
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //         /* setCalories(data.calories_consumed); */
+    //         setCaloriesGoal(data.calories_goal);
+    //     });
+    // }, []);
 
 
+    console.log(`Calories: ${calories} Calories Goal: ${caloriesGoal}`)
     return (
         <div className={styles.dashboard}>
 

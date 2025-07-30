@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 500px;
+    margin: auto
+}
+
+.header {
+
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.input {
+    height: 32px;
+
+}
+
+.button {
+    height: 32px;
+}
+
+.link {
+    margin-top: 16px;
+
+}

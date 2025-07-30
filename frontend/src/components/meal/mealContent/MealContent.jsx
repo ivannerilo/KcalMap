@@ -4,7 +4,7 @@ import { MealContext } from "../Meal";
 import AddFoodList from "../../addFoodList/AddFoodList";
 
 export default function MealContent({ style }) {
-    const meal = useContext(MealContext)
+    const { mealState } = useContext(MealContext)
 
     const [isAddFoodOpen, setIsAddFoodsOpen] = useState(false)
 
@@ -13,7 +13,7 @@ export default function MealContent({ style }) {
             <div>
                 <p>Consumed:</p>
                 <ul>
-                    {meal?.logs.map((item, index) => {
+                    {mealState?.logs.map((item, index) => {
                         const calories = parseInt(item.quantity) * parseFloat(item.food.calories_per_unit)
                         return <li key={index}>{item.quantity}{item.food.unit} of {item.food.name} = {calories}Cal</li>
                     })}

@@ -13,13 +13,14 @@ from . import serializers
 # SUCCESS TRUE & RESULT
 # SUCCESS FALSE & MESSAGE
 
-calories_object = {
-    "calories_goal": 3000
-}
 
 @api_view(['GET'])
 def get_calories(request):
-    return Response(calories_object)
+
+    profile = models.Profile.objects.get(user=request.user)
+    print(f"focking profile {profile.calories_goal}")
+
+    return Response({"success": True, "result": profile.calories_goal})
 
 @api_view(['GET'])
 def get_meals(request):
@@ -32,7 +33,6 @@ def get_meals(request):
 
         serialized_meal_obj = serializers.TemplateMealSerializer(instance=meal)
         serialized_meal_data = serialized_meal_obj.data
-        print(serialized_meal_obj)
         
         user_foods = models.TemplateFood.objects.filter(template_meal=meal.pk)
         foods_objects = []
@@ -57,32 +57,48 @@ def register(request):
     # Getting the request body data.
     register_data = request.data # -> Dict
 
-    # try:
-    # Creating new user in the database.
-    new_user = User.objects.create_user(register_data["name"], register_data["email"], register_data["password"])
+    try:
+        # Creating new user in the database.
+        new_user = User.objects.create_user(register_data["name"], register_data["email"], register_data["password"])
 
-    # Generating authentication tokens for the new user.
-    token_pair = RefreshToken.for_user(new_user)
+        # Generating authentication tokens for the new user.
+        token_pair = RefreshToken.for_user(new_user)
 
-    # Returning users tokens.
-    return Response({"message": "User registered with success!", "tokens": {
-        "refresh": str(token_pair),
-        "access": str(token_pair.access_token),
-    }}, status=201)
+        # Returning users tokens.
+        return Response({"message": "User registered with success!", "tokens": {
+            "refresh": str(token_pair),
+            "access": str(token_pair.access_token),
+        }}, status=201)
 
-    # except:
-    #   return Response({"message": "User not registered! Invalid credentials."}, status=400)
+    except:
+      return Response({"message": "User not registered! Invalid credentials."}, status=400)
+
+@api_view(['POST'])
+def profile(request):
+    data = request.data
+
+    profile = models.Profile.objects.create(
+        user=request.user,
+        kg_weight=data['weight'],
+        cm_height=data['height'],
+        age=data['age'],
+        sex=data['sex'],
+        calories_goal=data['goal'],
+    )
+    profile.save()
+    
+    return Response({"success": True, "result": "Profile created with success"})
+
 
 @api_view(['POST'])
 def create_meal(request):
     data = request.data
 
-    print(f"Meal name: {data['name']} \nUserId {request.user.pk}")
     try:
         new_meal = models.TemplateMeal.objects.create(name=data['name'], user=request.user)
         new_meal.save()
         
-        return Response({"success": True, "message": "Meal created with success!"})
+        return Response({"success": True, "result": "Meal created with success!"})
     except Exception:
         return Response({"success": False, "message": "Failed to create this meal!"})
     
@@ -93,7 +109,7 @@ def delete_meal(request):
     try:
         meal = models.TemplateMeal.objects.get(pk=data['id'], user=request.user)    
         meal.delete()
-        return Response({"success": True, "message": "Meal deleted with success!"})
+        return Response({"success": True, "result": "Meal deleted with success!"})
     except Exception:
         return Response({"success": False, "message": "Failed to delete this meal!"})
     
@@ -108,7 +124,9 @@ def template_food(request):
                 food = models.Food.objects.get(pk=data['foodId'])
                 new_template_food = models.TemplateFood.objects.create(template_meal=meal, food=food)
                 new_template_food.save()
-                return Response({"success": True, "message": "Template food created with success!"})
+                
+                result = serializers.FoodSerializer(instance=new_template_food.food)
+                return Response({"success": True, "result": result.data})
             except Exception:
                 return Response({"success": False, "message": "Failed to create template food!"})
             
@@ -140,12 +158,10 @@ def log(request):
                 timestamp__date=datetime.now().date()
             )
             if same_food_logs:
-                print("This Log already Exist!")
                 same_food_log = same_food_logs[0]
                 same_food_log.quantity = int(same_food_log.quantity) + int(data['quantity'])
                 same_food_log.save()
             else:
-                print("This Log dont exist")
                 log = models.FoodLog.objects.create(
                     user=request.user,
                     meal=meal,
@@ -161,7 +177,7 @@ def log(request):
             )        
             log.save()
 
-        return Response({"success": True, "message": "Food Logged with success!"})
+        return Response({"success": True, "result": "Food Logged with success!"})
     except Exception:
         return Response({"success": False, "message": "Failed to delete this meal!"})
     
@@ -178,17 +194,14 @@ def delete_log(request):
                 food=food,
                 timestamp__date=datetime.now().date()
             )
-            print("This Log already Exist!")
             same_food_log = same_food_logs[0]
             quantity = int(same_food_log.quantity) - int(data['quantity'])
             if quantity <= 0:
-                print("deletado")
                 same_food_log.delete()      
             else:
-                print(f"diminuido para {quantity}")
                 same_food_log.quantity = quantity
                 same_food_log.save()      
-            return Response({"success": True, "message": "Food Logged with success!"})
+            return Response({"success": True, "result": "Food Logged with success!"})
         return Response({"success": False, "message": "Failed to delete this meal!"})
     except Exception:
         return Response({"success": False, "message": "Failed to delete this meal!"})

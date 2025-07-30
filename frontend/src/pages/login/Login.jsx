@@ -1,11 +1,10 @@
 import { Link, Navigate } from "react-router-dom"
 import { useState, useRef } from "react"
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
+import styles from "./Login.module.css"
 
 export default function Login({}) {
     const { isAuthenticated, login } = useAuthenticate();
-
-
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -22,17 +21,37 @@ export default function Login({}) {
     
     if (!isAuthenticated) {
         return(
-            <div>            
-                <h1>Login!!!</h1>
-                <form>
-                    <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} ref={emailInputRef}/>
-                    <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} ref={passwordInputRef}/>
-                    <button onClick={handleLogin}>Log in!</button>
-                </form>
-    
-                <Link to="/register">
-                    Não tem conta?
-                </Link>
+            <div className={styles.extarnal}>
+                <div className={styles.container}>            
+                    <h1 className={styles.header}>Login!!!</h1>
+                    <form className={styles.form}>
+                        <input
+                            className={styles.input}
+                            type="text" 
+                            placeholder="Email" 
+                            onChange={(e) => setEmail(e.target.value)}
+                            ref={emailInputRef}
+                        />
+                        <input
+                            className={styles.input}
+                            type="password" 
+                            placeholder="Password" 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            ref={passwordInputRef}
+                        />
+                        <button 
+                            className={styles.button}
+                            onClick={handleLogin}
+                        > Log in!</button>
+                    </form>
+        
+                    <Link
+                        className={styles.link} 
+                        to="/register"
+                    >
+                        Não tem conta?
+                    </Link>
+                </div>
             </div>
         )
     } else {

@@ -15,33 +15,29 @@ export default function AddFoodList(){
     const [isAddNewTemplateFoodOpen, setIsAddNewTemplateFoodOpen] = useState()
     const [newTemplateFoodId, setNewTemplateFoodId] = useState()
 
-    console.log(newTemplateFoodId)
 
     async function handleAddFood(item){
-        console.log("AddFood", item.name)
-        let response = await addFoodLog(item.id, foodQuantity, meal.id)
-        console.log(response)
+        let response = await addFoodLog(item.id, foodQuantity, meal.mealState.id)
         inputRef.current.value = ""
     }
 
     async function handleRemoveFood(item){
-        console.log("RemoveFood", item.name)
-        let response = await removeFoodLog(item.id, foodQuantity, meal.id)
-        console.log(response)
+        let response = await removeFoodLog(item.id, foodQuantity, meal.mealState.id)
         inputRef.current.value = ""
     }
 
-    async function handleSubmit(e, formData) {
+    async function handleSubmit(e) {
         e.preventDefault()
-        console.log(newTemplateFoodId, meal.id)
-        let response = await meals.addTemplateFood(newTemplateFoodId, meal.id)
-        console.log(response.data)
+        let response = await meals.addTemplateFood(newTemplateFoodId, meal.mealState.id)
+        if (response.success) {
+            meal.setNewMealItem(response.result)
+        } 
+
     }
 
     useEffect(() => {
         async function setFoods() {
             let response = await getGlobalFoods()
-            console.log(response)
             setFoodOptions(response.foods)
         }
         setFoods()
@@ -52,7 +48,7 @@ export default function AddFoodList(){
             <span>Template Foods:</span>
             <input place={"Quantity: "} type="number" onChange={(e) => setFoodQuantity(e.target.value)} ref={inputRef}/>
             <ul>
-                {meal?.itens && meal?.itens.map((item, index) => (
+                {meal.mealState?.itens && meal.mealState?.itens.map((item, index) => (
                     <div key={index}>
                         <span>{item.name} - {item.unit}</span>
                         <button onClick={() => handleAddFood(item)}>+</button>

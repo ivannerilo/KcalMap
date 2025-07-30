@@ -68,6 +68,6 @@ class FoodLog(models.Model): #Cada Alimento e quantidade que o user consumiu, ma
             return self.food.calories_per_unit * self.quantity
 
     def __str__(self):
-        return f"{self.user.username} - {self.food.name if self.food else "no food."} = {self.quantity} {self.food.unit if self.food else "no food."}"
+        return f"{self.user.username} - {self.food.name if self.food else 'no food'} = {self.quantity} {self.food.unit if self.food else 'no food.'}"
 
 
