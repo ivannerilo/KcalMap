@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { MealContext } from "../meal/Meal";
-import { useMeals } from "../../contexts/MealsContext";
+import { useUser } from "../../contexts/UserContext";
 import { useFood } from "../../contexts/FoodContext";
 
 export default function AddFoodList(){
     const meal = useContext(MealContext)
-    const meals = useMeals()
+    const meals = useUser()
     const { getGlobalFoods, addFoodLog, removeFoodLog } = useFood()
 
     const inputRef = useRef(null)
@@ -17,28 +17,33 @@ export default function AddFoodList(){
 
 
     async function handleAddFood(item){
-        let response = await addFoodLog(item.id, foodQuantity, meal.mealState.id)
-        inputRef.current.value = ""
-        if (response.success) {
+        try {
+            let response = await addFoodLog(item.id, foodQuantity, meal.mealState.id)
+            inputRef.current.value = ""
             meal.setNewMealLog(response.result)
-        } 
+        } catch(e) {
+            console.log("Erro!", e.message)
+        }
     }
 
     async function handleRemoveFood(item){
-        let response = await removeFoodLog(item.id, foodQuantity, meal.mealState.id)
-        inputRef.current.value = ""
-        if (response.success) {
+        try {
+            let response = await removeFoodLog(item.id, foodQuantity, meal.mealState.id)
+            inputRef.current.value = ""
             meal.removeMealLog(response.result)
-        } 
+        } catch(e) {
+            console.log("Erro!", e.message)
+        }
     }
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        let response = await meals.addTemplateFood(newTemplateFoodId, meal.mealState.id)
-        if (response.success) {
+        try {
+            e.preventDefault()
+            let response = await meals.addTemplateFood(newTemplateFoodId, meal.mealState.id)
             meal.setNewMealItem(response.result)
-        } 
-
+        } catch(e) {
+            console.log("Erro!", e.message)
+        }
     }
 
     useEffect(() => {

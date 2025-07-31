@@ -21,9 +21,9 @@ from . import serializers
 def get_calories(request):
     try:
         profile = models.Profile.objects.get(user=request.user)
-        return Response({"success": True, "result": profile.calories_goal})
+        return Response({"result": profile.calories_goal}, status=200)
     except:
-        return Response({"success": False, "message": "Profile not find!"})
+        return Response({"message": "Profile not find!"}, status=400)
 
 @api_view(['GET'])
 def get_meals(request):
@@ -52,9 +52,9 @@ def get_meals(request):
             serialized_logs_data = serialized_logs_obj.data
             serialized_meal_data["logs"] = serialized_logs_data
         
-        return Response({"success": True, "result": meals_objects})
+        return Response({"result": meals_objects}, status=200)
     except:
-        return Response({"success": False, "result": "Fail to gather data!"})
+        return Response({"result": "Fail to gather data!"}, status=400)
 
 
 
@@ -94,9 +94,9 @@ def profile(request):
         )
         profile.save()
         
-        return Response({"success": True, "result": "Profile created with success"})
+        return Response({"result": "Profile created with success"}, status=201)
     except:
-        return Response({"success": False, "message": "Failed to create the user profile!"})
+        return Response({"message": "Failed to create the user profile!"}, status=400)
 
 
 @api_view(['POST'])
@@ -107,9 +107,9 @@ def create_meal(request):
         new_meal = models.TemplateMeal.objects.create(name=data['name'], user=request.user)
         new_meal.save()
         
-        return Response({"success": True, "result": "Meal created with success!"})
+        return Response({"result": "Meal created with success!"}, status=201)
     except Exception:
-        return Response({"success": False, "message": "Failed to create this meal!"})
+        return Response({"message": "Failed to create this meal!"}, status=400)
     
 @api_view(['DELETE'])
 def delete_meal(request):
@@ -118,9 +118,9 @@ def delete_meal(request):
 
         meal = models.TemplateMeal.objects.get(pk=data['id'], user=request.user)    
         meal.delete()
-        return Response({"success": True, "result": "Meal deleted with success!"})
+        return Response({"result": "Meal deleted with success!"}, status=202)
     except Exception:
-        return Response({"success": False, "message": "Failed to delete this meal!"})
+        return Response({"message": "Failed to delete this meal!"}, status=400)
     
 @api_view(['POST'])
 def template_food(request):
@@ -133,9 +133,9 @@ def template_food(request):
         new_template_food.save()
         
         result = serializers.FoodSerializer(instance=new_template_food.food)
-        return Response({"success": True, "result": result.data})
+        return Response({"result": result.data}, status=201)
     except Exception:
-        return Response({"success": False, "message": "Failed to create template food!"})
+        return Response({"message": "Failed to create template food!"}, status=400)
             
 @api_view(['GET'])
 def get_global_foods(request):
@@ -147,57 +147,57 @@ def get_global_foods(request):
             serialized_food = serializers.FoodSerializer(instance=food)
             global_foods.append(serialized_food.data)
 
-        return Response({"success": True, "foods": global_foods})
+        return Response({"foods": global_foods}, status=200)
     except Exception:
-        return Response({"success": False, "message": "Failed to get the global foods!"})
+        return Response({"message": "Failed to get the global foods!"}, status=400)
             
 @api_view(['POST'])
 def log(request):
-    # try:
-    data = request.data
-    result = {}
+    try:
+        data = request.data
+        result = {}
 
-    if data['mealId']:
-        meal = models.TemplateMeal.objects.get(pk=data['mealId'])
-        food = models.Food.objects.get(pk=data['foodId'])
-        same_food_logs = models.FoodLog.objects.filter(
-            user=request.user,
-            meal=meal,
-            food=food,
-            timestamp__date=datetime.now().date()
-        )
-        if same_food_logs:
-            same_food_log = same_food_logs[0]
-            same_food_log.quantity = int(same_food_log.quantity) + int(data['quantity'])
-            same_food_log.save()
-
-            serialized_log = serializers.FoodLogSerializer(instance=same_food_log)
-            result = serialized_log.data
-        else:
-            log = models.FoodLog.objects.create(
+        if data['mealId']:
+            meal = models.TemplateMeal.objects.get(pk=data['mealId'])
+            food = models.Food.objects.get(pk=data['foodId'])
+            same_food_logs = models.FoodLog.objects.filter(
                 user=request.user,
                 meal=meal,
                 food=food,
-                quantity=data['quantity']
+                timestamp__date=datetime.now().date()
             )
+            if same_food_logs:
+                same_food_log = same_food_logs[0]
+                same_food_log.quantity = int(same_food_log.quantity) + int(data['quantity'])
+                same_food_log.save()
+
+                serialized_log = serializers.FoodLogSerializer(instance=same_food_log)
+                result = serialized_log.data
+            else:
+                log = models.FoodLog.objects.create(
+                    user=request.user,
+                    meal=meal,
+                    food=food,
+                    quantity=data['quantity']
+                )
+                log.save()
+
+                serialized_log = serializers.FoodLogSerializer(instance=log)
+                result = serialized_log.data
+        else: 
+            log = models.FoodLog.objects.create(
+                user=request.user,
+                food=food,
+                quantity=data['quantity']
+            )        
             log.save()
 
             serialized_log = serializers.FoodLogSerializer(instance=log)
             result = serialized_log.data
-    else: 
-        log = models.FoodLog.objects.create(
-            user=request.user,
-            food=food,
-            quantity=data['quantity']
-        )        
-        log.save()
 
-        serialized_log = serializers.FoodLogSerializer(instance=log)
-        result = serialized_log.data
-
-    return Response({"success": True, "result": result})
-    # except Exception:
-    #     return Response({"success": False, "message": "Failed to create this meal!"})
+        return Response({"result": result}, status=201)
+    except Exception:
+        return Response({"message": "Failed to create this meal!"}, status=400)
     
 @api_view(['DELETE'])
 def delete_log(request):
@@ -224,10 +224,11 @@ def delete_log(request):
                 serialized_log = serializers.FoodLogSerializer(instance=same_food_log)
                 result = serialized_log.data      
                 
-            return Response({"success": True, "result": result})
-        return Response({"success": False, "message": "Failed to delete this meal!"})
+            return Response({"result": result}, status=202)
+        
+        raise Exception("Failed to delete this meal!")
     except Exception:
-        return Response({"success": False, "message": "Failed to delete this meal!"})
+        return Response({"message": "Failed to delete this meal!"}, status=400)
             
 
         

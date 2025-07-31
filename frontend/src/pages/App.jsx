@@ -7,7 +7,7 @@ import './App.css';
 import ProfileForm from './profileForm/ProfileForm';
 import ProfileFormLayout from './profileForm/ProfileFormLayout';
 import {AuthenticateContext} from '../contexts/AuthenticateContext';
-import { MealsContext } from '../contexts/MealsContext';
+import { UserContext } from '../contexts/UserContext';
 import { FetchContext } from '../hooks/useFetch';
 import { FoodContext } from '../contexts/FoodContext';
 
@@ -18,7 +18,7 @@ export default function App() {
   return (
     <AuthenticateContext>
       <FetchContext>
-          <MealsContext>
+          <UserContext>
             <FoodContext>
 
 
@@ -49,7 +49,7 @@ export default function App() {
               </div>
 
             </FoodContext>
-          </MealsContext>
+          </UserContext>
       </FetchContext>
     </AuthenticateContext>
   );

@@ -4,7 +4,7 @@ import { useFetch } from "../hooks/useFetch"
 
 const InternalContext = createContext()
 
-export function MealsContext({ children }){
+export function UserContext({ children }){
 
     //Meals States
     const [meals, setMeals] = useState([]);
@@ -94,10 +94,6 @@ export function MealsContext({ children }){
             }
             
             let data = await response.json()
-            
-            if (!data.success){
-                throw Error(data.message);
-            }
     
             setMeals(data.result);
             calculateCalories(data.result);
@@ -236,6 +232,6 @@ export function MealsContext({ children }){
     )
 }
 
-export function useMeals(){
+export function useUser(){
     return useContext(InternalContext)
 }

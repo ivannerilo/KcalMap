@@ -1,4 +1,4 @@
-import { useMeals } from "../../contexts/MealsContext";
+import { useUser } from "../../contexts/UserContext";
 import MealComponent from "./mealComponent/MealComponent";
 import { createContext, useEffect, useState } from 'react'
 
@@ -6,7 +6,7 @@ const MealContext = createContext()
 
 export default function Meal({ meal }) {
     const [mealState, setMealState] = useState({...meal})
-    const { updateMeals } = useMeals()
+    const { updateMeals } = useUser()
 
     useEffect(() => {
         updateMeals(mealState)

@@ -1,14 +1,10 @@
 import { createContext, useContext, useState } from "react";
 import { useFetch } from "../hooks/useFetch";
-import { useAuthenticate } from "./AuthenticateContext";
-import { useMeals } from "./MealsContext";
 
 const InternalContext = createContext()
 
 export function FoodContext({ children }) {
     const { authFetch } = useFetch()
-    const { accessToken } = useAuthenticate()
-    const { getMeals } = useMeals()
 
     async function getUserFoods() {
         try {
@@ -21,7 +17,7 @@ export function FoodContext({ children }) {
             let data = await response.json()
             return data
         } catch(e) {
-            return e.message
+            throw Error(e.message)
         }
     }
 
@@ -36,7 +32,7 @@ export function FoodContext({ children }) {
             let data = await response.json()
             return data
         } catch(e) {
-            return e.message
+            throw Error(e.message)
         }
     }
 
@@ -62,8 +58,7 @@ export function FoodContext({ children }) {
 
             return data
         } catch (e) {
-            console.log("error", e.message)
-            return e.message
+            throw Error(e.message)
         }
     }
 
@@ -87,13 +82,9 @@ export function FoodContext({ children }) {
 
             let data = await response.json()
 
-            // Adicionar essa função que atualiza o estado, sempre que um novo componente com essas infos é aberto
-            // Assim não precisamos fazer um request de getMeal toda vez que há uma atualização
-
             return data
         } catch (e) {
-            console.log("error", e.message)
-            return e.message
+            throw Error(e.message)
         }
     }
     

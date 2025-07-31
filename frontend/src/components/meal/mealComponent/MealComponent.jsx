@@ -1,13 +1,13 @@
 import styles from "../../meal/Meal.module.css";
 
 import { useContext, useState } from "react";
-import { useMeals } from "../../../contexts/MealsContext";
+import { useUser } from "../../../contexts/UserContext";
 import MealContent from "../mealContent/MealContent";
 import { MealContext } from "../../meal/Meal";
 
 export default function MealComponent() {
     const { mealState } = useContext(MealContext)
-    const { deleteMeal } = useMeals()
+    const { deleteMeal } = useUser()
     const [isMealOpen, setIsMealOpen] = useState(false);
 
 
