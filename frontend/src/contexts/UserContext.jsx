@@ -127,7 +127,7 @@ export function UserContext({ children }){
             return data
         } catch (e) {
             console.log("error", e.message)
-            return e.message
+            throw Error(e.message)
         }
     }
 

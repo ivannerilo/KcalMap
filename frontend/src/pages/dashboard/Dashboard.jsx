@@ -9,7 +9,7 @@ import { useUser } from "../../contexts/UserContext";
 export default function Dashboard() {
     const [openNewMeal, setOpenNewMeal] = useState(false);
     
-    const { meals, isLoading, createMeal, calories, caloriesGoal } = useUser();
+    const { meals, isLoading, calories, caloriesGoal } = useUser();
 
     console.log(`Calories: ${calories} Calories Goal: ${caloriesGoal}`)
     return (
@@ -21,7 +21,7 @@ export default function Dashboard() {
             {/* Botão para abrir o formulário de nova refeição! */}
             <button onClick={() => setOpenNewMeal(!openNewMeal)}>New Meal</button> 
             {/* // Formulário de nova refeição! */}
-            {openNewMeal && <NewMeal createMeal={createMeal} />} 
+            {openNewMeal && <NewMeal />} 
 
             {/* Renderização das refeições! */}
             {meals && !isLoading && meals.map((meal) => ( 

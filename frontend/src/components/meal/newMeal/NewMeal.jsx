@@ -1,21 +1,22 @@
 import { useRef, useState } from "react";
 import styles from "./NewMeal.module.css";
+import { useUser } from "../../../contexts/UserContext";
 
-export default function NewMeal({ createMeal }) {
+export default function NewMeal() {
     const [mealName, setMealName] = useState("");
     const inputRef = useRef(null);
+    const { createMeal } = useUser();
     
 
     async function handleCreateMeal(event) {
-        event.preventDefault();
-        let response = await createMeal(mealName)
-        
-        if (!response.ok) {
-            console.log(response.message);
+        try {
+            event.preventDefault();
+            let response = await createMeal(mealName)
+    
+            console.log(response.message)
+        } catch(e) {
+            console.log(e.message)
         }
-
-        let data = await response.json()
-        console.log(data.message)
     }
 
     return (
