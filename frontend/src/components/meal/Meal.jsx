@@ -1,6 +1,6 @@
 import { useUser } from "../../contexts/UserContext";
 import MealComponent from "./mealComponent/MealComponent";
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useMemo, useState } from 'react'
 
 const MealContext = createContext()
 
@@ -8,9 +8,15 @@ export default function Meal({ meal }) {
     const [mealState, setMealState] = useState({...meal})
     const { updateMeals } = useUser()
 
-    useEffect(() => {
-        updateMeals(mealState)
-    }, [mealState])
+    const logMap = useMemo(() => {
+        let map = {};
+
+        mealState.logs.map((log) => (
+            map[log.food.id] = log
+        ))
+
+        return map
+    }, [mealState.logs])
 
     function setNewMealItem(mealItem) {
         setMealState((prevState) => {
@@ -23,13 +29,13 @@ export default function Meal({ meal }) {
             }
         })
     }
-
+    
     function setNewMealLog(mealLog) {
         setMealState((prevState) => {
             let newLogsArray = prevState.logs.filter((item) => {
                 return item.food.id !== mealLog.food.id
             })
-
+            
             return {
                 ...prevState,
                 logs: [
@@ -39,7 +45,7 @@ export default function Meal({ meal }) {
             }
         })
     }
-
+    
     function removeMealLog(mealLog) {
         setMealState((prevState) => {
             if (mealLog.deletedFoodId) {
@@ -48,7 +54,7 @@ export default function Meal({ meal }) {
                     logs: prevState.logs.filter((item) => item.food.id !== mealLog.deletedFoodId)
                 }
             }
-
+            
             let newLogsArray = prevState.logs.filter((item) => {
                 return item.food.id !== mealLog.food.id
             })
@@ -64,11 +70,16 @@ export default function Meal({ meal }) {
             console.log("newstate", newState)
             return newState
         }) 
-
+        
     }
 
+    useEffect(() => {
+        updateMeals(mealState)
+    }, [mealState])
+    
     const value = {
         mealState,
+        logMap,
         setNewMealItem,
         setNewMealLog,
         removeMealLog,

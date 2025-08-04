@@ -1,8 +1,10 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { useAuthenticate } from "./AuthenticateContext";
-import { useFetch } from "../hooks/useFetch"
+import { useFetch } from "../hooks/useFetch";
 
-const InternalContext = createContext()
+const InternalContext = createContext();
+
+// TODO: TROCAR A CHAVE ITEM DENTRO DO MEAL PARA FOOD
 
 export function UserContext({ children }){
 
@@ -10,12 +12,11 @@ export function UserContext({ children }){
     const [meals, setMeals] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { isAuthenticated } = useAuthenticate();
-    const { authFetch } = useFetch()
+    const { authFetch } = useFetch();
 
     // Calories States: 
     const [calories, setCalories] = useState(0);
     const [caloriesGoal, setCaloriesGoal] = useState(0);
-    const [logHistory, setLogHistory] = useState([])
 
     // Calories Functions
     async function getCaloriesGoal() {
@@ -77,12 +78,7 @@ export function UserContext({ children }){
         }
     }
 
-    useEffect(() => {
-        getCaloriesGoal();
-    }, [])
-
-
-
+    
     // Meals Functions:
     async function getMeals() {
         setIsLoading(true);
@@ -94,7 +90,7 @@ export function UserContext({ children }){
             }
             
             let data = await response.json()
-    
+            
             setMeals(data.result);
             calculateCalories(data.result);
             console.log("Meals", data.result)
@@ -103,7 +99,7 @@ export function UserContext({ children }){
             console.log("error", error)
         }
     }
-
+    
     async function createMeal(name) {
         try {
             let response = await authFetch("http://localhost:8000/api/create", {
@@ -119,18 +115,18 @@ export function UserContext({ children }){
             if (!response.ok){
                 throw Error(response.message)
             }
-
+            
             let data = await response.json()
-
+            
             await getMeals()
-
+            
             return data
         } catch (e) {
             console.log("error", e.message)
             throw Error(e.message)
         }
     }
-
+    
     async function deleteMeal(mealId) {
         try {
             let response = await authFetch("http://localhost:8000/api/delete", {
@@ -146,18 +142,18 @@ export function UserContext({ children }){
             if (!response.ok){
                 throw Error(response.message)
             }
-
+            
             let data = await response.json()
-
+            
             await getMeals()
-
+            
             return data
         } catch (e) {
             console.log("error", e.message)
             return e.message
         }
     }
-
+    
     async function addTemplateFood(foodId, mealId) {
         try {
             let response = await authFetch("http://localhost:8000/api/template", {
@@ -174,16 +170,16 @@ export function UserContext({ children }){
             if (!response.ok){
                 throw Error(response.message)
             }
-
+            
             let data = await response.json()
-
+            
             return data
         } catch (e) {
             console.log("error", e.message)
             return e.message
         }
     }
-
+    
     function updateMeals(meal) {
         setMeals((prevMeals) => {
             return prevMeals.map((mealItem) => {
@@ -194,16 +190,16 @@ export function UserContext({ children }){
             })
         })
     }
-
+    
     useEffect(() => {
         calculateCalories(meals)
     }, [meals])
-
-
+    
     useEffect(() => {
         async function startMeals() {
             if (isAuthenticated) {
-                await getMeals();  
+                await getMeals();
+                await getCaloriesGoal();
                 setIsLoading(false);
             }
         }

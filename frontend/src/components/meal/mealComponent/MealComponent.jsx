@@ -22,7 +22,10 @@ export default function MealComponent() {
                 <button onClick={() => setIsMealOpen(!isMealOpen)}>Open Meal</button>
                 <button onClick={() => hanldeDeleteMeal(mealState.id)}>Delete Meal</button>
             </div>
-            <MealContent style={{ display: isMealOpen ? "block" : "none" }} />
+
+            <MealContent 
+                style={{ display: isMealOpen ? "block" : "none" }} 
+            />
         </div>
     );
 }
