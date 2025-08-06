@@ -3,7 +3,7 @@ import Dashboard from './dashboard/Dashboard';
 import Login from './login/Login';
 import Register from './register/Register';
 import AuthenticationLayout from '../layouts/AuthenticationLayout';
-import './App.css';
+import styles from './App.css';
 import ProfileForm from './profileForm/ProfileForm';
 import ProfileFormLayout from './profileForm/ProfileFormLayout';
 import {AuthenticateContext} from '../contexts/AuthenticateContext';
@@ -14,43 +14,37 @@ import { FoodContext } from '../contexts/FoodContext';
 
 export default function App() {
   // Requisição para backend, para verificar se está logado ou não!
-
   return (
-    <AuthenticateContext>
-      <FetchContext>
-          <UserContext>
-            <FoodContext>
+      <AuthenticateContext>
+        <FetchContext>
+            <UserContext>
+              <FoodContext>
 
+                  <BrowserRouter>
+                    <Routes>
 
-              <div>
-                <h1>KCalculator</h1>
+                      {/* Rotas Autenticadas */}
+                      <Route path="/" element={<AuthenticationLayout/>}>
+                        <Route index element={<Dashboard />} />
+                      </Route>
 
-                <BrowserRouter>
-                  <Routes>
+                      {/* Se já estiver logado, redirecionar ao perfil */}
+                      <Route path="profile-form" element={<ProfileFormLayout />}>
+                        <Route index  element={<ProfileForm />} />
+                      </Route> 
 
-                    {/* Rotas Autenticadas */}
-                    <Route path="/" element={<AuthenticationLayout/>}>
-                      <Route index element={<Dashboard />} />
-                    </Route>
+                      {/* Rotas Login / Register */}
+                      <Route path="/login" element={<Login />}  />
+                      <Route path="/register" element={<Register />}  />
 
-                    {/* Se já estiver logado, redirecionar ao perfil */}
-                    <Route path="profile-form" element={<ProfileFormLayout />}>
-                      <Route index  element={<ProfileForm />} />
-                    </Route> 
+                      {/* Rota NOT FOUND */}
+                      <Route path="*" element={<h1>Not Found</h1>} /> 
+                    </Routes>
+                  </BrowserRouter>
 
-                    {/* Rotas Login / Register */}
-                    <Route path="/login" element={<Login />}  />
-                    <Route path="/register" element={<Register />}  />
-
-                    {/* Rota NOT FOUND */}
-                    <Route path="*" element={<h1>Not Found</h1>} /> 
-                  </Routes>
-                </BrowserRouter>
-              </div>
-
-            </FoodContext>
-          </UserContext>
-      </FetchContext>
-    </AuthenticateContext>
+              </FoodContext>
+            </UserContext>
+        </FetchContext>
+      </AuthenticateContext>
   );
 }

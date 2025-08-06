@@ -21,39 +21,43 @@ export default function Login({}) {
     
     if (!isAuthenticated) {
         return(
-            <div className={styles.extarnal}>
-                <div className={styles.container}>            
-                    <h1 className={styles.header}>Login!!!</h1>
-                    <form className={styles.form}>
-                        <input
-                            className={styles.input}
-                            type="text" 
-                            placeholder="Email" 
-                            onChange={(e) => setEmail(e.target.value)}
-                            ref={emailInputRef}
-                        />
-                        <input
-                            className={styles.input}
-                            type="password" 
-                            placeholder="Password" 
-                            onChange={(e) => setPassword(e.target.value)} 
-                            ref={passwordInputRef}
-                        />
-                        <button 
-                            className={styles.button}
-                            onClick={handleLogin}
-                        > Log in!</button>
-                    </form>
-        
-                    <Link
-                        className={styles.link} 
+        <main className={styles.external}>
+
+            <h1 className={styles.header}>Seja bem vindo(a)</h1>
+
+            <div className={styles.container}>            
+                <form className={styles.form}>
+                    <input
+                        className={styles.input}
+                        type="text" 
+                        placeholder="Email" 
+                        onChange={(e) => setEmail(e.target.value)}
+                        ref={emailInputRef}
+                    />
+                    <input
+                        className={styles.input}
+                        type="password" 
+                        placeholder="Password" 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        ref={passwordInputRef}
+                    />
+                    <button 
+                        className={styles.button}
+                        onClick={handleLogin}
+                    >Login</button>
+                </form>
+    
+                <span className={styles.link}>
+                    {"Não tem conta? "}
+                    <Link 
                         to="/register"
                     >
-                        Não tem conta?
+                    {"Registre-se!"}
                     </Link>
-                </div>
+                </span>
             </div>
-        )
+        </main>
+    )
     } else {
         return <Navigate to="/" />
     }

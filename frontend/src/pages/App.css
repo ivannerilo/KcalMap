@@ -1,0 +1,59 @@
+/* GLOBAL VARIABLES */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: var(--main-theme-dark);
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+    /* Main theme tones */
+    --main-theme-light: #D8D5DA;
+    --main-theme-lightmedium: #9672AE;
+    --main-theme-medium: #694084;
+    --main-theme-mediumdark: #411D59;
+    --main-theme-dark: #220833;
+    --main-theme-superdark: #1F0033;
+
+    /* Main theme grey tones */
+    --main-them-light-white: #F0F0F0;
+    --main-theme-light-grey: #9A989C;
+    --main-theme-lightmedium-grey: #614A71;
+    --main-theme-medium-grey: #382247;
+
+    /* Grey tones */
+    --main-grey-light: #CCC5C7;
+    --main-grey-medium: #A09A9D;
+    --main-grey-dark: #484349;
+
+    /* Blue tones */
+    --main-blue-light: #DCF1F4;
+    --main-blue-medium: #C1F2F8;
+    --main-blue-dark: #8AF3FF;
+
+    /* Green tones */
+    --main-green-light: #BEDAC6;
+    --main-green-medium: #84C39C;
+    --main-green-dark: #109648;
+
+    /* Brown tones */
+    --main-brown-light: #E4D3CC;
+    --main-brown-medium: #D0B5A8;
+    --main-brown-dark: #A97A60;
+
+    /* Red tones */
+    --main-red-light: #F0C6C5;
+    --main-red-medium: #E99B99;
+    --main-red-dark: #DB4642;
+}
