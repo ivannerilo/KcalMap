@@ -1,9 +1,9 @@
-import styles from "../../meal/Meal.module.css";
+import styles from "../Meal.module.css";
 
 import { useContext, useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
 import MealContent from "../mealContent/MealContent";
-import { MealContext } from "../../meal/Meal";
+import { MealContext } from "../Meal";
 
 export default function MealComponent() {
     const { mealState } = useContext(MealContext)

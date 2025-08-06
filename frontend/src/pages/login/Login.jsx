@@ -2,6 +2,7 @@ import { Link, Navigate } from "react-router-dom"
 import { useState, useRef } from "react"
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import styles from "./Login.module.css"
+import Input from "../../components/input/Input";
 
 export default function Login({}) {
     const { isAuthenticated, login } = useAuthenticate();
@@ -27,19 +28,23 @@ export default function Login({}) {
 
             <div className={styles.container}>            
                 <form className={styles.form}>
-                    <input
+                    <Input
+                        label={"Email:"}
+                        name={"email"}
                         className={styles.input}
                         type="text" 
-                        placeholder="Email" 
+                        placeholder={"email@email.com"}
                         onChange={(e) => setEmail(e.target.value)}
-                        ref={emailInputRef}
+                        /* ref={emailInputRef} */
                     />
-                    <input
+                    <Input
+                        label={"Password:"}
+                        name={"password"}
                         className={styles.input}
                         type="password" 
-                        placeholder="Password" 
+                        placeholder={"Your password here:"}
                         onChange={(e) => setPassword(e.target.value)} 
-                        ref={passwordInputRef}
+                        /* ref={passwordInputRef} */
                     />
                     <button 
                         className={styles.button}
