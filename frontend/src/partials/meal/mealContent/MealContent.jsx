@@ -1,20 +1,19 @@
 import { useState, useContext, useEffect, useRef } from "react";
-import styles from "./NewMealItem.module.css";
+import styles from "./MealContent.module.css";
 import { MealContext } from "../Meal";
 import { useUser } from "../../../contexts/UserContext";
 import { useFood } from "../../../contexts/FoodContext";
+import Item from "./item/Item";
 
 export default function MealContent({ style }) {
     const meal = useContext(MealContext)
     const meals = useUser()
     const { getGlobalFoods, addFoodLog, removeFoodLog } = useFood()
 
-    console.log("MealStateBRUXO", meal.mealState);
-
     const inputRef = useRef(null)
 
     const [errorMessage, setErrorMessage] = useState()
-    const [foodQuantity, setFoodQuantity] = useState()
+    const [foodQuantity, setFoodQuantity] = useState(10)
     const [foodOptions, setFoodOptions] = useState([])
     const [isAddNewTemplateFoodOpen, setIsAddNewTemplateFoodOpen] = useState()
     const [newTemplateFoodId, setNewTemplateFoodId] = useState()
@@ -71,37 +70,29 @@ export default function MealContent({ style }) {
     }, [])
 
     return (
-        <div className={styles.mealItems} style={style}>
+        <div className={styles.container} style={style}>
             <div>
-                <input place={"Quantity: "} type="number" onChange={(e) => setFoodQuantity(e.target.value)} ref={inputRef}/>
+                {/* <input place={"Quantity: "} type="number" onChange={(e) => setFoodQuantity(e.target.value)} ref={inputRef}/> */}
 
                 {errorMessage && (
                     <h1 style={{color: "red"}}>{errorMessage}</h1>
                 )}
 
-                <p>Consumed:</p>
-                <ul>
+                {/* p>Consumed:</p> */}
+                <div className={styles.itemContainer}>
                     {meal.mealState?.itens && meal.mealState?.itens.map((item, index) => {
-
-                        const log = meal.logMap[item.id]
-                       
-                        const calories = log ? parseInt(log.quantity) * parseFloat(log.food.calories_per_unit) : null
-                        const quantity = log ? log.quantity : null
-
-                        return (
-                            <div key={index}>
-                                    <span>{quantity} {item.unit} - {item.name}</span>
-                                    <button onClick={() => handleAddFood(item)}>+</button>
-                                    <button onClick={() => handleRemoveFood(item)}>-</button>
-                                    {calories && <span> = {calories.toFixed(2)}Cal</span>}
-                            </div>
-                        ) 
-                        
+                        return <Item 
+                            item={item} 
+                            index={index} 
+                            handleAddFood={handleAddFood} 
+                            handleRemoveFood={handleRemoveFood}
+                        />
                     })}
-                </ul>
+                </div>
 
                 <div>
-                    <button onClick={() => setIsAddNewTemplateFoodOpen(!isAddNewTemplateFoodOpen)}>Add new template foods.</button>
+                    <button 
+                        onClick={() => setIsAddNewTemplateFoodOpen(!isAddNewTemplateFoodOpen)}>Add new template foods.</button>
 
                     {isAddNewTemplateFoodOpen && (
                         <div>

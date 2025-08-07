@@ -1,0 +1,37 @@
+.container {
+    width: 440px;
+    height: 40px;
+    background-color: var(--main-theme-light);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.dropContainer {
+    width: 440px;
+    height: 52px;
+    background-color: var(--main-theme-light);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    bottom: 10px;
+    padding: 18px 16px 8px 16px;
+    gap: 8px;
+}
+
+.input {
+    width: 328px;
+    height: 32px;
+}
+
+.button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}

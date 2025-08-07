@@ -1,4 +1,4 @@
-import styles from "../Meal.module.css";
+import styles from "./MealComponent.module.css";
 
 import { useContext, useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
@@ -17,11 +17,15 @@ export default function MealComponent() {
    
     return (
         <div className={styles.mealContainer}>
+
             <div className={styles.mealDiv}>
                 <h1>{mealState.name}</h1>    
                 <button onClick={() => setIsMealOpen(!isMealOpen)}>Open Meal</button>
                 <button onClick={() => hanldeDeleteMeal(mealState.id)}>Delete Meal</button>
             </div>
+
+            {isMealOpen && <div className={styles.dummyDiv}>
+            </div>}
 
             <MealContent 
                 style={{ display: isMealOpen ? "block" : "none" }} 

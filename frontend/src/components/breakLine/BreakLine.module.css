@@ -1,0 +1,7 @@
+.break {
+    height: 2px;
+    width: 440px;
+    position: relative;
+    z-index: 1;
+    background-color: black;
+}

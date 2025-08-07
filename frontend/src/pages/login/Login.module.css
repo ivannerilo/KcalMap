@@ -40,8 +40,13 @@
     width: 100%;
     border-radius: 5px;
     border: none;
-    background-color: var(--main-them-light-white);
-    color: var(--main-theme-light-grey);
+    background-color: var(--main-theme-white);
+    font-weight: 600;
+}
+
+.input:focus {
+    border: 2px solid var(--main-green-medium);
+    outline: 0;
 }
 
 .button {

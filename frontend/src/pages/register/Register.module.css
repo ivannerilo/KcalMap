@@ -44,6 +44,11 @@
     color: var(--main-theme-light-grey);
 }
 
+.input:focus {
+    border: 2px solid var(--main-green-medium);
+    outline: 0;
+}
+
 .button {
     height: 48px;
     width: 100%;
