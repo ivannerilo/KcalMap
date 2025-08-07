@@ -1,6 +1,7 @@
 import styles from "./Input.module.css"
+import React from "react";
 
-export default function Input({label, className, containerAttributes, ...inputProps}) {
+const Input = React.forwardRef(({label, className, containerAttributes, ...inputProps}, ref) => {
     return (
         <div {...containerAttributes ? {...containerAttributes} : {}} className={styles.container}>
             {label && 
@@ -10,8 +11,11 @@ export default function Input({label, className, containerAttributes, ...inputPr
             }
             <input 
                 {...inputProps}
+                ref={ref ? ref : null}
                 className={`${styles.input} ${className ? className : ""}`}
             />
         </div>
     )
-}
+})
+
+export default Input;

@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState, useRef } from "react"
 import {useAuthenticate} from "../../contexts/AuthenticateContext";
 import styles from "./Register.module.css"
-
+import Input from "../../components/input/Input"
 
 export default function Register() {
     const { register, isAuthenticated } = useAuthenticate();
@@ -53,51 +53,60 @@ export default function Register() {
     }
 
     return(
-        <div className={styles.extarnal}>
+        <div className={styles.external}>
+            <h1 className={styles.header}>Seja bem vindo(a) ao Cal Race</h1>
             <div className={styles.container}>
-                <h1 className={styles.header}>Register!!!</h1>
                 <form className={styles.form}>
-                    <input
+                    <Input
                         className={styles.input}
-                        type="text" 
-                        placeholder="Name" 
+                        type={"text"} 
+                        placeholder={"Type here:"}
+                        label={"Name:"}
+                        name={"name"}
                         onChange={(e) => setName(e.target.value)}
                         ref={nameInputRef}
-                    />
-                    <input
+                        />
+                    <Input
                         className={styles.input} 
-                        type="text" 
-                        placeholder="Email" 
+                        type={"text"} 
+                        placeholder={"email@email.com"}
+                        label={"Email:"}
+                        name={"email"}
                         onChange={(e) => setEmail(e.target.value)} 
                         ref={emailInputRef}
-                    />
-                    <input
-                        className={styles.input}
-                        type="password" 
-                        placeholder="Password" 
+                        />
+                    <Input
+                        className={styles.input} 
+                        type={"password"} 
+                        placeholder={"Type here:"}
+                        label={"Password:"}
+                        name={"password"}
                         onChange={(e) => setPassword(e.target.value)} 
                         ref={passwordInputRef}
                     />
-                    <input
+                    <Input
                         className={styles.input}
-                        type="password" 
-                        placeholder="Repeat your Password" 
-                        onChange={(e) => setPasswordConfirmation(e.target.value)} 
+                        type={"password"} 
+                        placeholder={"Type here:"}
+                        label={"Repeat your password:"}
+                        name={"passwordConfirmation"}
+                        onChange={(e) => setPasswordConfirmation(e.target.value)}
+                        style={{ border: errorMessage ? "1px solid var(--main-red-dark)" : ""}} 
                         ref={passwordConfirmationInputRef}
                     />
+                    {errorMessage && <span style={{ color: "var(--main-red-dark)" }}>{errorMessage}</span>}
                     <button 
                         className={styles.button}
                         onClick={handleRegister}
                     >Register</button>
                 </form>
 
-                {errorMessage && <h3 style={{ color: "red" }}>{errorMessage}</h3>}
 
                 <Link
                     className={styles.link}  
                     to="/login"
                 >
-                    Já tem conta?
+                    Já tem uma conta?
                 </Link>
             </div>
         </div>

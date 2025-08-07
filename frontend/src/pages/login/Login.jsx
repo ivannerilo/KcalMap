@@ -24,7 +24,7 @@ export default function Login({}) {
         return(
         <main className={styles.external}>
 
-            <h1 className={styles.header}>Seja bem vindo(a)</h1>
+            <h1 className={styles.header}>Seja bem vindo(a) ao Cal Race</h1>
 
             <div className={styles.container}>            
                 <form className={styles.form}>
@@ -35,7 +35,7 @@ export default function Login({}) {
                         type="text" 
                         placeholder={"email@email.com"}
                         onChange={(e) => setEmail(e.target.value)}
-                        /* ref={emailInputRef} */
+                        ref={emailInputRef} 
                     />
                     <Input
                         label={"Password:"}
@@ -44,7 +44,7 @@ export default function Login({}) {
                         type="password" 
                         placeholder={"Your password here:"}
                         onChange={(e) => setPassword(e.target.value)} 
-                        /* ref={passwordInputRef} */
+                        ref={passwordInputRef} 
                     />
                     <button 
                         className={styles.button}
