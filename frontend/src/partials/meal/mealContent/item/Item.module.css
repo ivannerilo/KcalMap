@@ -1,7 +1,7 @@
 .container {
     width: 440px;
     height: 40px;
-    background-color: var(--main-theme-light);
+    background-color: var(--main-theme-medium);
     border-radius: 5px;
     display: flex;
     flex-direction: row;
@@ -11,7 +11,7 @@
 .dropContainer {
     width: 440px;
     height: 52px;
-    background-color: var(--main-theme-light);
+    background-color: var(--main-theme-medium);
     border-radius: 5px;
     display: flex;
     flex-direction: row;
@@ -26,12 +26,21 @@
 .input {
     width: 328px;
     height: 32px;
+    background-color: var(--main-theme-light-grey);
 }
+
+.input:focus {
+    border: 2px solid var(--main-theme-gold);
+    outline: 0;
+}
+
 
 .button {
     width: 32px;
     height: 32px;
     border: none;
     border-radius: 5px;
-    color: white;
+    color: var(--main-theme-white);
+    font-weight: 900;
+    font-size: 24px;
 }

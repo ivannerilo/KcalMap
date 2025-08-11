@@ -65,7 +65,8 @@ export default function Register() {
                         name={"name"}
                         onChange={(e) => setName(e.target.value)}
                         ref={nameInputRef}
-                        />
+                        containerAttributes={{ style: { width: "100%"} }}
+                    />
                     <Input
                         className={styles.input} 
                         type={"text"} 
@@ -74,7 +75,8 @@ export default function Register() {
                         name={"email"}
                         onChange={(e) => setEmail(e.target.value)} 
                         ref={emailInputRef}
-                        />
+                        containerAttributes={{ style: { width: "100%"} }}
+                    />
                     <Input
                         className={styles.input} 
                         type={"password"} 
@@ -83,6 +85,7 @@ export default function Register() {
                         name={"password"}
                         onChange={(e) => setPassword(e.target.value)} 
                         ref={passwordInputRef}
+                        containerAttributes={{ style: { width: "100%"} }}
                     />
                     <Input
                         className={styles.input}
@@ -93,6 +96,7 @@ export default function Register() {
                         onChange={(e) => setPasswordConfirmation(e.target.value)}
                         style={{ border: errorMessage ? "1px solid var(--main-red-dark)" : ""}} 
                         ref={passwordConfirmationInputRef}
+                        containerAttributes={{ style: { width: "100%"} }}
                     />
                     {errorMessage && <span style={{ color: "var(--main-red-dark)" }}>{errorMessage}</span>}
                     <button 

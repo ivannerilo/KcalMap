@@ -16,7 +16,6 @@ export function AuthenticateContext({ children }) {
     const [isLoading, setIsLoading] = useState(false);
     const [isNewUser, setIsNewUser] = useState(false);
 
-    console.log("newUser", isNewUser)
     
     function setTokens(tokenPair) {
         setAcessToken(tokenPair.access);

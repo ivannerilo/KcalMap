@@ -31,6 +31,7 @@ export default function Login({}) {
                     <Input
                         label={"Email:"}
                         name={"email"}
+                        containerAttributes={{ style: { width: "100%" }}} 
                         className={styles.input}
                         type="text" 
                         placeholder={"email@email.com"}
@@ -40,6 +41,7 @@ export default function Login({}) {
                     <Input
                         label={"Password:"}
                         name={"password"}
+                        containerAttributes={{ style: { width: "100%" }}} 
                         className={styles.input}
                         type="password" 
                         placeholder={"Your password here:"}

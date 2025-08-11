@@ -3,13 +3,13 @@
     flex-direction: column;
     justify-content: flex-start;
     border-radius: 15px;
-    background-color: var(--main-theme-white);
+    background-color: var(--main-theme-dark-grey);
 }
 
 .mealDiv {
     width: 488px;
     height: 153px;
-    background-color: var(--main-theme-lightmedium);
+    background-color: var(--main-theme-medium);
     border-radius: 15px;
     display: flex;
     justify-content: center;
@@ -20,7 +20,7 @@
 .dummyDiv {
     width: 488px;
     height: 24px;
-    background-color: var(--main-theme-lightmedium);
+    background-color: var(--main-theme-medium);
     position: relative;
     bottom: 24px;
 }

@@ -14,12 +14,28 @@
     margin: 0;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
+    color: var(--main-theme-white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 :root {
-    /* Main theme tones */
+  /* Main theme tones */
+  --main-theme-light: #4D3C66;
+  --main-theme-medium: #2F2841;
+  --main-theme-dark: #1E192B;
+
+  /* Main theme grey tones */
+  --main-theme-white: #F5F5F5;
+  --main-theme-light-grey: #A8A6AC;
+  --main-theme-dark-grey: #413E4A;
+
+  /* Other tones */
+  --main-theme-gold: #FFD15B;
+  --main-theme-red: #E84D4D;
+}
+
+/* :root {
     --main-theme-light: #D8D5DA;
     --main-theme-lightmedium: #9672AE;
     --main-theme-medium: #694084;
@@ -27,34 +43,28 @@
     --main-theme-dark: #220833;
     --main-theme-superdark: #1F0033;
 
-    /* Main theme grey tones */
     --main-theme-white: #F0F0F0;
     --main-theme-light-grey: #9A989C;
     --main-theme-lightmedium-grey: #614A71;
     --main-theme-medium-grey: #382247;
 
-    /* Grey tones */
     --main-grey-light: #CCC5C7;
     --main-grey-medium: #A09A9D;
     --main-grey-dark: #484349;
 
-    /* Blue tones */
     --main-blue-light: #DCF1F4;
     --main-blue-medium: #C1F2F8;
     --main-blue-dark: #8AF3FF;
 
-    /* Green tones */
     --main-green-light: #BEDAC6;
     --main-green-medium: #84C39C;
     --main-green-dark: #109648;
 
-    /* Brown tones */
     --main-brown-light: #E4D3CC;
     --main-brown-medium: #D0B5A8;
     --main-brown-dark: #A97A60;
 
-    /* Red tones */
     --main-red-light: #F0C6C5;
     --main-red-medium: #E99B99;
     --main-red-dark: #DB4642;
-}
+} */

@@ -1,18 +1,24 @@
 import styles from "./Input.module.css"
 import React from "react";
 
-const Input = React.forwardRef(({label, className, containerAttributes, ...inputProps}, ref) => {
+const Input = React.forwardRef(({label, containerAttributes, labelAttributes, ...inputAttributes}, ref) => {
     return (
-        <div {...containerAttributes ? {...containerAttributes} : {}} className={`${styles.container} ${className ? className : ""}`}>
+        <div
+            {...containerAttributes}
+            className={`${styles.container} ${containerAttributes?.className ? containerAttributes?.className : ""}`}
+        >
             {label && 
-                <label className={styles.label}>
+                <label
+                    {...labelAttributes} 
+                    className={`${styles.label} ${labelAttributes?.className ? labelAttributes?.className : ""}`}
+                >
                     {label}
                 </label>
             }
             <input 
-                {...inputProps}
+                {...inputAttributes}
                 ref={ref ? ref : null}
-                className={styles.input}
+                className={`${styles.input} ${inputAttributes?.className ? inputAttributes?.className : ""}`}
             />
         </div>
     )

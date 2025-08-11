@@ -18,14 +18,12 @@ export default function MealComponent() {
     return (
         <div className={styles.mealContainer}>
 
-            <div className={styles.mealDiv}>
+            <div className={styles.mealDiv} onClick={() => setIsMealOpen(!isMealOpen)}>
                 <h1>{mealState.name}</h1>    
-                <button onClick={() => setIsMealOpen(!isMealOpen)}>Open Meal</button>
-                <button onClick={() => hanldeDeleteMeal(mealState.id)}>Delete Meal</button>
+                {/* <button onClick={() => hanldeDeleteMeal(mealState.id)}>Delete Meal</button> */}
             </div>
 
-            {isMealOpen && <div className={styles.dummyDiv}>
-            </div>}
+            {isMealOpen && <div className={styles.dummyDiv}></div>}
 
             <MealContent 
                 style={{ display: isMealOpen ? "block" : "none" }} 

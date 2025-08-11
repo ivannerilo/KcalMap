@@ -13,19 +13,23 @@ export default function Dashboard() {
 
     console.log(`Calories: ${calories} Calories Goal: ${caloriesGoal}`)
     return (
-        <div className={styles.dashboard}>
+        <>
+            <div className={styles.sidebar}>
 
-            <div className={styles.dashContainer}>
-                {/* Dash das calorias gastas / Meta! */}
-                <CaloriesDash calories={calories} caloriesGoal={caloriesGoal} />  
             </div>
+            <div className={styles.dashboard}>
+                <div className={styles.dashContainer}>
+                    {/* Dash das calorias gastas / Meta! */}
+                    <CaloriesDash calories={calories} caloriesGoal={caloriesGoal} />  
+                </div>
 
-            <div className={styles.mealsContainer}>
-                {/* Renderização das refeições! */}
-                {meals && !isLoading && meals.map((meal) => ( 
-                    <Meal key={meal.id} meal={meal}/> 
-                ))}
+                <div className={styles.mealsContainer}>
+                    {/* Renderização das refeições! */}
+                    {meals && !isLoading && meals.map((meal) => ( 
+                        <Meal key={meal.id} meal={meal}/> 
+                    ))}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

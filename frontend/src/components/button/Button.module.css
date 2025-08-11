@@ -1,0 +1,15 @@
+.button {
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 900;
+}
+
+.button:active {
+    border: 1px solid grey;
+    border-style: inset;
+}
+
+.button:hover {
+    border: 1px solid rgb(53, 53, 53);
+}

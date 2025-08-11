@@ -45,7 +45,7 @@ def get_meals(request):
                 foods_objects.append(serialized_food_data)
 
             serialized_meal_data["itens"] = foods_objects
-            meals_objects.append(serialized_meal_data)
+            meals_objects.append(serialized_meal_data) 
 
             user_logs = models.FoodLog.objects.filter(user=user.pk, timestamp__date=datetime.now().date(), meal=meal.pk)
             serialized_logs_obj = serializers.FoodLogSerializer(instance=user_logs, many=True)

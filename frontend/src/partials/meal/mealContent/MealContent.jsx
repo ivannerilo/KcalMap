@@ -4,6 +4,7 @@ import { MealContext } from "../Meal";
 import { useUser } from "../../../contexts/UserContext";
 import { useFood } from "../../../contexts/FoodContext";
 import Item from "./item/Item";
+import Button from "../../../components/button/Button";
 
 export default function MealContent({ style }) {
     const meal = useContext(MealContext)
@@ -18,38 +19,6 @@ export default function MealContent({ style }) {
     const [isAddNewTemplateFoodOpen, setIsAddNewTemplateFoodOpen] = useState()
     const [newTemplateFoodId, setNewTemplateFoodId] = useState()
 
-
-    async function handleAddFood(item){
-        setErrorMessage("");
-        try {
-            if (foodQuantity <= 0) {
-                setErrorMessage("Invalid quantity!");
-                return
-            }
-            let response = await addFoodLog(item.id, foodQuantity, meal.mealState.id)
-            inputRef.current.value = ""
-            setFoodQuantity(0)
-            meal.setNewMealLog(response.result)
-        } catch(e) {
-            console.log("Erro!", e.message)
-        }
-    }
-
-    async function handleRemoveFood(item){
-        setErrorMessage("");
-        try {
-            if (foodQuantity <= 0) {
-                setErrorMessage("Invalid quantity!");
-                return 
-            }
-            let response = await removeFoodLog(item.id, foodQuantity, meal.mealState.id)
-            inputRef.current.value = ""
-            setFoodQuantity(0)
-            meal.removeMealLog(response.result)
-        } catch(e) {
-            console.log("Erro!", e.message)
-        }
-    }
 
     async function handleSubmit(e) {
         try {
@@ -74,41 +43,48 @@ export default function MealContent({ style }) {
             <div>
                 {/* <input place={"Quantity: "} type="number" onChange={(e) => setFoodQuantity(e.target.value)} ref={inputRef}/> */}
 
-                {errorMessage && (
+                {/* {errorMessage && (
                     <h1 style={{color: "red"}}>{errorMessage}</h1>
-                )}
+                )} */}
 
-                {/* p>Consumed:</p> */}
                 <div className={styles.itemContainer}>
                     {meal.mealState?.itens && meal.mealState?.itens.map((item, index) => {
                         return <Item 
                             item={item} 
                             index={index} 
-                            handleAddFood={handleAddFood} 
-                            handleRemoveFood={handleRemoveFood}
                         />
                     })}
                 </div>
 
-                <div>
-                    <button 
-                        onClick={() => setIsAddNewTemplateFoodOpen(!isAddNewTemplateFoodOpen)}>Add new template foods.</button>
+                <div className={styles.buttonsDiv}>
+                    <Button 
+                        className={styles.addItemButton}
+                        onClick={() => setIsAddNewTemplateFoodOpen(!isAddNewTemplateFoodOpen)}
+                    > 
+                        Add new template foods.
+                    </Button>
 
-                    {isAddNewTemplateFoodOpen && (
-                        <div>
-                            <form onSubmit={(e) => handleSubmit(e)}> { /* TODO: Add a select that shows the name of the UserFoods */}
-                                <select name={"foodOptions"} onChange={(e) => setNewTemplateFoodId(e.target.value)}>
-                                    {/* Adiconar uma forma de opção disabled. */}
-                                    <option disabled={true} selected={true}>Selecione uma opção: </option>
-                                    {foodOptions.map((option, index) => {
-                                        return <option key={index} value={option.id}>{option.name}</option>
-                                    })}
-                                </select>
-                                <button type="sumbit">Add</button>
-                            </form>
-                        </div>
-                    )}
+                    <Button 
+                        className={styles.deleteMealButton}
+                        onClick={() => setIsAddNewTemplateFoodOpen(!isAddNewTemplateFoodOpen)}
+                    >
+                        .
+                    </Button>
                 </div>
+                {isAddNewTemplateFoodOpen && ( // TODO: Tranformar em modal essa poha!
+                    <div>
+                        <form onSubmit={(e) => handleSubmit(e)}> 
+                            <select name={"foodOptions"} onChange={(e) => setNewTemplateFoodId(e.target.value)}>
+                                {/* Adiconar uma forma de opção disabled. */}
+                                <option disabled={true} selected={true}>Selecione uma opção: </option>
+                                {foodOptions.map((option, index) => {
+                                    return <option key={index} value={option.id}>{option.name}</option>
+                                })}
+                            </select>
+                            <button type="sumbit">Add</button>
+                        </form>
+                    </div>
+                )}
             </div>
         </div>
     );

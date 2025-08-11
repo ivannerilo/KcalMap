@@ -54,7 +54,7 @@ class Food(models.Model): #A classificação dos alimentos, todos são registrad
 
 class TemplateFood(models.Model): #Alimentos que são de costume do User, consumir nessa refeição.
     template_meal = models.ForeignKey(TemplateMeal, on_delete=models.CASCADE)
-    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE) # TODO: Impedir a adição de mais uma food igual ao mesmo meal!
 
 class FoodLog(models.Model): #Cada Alimento e quantidade que o user consumiu, mantém o controle de data!
     user = models.ForeignKey(User, on_delete=models.CASCADE)

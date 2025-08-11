@@ -6,7 +6,7 @@
     height: 100%;
     gap: 48px;
     width: 100%;
-    background-color: var(--main-theme-light);
+    background-color: var(--main-theme-dark);
 }
 
 .dashContainer {
@@ -24,4 +24,10 @@
     align-items: flex-start;
     gap: 16px;
     overflow-x: auto;
+}
+
+.sidebar {
+    height: 100%;
+    width: 360px;
+    background-color: var(--main-theme-medium);
 }
