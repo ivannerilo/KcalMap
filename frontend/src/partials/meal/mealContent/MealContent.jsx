@@ -6,7 +6,7 @@ import { useFood } from "../../../contexts/FoodContext";
 import Item from "./item/Item";
 import Button from "../../../components/button/Button";
 
-export default function MealContent({ style }) {
+export default function MealContent() {
     const meal = useContext(MealContext)
     const meals = useUser()
     const { getGlobalFoods, addFoodLog, removeFoodLog } = useFood()
@@ -39,7 +39,7 @@ export default function MealContent({ style }) {
     }, [])
 
     return (
-        <div className={styles.container} style={style}>
+        <div className={styles.container}>
             <div>
                 {/* <input place={"Quantity: "} type="number" onChange={(e) => setFoodQuantity(e.target.value)} ref={inputRef}/> */}
 

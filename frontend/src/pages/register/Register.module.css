@@ -22,7 +22,7 @@
     height: 100%;
     padding: 32px 48px;
     background-color: var(--main-theme-medium);
-    border-radius: 15px;
+    border-radius: 10px;
     gap: 32px;
 }
 

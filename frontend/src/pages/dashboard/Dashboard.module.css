@@ -6,24 +6,28 @@
     height: 100%;
     gap: 48px;
     width: 100%;
+    flex: 1;
     background-color: var(--main-theme-dark);
 }
 
 .dashContainer {
     width: 100%;
+    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex: 1;
 }
 
 .mealsContainer {
     width: 100%;
+    flex-grow: 2;
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
     align-items: flex-start;
     gap: 16px;
-    overflow-x: auto;
+    flex: 1;
 }
 
 .sidebar {

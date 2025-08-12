@@ -3,8 +3,9 @@
     flex-direction: column;
     background-color: var(--main-theme-dark-grey);
     color: var(--main-theme-white);
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 0px 24px 16px 24px;
+    flex: 1;
 }
 
 .newMealForm {

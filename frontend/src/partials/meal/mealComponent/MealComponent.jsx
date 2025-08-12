@@ -25,9 +25,9 @@ export default function MealComponent() {
 
             {isMealOpen && <div className={styles.dummyDiv}></div>}
 
-            <MealContent 
-                style={{ display: isMealOpen ? "block" : "none" }} 
-            />
+            {isMealOpen &&
+                <MealContent />
+            }
         </div>
     );
 }
