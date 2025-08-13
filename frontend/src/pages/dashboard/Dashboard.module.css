@@ -12,16 +12,16 @@
 
 .dashContainer {
     width: 100%;
-    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1;
+    max-height: 136px !important;
+    min-height: 136px !important;
 }
 
 .mealsContainer {
     width: 100%;
-    flex-grow: 2;
+
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
@@ -32,6 +32,6 @@
 
 .sidebar {
     height: 100%;
-    width: 360px;
+    width: 180px;
     background-color: var(--main-theme-medium);
 }

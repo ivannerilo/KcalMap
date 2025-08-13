@@ -16,8 +16,7 @@ export default function CaloriesDash({ calories, caloriesGoal }) {
     return (
         <div className={styles.caloriesDashDiv}>
             <div className={styles.textDiv}>
-                <h1>Calories Dash: {calories.toFixed(2)}Kcal</h1>
-                <p>You have consumed {caloriesPercentage}% of your {caloriesGoal}Kcal calories goal today!</p> 
+                <h1 className={styles.header}>Calories Dash: {calories.toFixed(2)}Kcal</h1>
             </div>
             <div className={styles.barDiv}>
                 <div className={styles.bar}>
