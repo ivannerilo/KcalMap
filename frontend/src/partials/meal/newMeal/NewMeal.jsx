@@ -2,8 +2,7 @@ import { useRef, useState } from "react";
 import styles from "./NewMeal.module.css";
 import { useUser } from "../../../contexts/UserContext";
 
-export default function NewMeal({ onMealCreated }) { // Adicionada prop para fechar o form
-    // --- SUA LÓGICA (INTACTA) ---
+export default function NewMeal({ onMealCreated }) { 
     const [mealName, setMealName] = useState("");
     const inputRef = useRef(null);
     const { createMeal } = useUser();
@@ -13,7 +12,7 @@ export default function NewMeal({ onMealCreated }) { // Adicionada prop para fec
             event.preventDefault();
             let response = await createMeal(mealName);
             console.log(response.message);
-            // Avisa o componente pai que a refeição foi criada com sucesso
+            
             if (response.ok && onMealCreated) {
                 onMealCreated();
             }
@@ -21,9 +20,6 @@ export default function NewMeal({ onMealCreated }) { // Adicionada prop para fec
             console.log(e.message);
         }
     }
-    // --- FIM DA SUA LÓGICA ---
-
-    // --- NOVA ESTRUTURA JSX ---
     return (
         <div className={styles.newMealContainer}>
             <h3 className={styles.title}>Criar Nova Refeição</h3>

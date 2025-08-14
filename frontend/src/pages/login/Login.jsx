@@ -4,7 +4,6 @@ import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import styles from "./Login.module.css";
 
 export default function Login({}) {
-    // --- SUA LÓGICA (INTACTA) ---
     const { isAuthenticated, login } = useAuthenticate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,13 +16,11 @@ export default function Login({}) {
         let response = await login(email, password);
         console.log(response);
     }
-    // --- FIM DA SUA LÓGICA ---
     
     if (isAuthenticated) {
         return <Navigate to="/" />;
     }
 
-    // --- NOVA ESTRUTURA JSX ---
     return (
         <main className={styles.external}>
             <div className={styles.container}>

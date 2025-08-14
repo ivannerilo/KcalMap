@@ -1,12 +1,10 @@
-// Seu componente MealComponent.js
 
-import styles from "./MealComponent.module.css"; // Renomeei para corresponder ao componente pai
+import styles from "./MealComponent.module.css"; 
 import { useContext, useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
 import MealContent from "../mealContent/MealContent";
 import { MealContext } from "../../meal/Meal";
 
-// Ícones SVG simples para os botões
 const ChevronIcon = ({ isOpen }) => (
     <svg 
         className={`${styles.chevron} ${isOpen ? styles.open : ''}`}
@@ -29,7 +27,6 @@ const TrashIcon = () => (
 );
 
 export default function MealComponent() {
-    // --- SUA LÓGICA (INTACTA) ---
     const { mealState } = useContext(MealContext);
     const { deleteMeal } = useUser();
     const [isMealOpen, setIsMealOpen] = useState(false);
@@ -37,9 +34,7 @@ export default function MealComponent() {
     function hanldeDeleteMeal(id) {
         deleteMeal(id);
     }
-    // --- FIM DA SUA LÓGICA ---
     
-    // --- NOVA ESTRUTURA JSX ---
     return (
         <article className={styles.mealContainer}>
             <header className={styles.mealHeader} onClick={() => setIsMealOpen(!isMealOpen)}>
@@ -48,7 +43,7 @@ export default function MealComponent() {
                     <button 
                         className={`${styles.actionButton} ${styles.deleteButton}`} 
                         onClick={(e) => {
-                            e.stopPropagation(); // Impede que o clique no botão também abra/feche o card
+                            e.stopPropagation(); 
                             hanldeDeleteMeal(mealState.id);
                         }}
                         aria-label="Deletar refeição"

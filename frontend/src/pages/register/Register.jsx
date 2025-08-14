@@ -4,7 +4,6 @@ import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import styles from "./Register.module.css";
 
 export default function Register() {
-    // --- SUA LÓGICA (INTACTA) ---
     const { register, isAuthenticated } = useAuthenticate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -45,13 +44,11 @@ export default function Register() {
             }
         }
     }
-    // --- FIM DA SUA LÓGICA ---
 
     if (isAuthenticated) {
         return <Navigate to="/" />;
     }
 
-    // --- NOVA ESTRUTURA JSX ---
     return (
         <main className={styles.external}>
             <div className={styles.container}>

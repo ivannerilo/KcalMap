@@ -1,4 +1,3 @@
-/* src/components/addFoodList/AddFoodList.module.css */
 
 .addFoodContainer {
     width: 100%;
@@ -7,7 +6,6 @@
     gap: 1rem;
 }
 
-/* --- Barra de Busca --- */
 .searchWrapper {
     position: relative;
     width: 100%;
@@ -38,7 +36,6 @@
     border-color: var(--accent);
 }
 
-/* --- Lista de Resultados --- */
 .resultsList {
     max-height: 250px;
     overflow-y: auto;

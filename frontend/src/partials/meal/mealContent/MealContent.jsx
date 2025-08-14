@@ -1,11 +1,9 @@
-// seu componente MealContent.js
 
 import { useState, useContext } from "react";
-import styles from "./MealContent.module.css"; // Usaremos um novo CSS
+import styles from "./MealContent.module.css"; 
 import { MealContext } from "../Meal";
 import AddFoodList from "../../addFoodList/AddFoodList";
 
-// Ícone SVG para o botão
 const PlusIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
         <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -14,12 +12,9 @@ const PlusIcon = () => (
 );
 
 export default function MealContent() {
-    // --- SUA LÓGICA (INTACTA) ---
     const { mealState } = useContext(MealContext);
     const [isAddFoodOpen, setIsAddFoodsOpen] = useState(false);
-    // --- FIM DA SUA LÓGICA ---
 
-    // --- NOVA ESTRUTURA JSX ---
     return (
         <div className={styles.contentContainer}>
             <div className={styles.logList}>

@@ -5,7 +5,6 @@ import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import { useUser } from "../../contexts/UserContext";
 
 export default function ProfileForm() {
-    // --- SUA LÓGICA (INTACTA) ---
     const [weight, setWeight] = useState(0);
     const [height, setHeight] = useState(0);
     const [age, setAge] = useState(0);
@@ -41,9 +40,6 @@ export default function ProfileForm() {
             navigate("/");
         }
     }
-    // --- FIM DA SUA LÓGICA ---
-
-    // --- NOVA ESTRUTURA JSX ---
     return (
         <main className={styles.external}>
             <div className={styles.container}>
