@@ -1,33 +1,42 @@
+// src/pages/Dashboard/Dashboard.js
+
 import { useState, useEffect } from "react";
-import CaloriesDash from "../../components/caloriesDash/CaloriesDash";
-import NewMeal from "../../components/meal/newMeal/NewMeal";
-import Meal from "../../components/meal/Meal";
 import styles from "./Dashboard.module.css";
-import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import { useUser } from "../../contexts/UserContext";
 
+// Importe os componentes
+import Sidebar from "../../components/sidebar/Sidebar";
+import CaloriesDash from "../../partials/caloriesDash/CaloriesDash";
+import NewMeal from "../../partials/meal/newMeal/NewMeal";
+import Meal from "../../partials/meal/Meal";
+
 export default function Dashboard() {
+    // --- SUA LÓGICA (INTACTA) ---
     const [openNewMeal, setOpenNewMeal] = useState(false);
-    
     const { meals, isLoading, calories, caloriesGoal } = useUser();
+    console.log(`Calories: ${calories} Calories Goal: ${caloriesGoal}`);
+    // --- FIM DA SUA LÓGICA ---
 
-    console.log(`Calories: ${calories} Calories Goal: ${caloriesGoal}`)
+    // --- NOVA ESTRUTURA JSX ---
     return (
-        <div className={styles.dashboard}>
+        <div className={styles.dashboardLayout}>
+            <Sidebar />
 
-            {/* Dash das calorias gastas / Meta! */}
-            <CaloriesDash calories={calories} caloriesGoal={caloriesGoal} />  
+            <main className={styles.mainContent}>
+                <CaloriesDash calories={calories} caloriesGoal={caloriesGoal} />  
 
-            {/* Botão para abrir o formulário de nova refeição! */}
-            <button onClick={() => setOpenNewMeal(!openNewMeal)}>New Meal</button> 
-            {/* // Formulário de nova refeição! */}
-            {openNewMeal && <NewMeal />} 
+                <button className={styles.newMealButton} onClick={() => setOpenNewMeal(!openNewMeal)}>
+                    {openNewMeal ? 'Cancelar' : 'Adicionar Refeição'}
+                </button> 
+                
+                {openNewMeal && <NewMeal onMealCreated={() => setOpenNewMeal(false)} />} 
 
-            {/* Renderização das refeições! */}
-            {meals && !isLoading && meals.map((meal) => ( 
-                <Meal key={meal.id} meal={meal}/> 
-            ))}
-
+                <div className={styles.mealsContainer}>
+                    {meals && !isLoading && meals.map((meal) => ( 
+                        <Meal key={meal.id} meal={meal}/> 
+                    ))}
+                </div>
+            </main>
         </div>
     );
 }

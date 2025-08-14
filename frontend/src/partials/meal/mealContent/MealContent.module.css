@@ -1,0 +1,70 @@
+/* src/partials/mealContent/MealContent.module.css */
+
+.contentContainer {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.logList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.logItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: var(--neutral);
+    border-radius: 8px;
+}
+
+.foodName {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.foodCalories {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.emptyMessage {
+    color: var(--text-secondary);
+    font-style: italic;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.separator {
+    border: none;
+    height: 1px;
+    background-color: var(--neutral);
+    margin: 1.5rem 0;
+}
+
+.addFoodSection {
+    display: flex;
+    justify-content: center;
+}
+
+.addButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    background-color: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.addButton:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}

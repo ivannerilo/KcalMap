@@ -1,6 +1,38 @@
-.dashboard {
+/* src/pages/Dashboard/Dashboard.module.css */
+
+.dashboardLayout {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--background);
+}
+
+.mainContent {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.newMealButton {
+    padding: 0.75rem 1.5rem;
+    margin: 2rem 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    background-color: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.newMealButton:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+.mealsContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    gap: 1.5rem;
 }

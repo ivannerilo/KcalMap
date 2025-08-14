@@ -1,35 +1,103 @@
+/* src/pages/Login/Login.module.css */
+
+/* --- Estrutura da Página --- */
+.external {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 1rem;
+    background-color: var(--background);
+}
+
+/* --- Caixa de Login --- */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 500px;
-    height: 500px;
-    margin: auto
+    width: 100%;
+    max-width: 480px;
+    padding: 2rem;
+    gap: 1.5rem;
+    background-color: var(--surface);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
 }
 
+/* --- Título --- */
 .header {
-
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin: 0;
+    margin-bottom: 1rem;
 }
 
+/* --- Formulário e Inputs --- */
 .form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 8px;
     width: 100%;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
 }
 
 .input {
-    height: 32px;
-
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #DDDDDD;
+    border-radius: 8px;
+    background-color: var(--neutral);
+    color: var(--text-primary);
+    transition: box-shadow 0.2s ease-in-out;
 }
 
+.input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(247, 184, 1, 0.4);
+    border-color: var(--accent);
+}
+
+/* --- Botão e Link --- */
 .button {
-    height: 32px;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    background-color: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.button:hover {
+    transform: translateY(-2px);
 }
 
 .link {
-    margin-top: 16px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
 
+.link:hover {
+    color: var(--accent);
+    text-decoration: underline;
 }
