@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import CaloriesDash from "../../components/caloriesDash/CaloriesDash";
-import NewMeal from "../../components/meal/newMeal/NewMeal";
-import Meal from "../../components/meal/Meal";
+import CaloriesDash from "../../partials/caloriesDash/CaloriesDash";
+import NewMeal from "../../partials/meal/newMeal/NewMeal";
+import Meal from "../../partials/meal/Meal";
 import styles from "./Dashboard.module.css";
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import { useUser } from "../../contexts/UserContext";

@@ -3,6 +3,10 @@ import { useState, useRef } from "react"
 import styles from "./ProfileForm.module.css"
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import { useUser } from "../../contexts/UserContext";
+import Input from "../../components/form/input/Input";
+import FormContainer from "../../components/form/formContainer/FormContainer";
+import Button from "../../components/button/Button";
+import Select from "../../components/form/select/Select";
 
 export default function ProfileForm() {
     const [weight, setWeight] = useState(0);
@@ -44,50 +48,76 @@ export default function ProfileForm() {
         }
     }
 
+    function seeOnchange(value) {
+        console.log("Value", value);
+    }
+
     return(
-        <div className={styles.external}>
-            <div className={styles.container}>
-                <h1 className={styles.header}>register!!!</h1>
+
+    <div className={styles.external}>
+            <FormContainer className={styles.container}>            
+                <h1 className={styles.header}>Almost There</h1>
+                <p className={styles.infoText}>
+                    Tell us a little bit more about you.
+                </p>
                 <form className={styles.form}>
-                    <input 
+                    <Input
                         type="number" 
                         placeholder="Your Weight" 
                         onChange={(e) => setWeight(e.target.value)} 
                         ref={wheightInputRef}
                         className={styles.input}
                     />
-                    <input  
+                    <Input
                         type="number" 
                         placeholder="Your Height" 
                         onChange={(e) => setHeight(e.target.value)} 
                         ref={heightInputRef}
                         className={styles.input}
                     />
-                    <input 
+                    <Input
                         type="number" 
                         placeholder="Your Age" 
                         onChange={(e) => setAge(e.target.value)} 
                         ref={ageInputRef}
                         className={styles.input}
                     />
-                    <select 
-                        onChange={(e) => setSex(e.target.value)} 
+                    <Select 
+                        onChange={(e) => seeOnchange(e.target.value)} 
                         ref={sexInputRef} 
                         className={styles.input}
-                    >
-                        <option value="M">Male</option>
-                        <option value="F">Female</option>
-                    </select>
-                    <input 
+                        options={[
+                            {
+                                name: "Select a option.",
+                                disabled: true
+                            },
+                            {
+                                name: "Male",
+                                value: "M",
+                            },
+                            {
+                                name: "Female",
+                                value: "F",
+                            }
+                        ]}
+                    />
+                    <Input 
                         type="number" 
                         placeholder="Calories Goal" 
                         onChange={(e) => setCaloriesGoal(e.target.value)} 
                         ref={caloriesGoalRef}
                         className={styles.input}
                     />
-                    <button onClick={handleregister} className={styles.button}>Register</button>
+                    <Button 
+                        className={styles.button}
+                        onClick={handleregister}
+                    >
+                        Finish Register
+                    </Button>
                 </form>
-            </div>
+            </FormContainer>
         </div>
+       
     )
 }
+

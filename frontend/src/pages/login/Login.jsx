@@ -1,7 +1,10 @@
 import { Link, Navigate } from "react-router-dom"
 import { useState, useRef } from "react"
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
+import Input from "../../components/form/input/Input";
+import FormContainer from "../../components/form/formContainer/FormContainer";
 import styles from "./Login.module.css"
+import Button from "../../components/button/Button";
 
 export default function Login({}) {
     const { isAuthenticated, login } = useAuthenticate();
@@ -21,28 +24,30 @@ export default function Login({}) {
     
     if (!isAuthenticated) {
         return(
-            <div className={styles.extarnal}>
-                <div className={styles.container}>            
-                    <h1 className={styles.header}>Login!!!</h1>
+            <div className={styles.external}>
+                <FormContainer className={styles.container}>            
+                    <h1 className={styles.header}>Login</h1>
                     <form className={styles.form}>
-                        <input
-                            className={styles.input}
+                        <Input
+                            label={"Email"}
+                            className={styles.inputContainer}
                             type="text" 
                             placeholder="Email" 
                             onChange={(e) => setEmail(e.target.value)}
                             ref={emailInputRef}
                         />
-                        <input
-                            className={styles.input}
-                            type="password" 
+                        <Input
+                            label={"Password"}
+                            className={styles.inputContainer}
+                            type="password"
                             placeholder="Password" 
                             onChange={(e) => setPassword(e.target.value)} 
                             ref={passwordInputRef}
                         />
-                        <button 
+                        <Button 
                             className={styles.button}
                             onClick={handleLogin}
-                        > Log in!</button>
+                        > Login</Button>
                     </form>
         
                     <Link
@@ -51,7 +56,7 @@ export default function Login({}) {
                     >
                         Não tem conta?
                     </Link>
-                </div>
+                </FormContainer>
             </div>
         )
     } else {

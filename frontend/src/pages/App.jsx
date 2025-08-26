@@ -22,9 +22,6 @@ export default function App() {
             <FoodContext>
 
 
-              <div>
-                <h1>KCalculator</h1>
-
                 <BrowserRouter>
                   <Routes>
 
@@ -44,9 +41,10 @@ export default function App() {
 
                     {/* Rota NOT FOUND */}
                     <Route path="*" element={<h1>Not Found</h1>} /> 
+
                   </Routes>
                 </BrowserRouter>
-              </div>
+
 
             </FoodContext>
           </UserContext>

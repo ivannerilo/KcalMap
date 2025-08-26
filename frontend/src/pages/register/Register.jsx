@@ -2,7 +2,9 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState, useRef } from "react"
 import {useAuthenticate} from "../../contexts/AuthenticateContext";
 import styles from "./Register.module.css"
-
+import FormContainer from "../../components/form/formContainer/FormContainer";
+import Input from "../../components/form/input/Input";
+import Button from "../../components/button/Button";
 
 export default function Register() {
     const { register, isAuthenticated } = useAuthenticate();
@@ -53,53 +55,55 @@ export default function Register() {
     }
 
     return(
-        <div className={styles.extarnal}>
-            <div className={styles.container}>
-                <h1 className={styles.header}>Register!!!</h1>
-                <form className={styles.form}>
-                    <input
-                        className={styles.input}
-                        type="text" 
-                        placeholder="Name" 
-                        onChange={(e) => setName(e.target.value)}
-                        ref={nameInputRef}
-                    />
-                    <input
-                        className={styles.input} 
-                        type="text" 
-                        placeholder="Email" 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        ref={emailInputRef}
-                    />
-                    <input
-                        className={styles.input}
-                        type="password" 
-                        placeholder="Password" 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        ref={passwordInputRef}
-                    />
-                    <input
-                        className={styles.input}
-                        type="password" 
-                        placeholder="Repeat your Password" 
-                        onChange={(e) => setPasswordConfirmation(e.target.value)} 
-                        ref={passwordConfirmationInputRef}
-                    />
-                    <button 
-                        className={styles.button}
-                        onClick={handleRegister}
-                    >Register</button>
-                </form>
-
-                {errorMessage && <h3 style={{ color: "red" }}>{errorMessage}</h3>}
-
-                <Link
-                    className={styles.link}  
-                    to="/login"
-                >
-                    Já tem conta?
-                </Link>
+        <div className={styles.external}>
+                <FormContainer className={styles.container}>            
+                    <h1 className={styles.header}>Register</h1>
+                    <form className={styles.form}>
+                        <Input
+                            label={"Name"}
+                            className={styles.inputContainer}
+                            type="text" 
+                            placeholder="Your name here:" 
+                            onChange={(e) => setName(e.target.value)}
+                            ref={nameInputRef}
+                        />
+                        <Input
+                            label={"Email"}
+                            className={styles.inputContainer}
+                            type="text" 
+                            placeholder="e.g youremail@email.com" 
+                            onChange={(e) => setEmail(e.target.value)}
+                            ref={emailInputRef}
+                        />
+                        <Input
+                            label={"Password"}
+                            className={styles.inputContainer}
+                            type="password"
+                            placeholder="Your password here:" 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            ref={passwordInputRef}
+                        />
+                        <Input
+                            label={"Password Confirmation"}
+                            className={styles.inputContainer}
+                            type="password"
+                            placeholder="Repeat your password here:" 
+                            onChange={(e) => setPasswordConfirmation(e.target.value)} 
+                            ref={passwordConfirmationInputRef}
+                        />
+                        <Button 
+                            className={styles.button}
+                            onClick={handleRegister}
+                        > Register</Button>
+                    </form>
+        
+                    <Link
+                        className={styles.link} 
+                        to="/login"
+                    >
+                        Já tem conta?
+                    </Link>
+                </FormContainer>
             </div>
-        </div>
     )
 }

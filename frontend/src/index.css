@@ -1,8 +1,46 @@
-body {
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body, h1, h2, h3, p, ul, li {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+:root {
+  /* Paleta Light Theme */
+  --background: #F8F7F4;
+  --surface: #FFFFFF;
+  --neutral: #EAEAEA;
+  --accent: #F7B801;
+  --accent-danger: #E53E3E;
+  --text-primary: #3D315B;
+  --text-secondary: #757575;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
 }
+
+
+
+
