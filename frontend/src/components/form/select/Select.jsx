@@ -3,11 +3,11 @@ import styles from "./Select.module.css"
 
 // options = [
 //     {
-//         name: "Male",
+//         children: "Male",
 //         value: "M",
 //     },
 //     {
-//         name: "Female",
+//         children: "Female",
 //         value: "F",
 //     }
 // ]
@@ -29,10 +29,9 @@ const Select = forwardRef(({ label, className, labelAttributes, containerAttribu
                     return (
                         <option
                             className={styles.option}
-                            value={option.value}
-                            disabled={option?.disabled ? option?.disabled:  ""}
+                            {...option}
                         >
-                            {option.name}
+                            {option.children}
                         </option>
                     )
                 })}

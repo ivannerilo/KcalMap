@@ -5,29 +5,29 @@ import Meal from "../../partials/meal/Meal";
 import styles from "./Dashboard.module.css";
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import { useUser } from "../../contexts/UserContext";
+import { useWindow } from "../../contexts/WindowContext";
+import MobileHeader from "../../partials/mobileHeader/MobileHeader";
 
 export default function Dashboard() {
     const [openNewMeal, setOpenNewMeal] = useState(false);
     
-    const { meals, isLoading, calories, caloriesGoal } = useUser();
+    const { meals, isLoading} = useUser();
+    const {isMobile} = useWindow();
 
-    console.log(`Calories: ${calories} Calories Goal: ${caloriesGoal}`)
     return (
-        <div className={styles.dashboard}>
+        <>
 
-            {/* Dash das calorias gastas / Meta! */}
-            <CaloriesDash calories={calories} caloriesGoal={caloriesGoal} />  
+            {isMobile && <MobileHeader />}
 
-            {/* Botão para abrir o formulário de nova refeição! */}
-            <button onClick={() => setOpenNewMeal(!openNewMeal)}>New Meal</button> 
-            {/* // Formulário de nova refeição! */}
+            <CaloriesDash /> 
+
+            {/* <button onClick={() => setOpenNewMeal(!openNewMeal)}>New Meal</button> 
             {openNewMeal && <NewMeal />} 
 
-            {/* Renderização das refeições! */}
             {meals && !isLoading && meals.map((meal) => ( 
                 <Meal key={meal.id} meal={meal}/> 
-            ))}
+            ))} */}
 
-        </div>
+        </>
     );
 }

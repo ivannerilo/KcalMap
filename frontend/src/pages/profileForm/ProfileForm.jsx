@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import { useState, useRef } from "react"
+import { useState, useRef, Children } from "react"
 import styles from "./ProfileForm.module.css"
 import { useAuthenticate } from "../../contexts/AuthenticateContext";
 import { useUser } from "../../contexts/UserContext";
@@ -62,48 +62,54 @@ export default function ProfileForm() {
                 </p>
                 <form className={styles.form}>
                     <Input
+                        label={"Your Wheight"}
                         type="number" 
-                        placeholder="Your Weight" 
+                        placeholder={"e.g 80(kg)"}
                         onChange={(e) => setWeight(e.target.value)} 
                         ref={wheightInputRef}
                         className={styles.input}
                     />
                     <Input
+                        label={"Your Height"}
                         type="number" 
-                        placeholder="Your Height" 
+                        placeholder={"e.g 180(cm)"}
                         onChange={(e) => setHeight(e.target.value)} 
                         ref={heightInputRef}
                         className={styles.input}
                     />
                     <Input
+                        label={"Your Age"}
                         type="number" 
-                        placeholder="Your Age" 
+                        placeholder={"e.g 18(y)"}
                         onChange={(e) => setAge(e.target.value)} 
                         ref={ageInputRef}
                         className={styles.input}
                     />
                     <Select 
+                        label={"Your Biological Sex"}
                         onChange={(e) => seeOnchange(e.target.value)} 
                         ref={sexInputRef} 
                         className={styles.input}
                         options={[
                             {
-                                name: "Select a option.",
-                                disabled: true
+                                children: "Select a option.",
+                                disabled: true,
+                                selected: true,
                             },
                             {
-                                name: "Male",
+                                children: "Male",
                                 value: "M",
                             },
                             {
-                                name: "Female",
+                                children: "Female",
                                 value: "F",
                             }
                         ]}
                     />
-                    <Input 
+                    <Input
+                        label={"Your Calories Goal"}
                         type="number" 
-                        placeholder="Calories Goal" 
+                        placeholder={"e.g 2000(kcal)"}
                         onChange={(e) => setCaloriesGoal(e.target.value)} 
                         ref={caloriesGoalRef}
                         className={styles.input}

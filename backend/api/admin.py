@@ -3,6 +3,7 @@ from . import models
 
 # Register your models here.
 # SU = ivan 123
+# SU pc minha casa  = ivan123/123
 
 admin.site.register(models.Profile)
 admin.site.register(models.TemplateMeal)

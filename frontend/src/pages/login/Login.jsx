@@ -60,6 +60,6 @@ export default function Login({}) {
             </div>
         )
     } else {
-        return <Navigate to="/" />
+        return <Navigate to="/dashboard" />
     }
 }

@@ -13,7 +13,7 @@ export function UserContext({ children }){
     const { authFetch } = useFetch()
 
     // Calories States: 
-    const [calories, setCalories] = useState(0);
+    const [calories, setCalories] = useState(300);
     const [caloriesGoal, setCaloriesGoal] = useState(0);
     const [logHistory, setLogHistory] = useState([])
 

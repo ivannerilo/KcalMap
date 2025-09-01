@@ -1,8 +1,71 @@
-.caloriesDashDiv {
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid black;
-    width: 500px;
+    background-color: var(--surface);
+    box-shadow: 0 0 0 1px rgba(234, 234, 234, 1); /* rgba(234, 234, 234, 0.8) */
+    border-radius: 1.5rem;
+    padding: 1.6rem;
+    width: 100%;
+    height: 10.4rem;
+    gap: 2.1rem;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-height: 2.8rem;
+}
+
+.headerTitle {
+    color: var(--text-primary);
+    font-size: 1.6rem;
+    font-weight: 700;
+    flex: 1;
+}
+
+.calories {
+    display: flex;
+    max-width: fit-content;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.calories > p {
+    color: var(--accent);
+    font-size: 2.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: flex-end;
+    max-height: 2.4rem;
+    height: 100%;
+    text-align: end;
+}
+
+.calories > span {
+    color: var(--text-secundary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: flex-end;
+    max-height: 2.4rem;
+    height: 100%;
+}
+
+.externalBar {
+    width: 100%;
+    height: 1.5rem;
+    border-radius: 2.5rem;
+    box-shadow: 0 0 0 1px rgba(234, 234, 234, 1);
+    background-color: var(--surface);
+}
+
+.insideBar {
+    height: 100%;
+    border-radius: 2.5rem;
+    background-color: var(--accent);
 }

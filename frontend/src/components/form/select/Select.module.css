@@ -21,6 +21,7 @@
     min-height: 4.8rem;
     border-radius: 1.5rem;
     background-color: var(--neutral);
+    color: var(--text-primary);
     padding: 1.6rem;
 }
 

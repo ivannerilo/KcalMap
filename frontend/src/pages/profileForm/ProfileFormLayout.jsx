@@ -9,9 +9,9 @@ export default function ProfileFormWrapper() {
     console.log(`User entrou no profile form e é ${isNewUser} newUSer`)
     if (isNewUser) {
         console.log("É new user e setamos para falso")
-        return <Navigate to={"/"} />
-    } else {
         return <Outlet />
+    } else {
+        return <Navigate to={"/"} />
     }
 
 

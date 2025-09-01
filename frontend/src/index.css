@@ -26,6 +26,14 @@ html {
   --accent-danger: #E53E3E;
   --text-primary: #3D315B;
   --text-secondary: #757575;
+
+  /* Window Sizes Comparatives */
+
+  /* Everything less than 600px */
+  --mobile: 600px; 
+  /* Everything less than 1200px */
+  --tablet: 1200px;
+  /* Desktop covers every size more than 1200px */
 }
 
 body {
