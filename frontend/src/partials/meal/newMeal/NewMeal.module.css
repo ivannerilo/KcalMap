@@ -1,12 +1,33 @@
-.newMealContainer {
+.div {
+    height: 10.4rem;
+}
+
+.div > h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    max-height: 4.3rem;
+    gap: 0.8rem;
     width: 100%;
 }
 
-.newMealDiv {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid black;
-    width: 500px;
+.button {
+    width: 4.0rem !important;
 }
+
+.button > button {
+    height: 4.0rem;
+    width: 4.0rem;
+    border-radius: 2.5rem;
+    padding: 0.8rem;
+    flex: 1;
+}
+
+.input {
+    width: 100%;
+}
+

@@ -1,0 +1,31 @@
+.mealContainer{
+    min-height: 7.2rem ;
+}
+
+.titleContainer {
+    max-height: 2.4rem;
+    align-items: center;
+    justify-content: center;
+    gap: 2.4rem;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.name {
+    width: 100%;
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+.icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: var(--text-secundary);
+    transition: all 0.2s ease-in-out;
+}
+
+.chevronIconUp{
+    transition: all 0.2s ease-in-out;
+    transform: rotate(180deg);
+}

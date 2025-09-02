@@ -1,6 +1,7 @@
 import { use, useEffect, useRef, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
 import styles from "./CaloriesDash.module.css";
+import Container from "../../components/basicContainer/Container";
 
 export default function CaloriesDash() {
     const {calories, caloriesGoal} = useUser();
@@ -17,7 +18,7 @@ export default function CaloriesDash() {
     }, [calories, caloriesGoal])
 
     return (
-        <main className={styles.container}>
+        <Container className={styles.container}>
             <section className={styles.header}>
                 <span className={styles.headerTitle}>
                     Resumo do dia:
@@ -37,6 +38,6 @@ export default function CaloriesDash() {
                     }}
                 ></div>
             </div>
-        </main>
+        </Container>
     );
 }

@@ -1,9 +1,12 @@
-import styles from "../../meal/Meal.module.css";
+import styles from "../../meal/mealComponent/MealComponent.module.css";
 
 import { useContext, useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
 import MealContent from "../mealContent/MealContent";
 import { MealContext } from "../../meal/Meal";
+import Container from "../../../components/basicContainer/Container";
+
+import { FiTrash2, FiChevronDown  } from "react-icons/fi";
 
 export default function MealComponent() {
     const { mealState } = useContext(MealContext)
@@ -16,13 +19,19 @@ export default function MealComponent() {
     }
    
     return (
-        <div className={styles.mealContainer}>
-            <div className={styles.mealDiv}>
-                <h1>{mealState.name}</h1>    
-                <button onClick={() => setIsMealOpen(!isMealOpen)}>Open Meal</button>
-                <button onClick={() => hanldeDeleteMeal(mealState.id)}>Delete Meal</button>
-            </div>
+        <Container className={styles.mealContainer}>
+            <section  className={styles.titleContainer}>
+                <span className={styles.name}>{mealState.name}</span>
+                <FiTrash2
+                    className={styles.icon}
+                    onClick={() => hanldeDeleteMeal(mealState.id)}
+                />
+                <FiChevronDown
+                    className={`${isMealOpen ? styles.chevronIconUp : ""} ${styles.icon}`}
+                    onClick={() => setIsMealOpen(!isMealOpen)} 
+                />
+            </section>
             <MealContent style={{ display: isMealOpen ? "block" : "none" }} />
-        </div>
+        </Container>
     );
 }

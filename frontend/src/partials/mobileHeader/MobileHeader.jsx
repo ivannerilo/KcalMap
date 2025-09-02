@@ -16,7 +16,7 @@ export default function() {
                 >{isFormOpen ? "Cancelar" : "Criar nova refeição"}</Button>
             </header>
             {isFormOpen && <section className={styles.formContainer}>
-                    <NewMeal />
+                    <NewMeal setIsFormOpen={setIsFormOpen} />
                 </section>
             }
         </main>

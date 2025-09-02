@@ -9,8 +9,8 @@ import Button from "../../components/button/Button";
 export default function Login({}) {
     const { isAuthenticated, login } = useAuthenticate();
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const emailInputRef = useRef(null)
     const passwordInputRef = useRef(null)

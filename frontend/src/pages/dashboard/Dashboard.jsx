@@ -22,11 +22,11 @@ export default function Dashboard() {
             <CaloriesDash /> 
 
             {/* <button onClick={() => setOpenNewMeal(!openNewMeal)}>New Meal</button> 
-            {openNewMeal && <NewMeal />} 
+            {openNewMeal && <NewMeal />} */}
 
             {meals && !isLoading && meals.map((meal) => ( 
-                <Meal key={meal.id} meal={meal}/> 
-            ))} */}
+                 <Meal key={meal.id} meal={meal}/> 
+            ))} 
 
         </>
     );

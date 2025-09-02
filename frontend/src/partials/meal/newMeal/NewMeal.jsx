@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
 import styles from "./NewMeal.module.css";
 import { useUser } from "../../../contexts/UserContext";
+import Button from "./../../../components/button/Button";
+import Input from "./../../../components/form/input/Input";
+import Container from "../../../components/basicContainer/Container";
 
-export default function NewMeal() {
+export default function NewMeal({ setIsFormOpen }) {
     const [mealName, setMealName] = useState("");
     const inputRef = useRef(null);
     const { createMeal } = useUser();
@@ -14,25 +17,32 @@ export default function NewMeal() {
             let response = await createMeal(mealName)
     
             console.log(response.message)
+            setIsFormOpen(false);
         } catch(e) {
             console.log(e.message)
         }
     }
 
     return (
-        <div className={styles.newMealDiv}>
-            <form onSubmit={handleCreateMeal}>
-                <input 
+        <Container className={styles.div}>
+            <h2>Criar nova Refeição</h2>
+            <form 
+                className={styles.form}
+                onSubmit={handleCreateMeal}
+            >
+                <Input 
+                    className={styles.input}
                     type="text" 
                     placeholder="Meal Name" 
                     value={mealName} 
                     onChange={(e) => setMealName(e.target.value)}
                     ref={inputRef}
                 />
-                <button 
+                <Button 
+                    className={styles.button}
                     type="submit"
-                >Create Meal</button>
+                >+</Button>
             </form>
-        </div>
+        </Container>
     );
 }
