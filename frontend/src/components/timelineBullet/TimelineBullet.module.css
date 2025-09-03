@@ -1,0 +1,22 @@
+.container {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.line {
+    height: 100%;
+    width: 0.1rem;
+    background-color: var(--neutral);
+}
+
+.bullet {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 2.5rem;
+    background-color: var(--neutral);
+    position: absolute;
+}
