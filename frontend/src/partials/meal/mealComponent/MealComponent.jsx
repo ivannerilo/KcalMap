@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
 import { MealContext } from "../../meal/Meal";
 import Container from "../../../components/basicContainer/Container";
-import AddFoodList from "../../addFoodList/AddFoodList";
+import AddFoodModal from "../../addFoodModal/AddFoodModal";
 
 import { FiTrash2, FiChevronDown  } from "react-icons/fi";
 import BreakLine from "../../../components/breakLine/BreakLine";
@@ -13,12 +13,12 @@ import TimelineBullet from "../../../components/timelineBullet/TimelineBullet";
 import MealItem from "../mealItem/MealItem";
 
 export default function MealComponent() {
-    const { mealState } = useContext(MealContext)
-    const { deleteMeal } = useUser()
+    const { mealState } = useContext(MealContext);
+    const { deleteMeal } = useUser();
     const [isMealOpen, setIsMealOpen] = useState(false);
-    const [isAddFoodOpen, setIsAddFoodsOpen] = useState(false)
+    const [isAddFoodOpen, setIsAddFoodsOpen] = useState(false);
 
-
+    console.log(mealState);
     function hanldeDeleteMeal(id) {
         deleteMeal(id)
     }
@@ -39,12 +39,11 @@ export default function MealComponent() {
 
             {isMealOpen && <BreakLine />}
 
-            <TimelineBullet />
 
-            <section className={styles.mealContent} style={{ display: isMealOpen ? "block" : "none" }}>
+            <section className={styles.mealContent} style={{ display: isMealOpen ? "flex" : "none" }}>
                 <div className={styles.mealItens}>
                         {mealState?.logs.map((item, index) => {
-                            <MealItem key={index} item={item} />
+                            return <MealItem key={index} item={item} />
                         })}
                 </div>
 
@@ -53,7 +52,7 @@ export default function MealComponent() {
                     onClick={() => setIsAddFoodsOpen(!isAddFoodOpen)}
                 >Add Item</Button>
 
-                {isAddFoodOpen && <AddFoodList />}
+                {isAddFoodOpen && <AddFoodModal setModalOpen={setIsAddFoodsOpen}/>}
             </section>
         </Container>
     );

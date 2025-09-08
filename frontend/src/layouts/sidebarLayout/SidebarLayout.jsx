@@ -9,9 +9,7 @@ export default function SidebarLayout() {
 
     return (
         <main className={styles.external}>
-            <section className={styles.outletContainer}>
-                <Outlet />
-            </section>
+            <Outlet />
             <section className={styles.sidebarContainer}>
                 {isMobile && <MobileBar />}
             </section>

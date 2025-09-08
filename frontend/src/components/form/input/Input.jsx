@@ -1,7 +1,7 @@
 import { forwardRef } from "react"
 import styles from "./Input.module.css"
 
-const Input = forwardRef(({ label, className, labelAttributes, containerAttributes, ...inputAttributes}, ref) => {
+const Input = forwardRef(({label, className, labelAttributes, containerAttributes, ...inputAttributes}, ref) => {
     return (
         <div {...containerAttributes} className={`${styles.div} ${className || ""}`}>
 
@@ -13,7 +13,7 @@ const Input = forwardRef(({ label, className, labelAttributes, containerAttribut
                 {...inputAttributes}
                 className={styles.input}
                 ref={ref}
-            />
+            />   
         </div>
     ) 
 

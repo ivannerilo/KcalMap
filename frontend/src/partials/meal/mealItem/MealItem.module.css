@@ -1,0 +1,34 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.item {
+    background-color: var(--neutral);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 1.0rem;
+    padding: 0.4rem 0.8rem;
+    flex: 1;
+    font-size: 1.2rem;
+}
+
+.food {
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    flex: 1;
+}
+
+.calories {
+    width: 7.1rem;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    text-align: end;
+    color: var(--accent);
+    font-weight: 700;
+}

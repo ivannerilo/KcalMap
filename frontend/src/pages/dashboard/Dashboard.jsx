@@ -15,8 +15,7 @@ export default function Dashboard() {
     const {isMobile} = useWindow();
 
     return (
-        <>
-
+        <div className={styles.dashboard}>
             {isMobile && <MobileHeader />}
 
             <CaloriesDash /> 
@@ -27,7 +26,6 @@ export default function Dashboard() {
             {meals && !isLoading && meals.map((meal) => ( 
                  <Meal key={meal.id} meal={meal}/> 
             ))} 
-
-        </>
+        </div>
     );
 }
