@@ -16,7 +16,6 @@ export default function NewMeal({ setIsFormOpen }) {
             event.preventDefault();
             let response = await createMeal(mealName)
     
-            console.log(response.message)
             setIsFormOpen(false);
         } catch(e) {
             console.log(e.message)

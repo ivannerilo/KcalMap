@@ -25,6 +25,7 @@ export function FoodContext({ children }) {
         try {
             let response = await authFetch("http://localhost:8000/api/global-food")
             
+
             if (!response.ok) { //melhorar esse error handling aqui.
                 throw Error("Fail to fetch meals." + response.message);
             }
@@ -36,7 +37,7 @@ export function FoodContext({ children }) {
         }
     }
 
-    async function addFoodLog(foodId, quantity, mealId = null) {
+    async function createFoodLog(foodId, quantity, mealId = null) {
         try {
             let response = await authFetch("http://localhost:8000/api/log", {
                 method: "POST",
@@ -62,9 +63,35 @@ export function FoodContext({ children }) {
         }
     }
 
-    async function removeFoodLog(foodId, quantity, mealId = null) {
+    async function updateFoodLog(foodId, quantity, mealId = null) {
         try {
-            let response = await authFetch("http://localhost:8000/api/log/delete", {
+            let response = await authFetch("http://localhost:8000/api/log", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    foodId: foodId,
+                    mealId: mealId,
+                    quantity: quantity,
+                })
+            })
+            
+            if (!response.ok){
+                throw Error(response.message)
+            }
+
+            let data = await response.json()
+
+            return data
+        } catch (e) {
+            throw Error(e.message)
+        }
+    }
+
+    async function deleteFoodLog(foodId, quantity, mealId = null) {
+        try {
+            let response = await authFetch("http://localhost:8000/api/log", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,8 +120,9 @@ export function FoodContext({ children }) {
     const value = {
         getGlobalFoods, 
         getUserFoods, 
-        addFoodLog, 
-        removeFoodLog
+        createFoodLog, 
+        deleteFoodLog,
+        updateFoodLog,
     }
 
     return (

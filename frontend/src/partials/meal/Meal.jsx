@@ -1,3 +1,4 @@
+import { useFood } from "../../contexts/FoodContext";
 import { useUser } from "../../contexts/UserContext";
 import MealComponent from "./mealComponent/MealComponent";
 import { createContext, useEffect, useState } from 'react'
@@ -5,9 +6,12 @@ import { createContext, useEffect, useState } from 'react'
 const MealContext = createContext()
 
 export default function Meal({ meal }) {
-    const [mealState, setMealState] = useState({...meal})
-    const { updateMeals } = useUser()
+    const [mealState, setMealState] = useState({...meal});
+    const { updateFoodLog, createFoodLog, deleteFoodLog } = useFood();
+    const { updateMeals } = useUser();
 
+    // Toda vez que o estado de uma meal mudar, elas todas serão atualizadas,
+    // recalculando as calorias, etc...
     useEffect(() => {
         updateMeals(mealState)
     }, [mealState])
@@ -67,11 +71,42 @@ export default function Meal({ meal }) {
 
     }
 
+    async function handleAddFood(item, quantity){
+        console.log(item);
+        try {
+            let response = await createFoodLog(item.food.id, quantity, mealState.id)
+            setNewMealLog(response.result)
+        } catch(e) {
+            console.log("Erro!", e.message)
+        }
+    }
+
+    async function handleUpdateFood(item, quantity) {
+        try {
+            let response = await updateFoodLog(item.food.id, quantity, mealState.id)
+            setNewMealLog(response.result)
+        } catch(e) {
+            console.log("Erro!", e.message)
+        }
+    }
+
+    async function handleRemoveFood(item, quantity){
+        try {
+            let response = await deleteFoodLog(item.food.id, quantity, mealState.id)
+            removeMealLog(response.result)
+        } catch(e) {
+            console.log("Erro!", e.message)
+        }
+    }
+
     const value = {
         mealState,
         setNewMealItem,
         setNewMealLog,
         removeMealLog,
+        handleAddFood,
+        handleRemoveFood,
+        handleUpdateFood,
     }
     return(
         <MealContext value={value}>

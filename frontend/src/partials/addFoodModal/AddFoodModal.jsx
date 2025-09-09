@@ -9,31 +9,14 @@ const AddFoodModalContext = createContext();
 export default function AddFoodModal(props){
     const meal = useContext(MealContext)
     const meals = useUser()
-    const { getGlobalFoods, addFoodLog, removeFoodLog } = useFood()
+    const { getGlobalFoods } = useFood()
 
     const [foodOptions, setFoodOptions] = useState([])
     const [isAddNewTemplateFoodOpen, setIsAddNewTemplateFoodOpen] = useState()
     const [newTemplateFoodId, setNewTemplateFoodId] = useState()
 
 
-    async function handleAddFood(item, quantity){
-        try {
-            let response = await addFoodLog(item.id, quantity, meal.mealState.id)
-            meal.setNewMealLog(response.result)
-        } catch(e) {
-            console.log("Erro!", e.message)
-        }
-    }
-
-    async function handleRemoveFood(item, quantity){
-        try {
-            let response = await removeFoodLog(item.id, quantity, meal.mealState.id)
-            meal.removeMealLog(response.result)
-        } catch(e) {
-            console.log("Erro!", e.message)
-        }
-    }
-
+    // adição de novas template foods
     async function handleSubmit(e) {
         try {
             e.preventDefault()
@@ -54,8 +37,6 @@ export default function AddFoodModal(props){
 
     const value = {
         handleSubmit,
-        handleRemoveFood,
-        handleAddFood, 
     }
 
     return (

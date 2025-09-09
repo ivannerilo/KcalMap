@@ -13,6 +13,7 @@ urlpatterns = [
 
     #Multi Mehtod Routes
     path('api/template', views.template_food, name='template_food'),
+    path("api/log", views.log, name='log'),
 
     # GET Routes
     path('api/calories', views.get_calories, name='get_calories'),
@@ -22,11 +23,9 @@ urlpatterns = [
     #POST Routes
     path('api/register', views.register, name='register'),
     path('api/create', views.create_meal, name='create_meal'),
-    path('api/log', views.log, name='log'),
     path('api/profile', views.profile, name='profile'),
 
     #DELETE Routes
     path("api/delete", views.delete_meal, name='delete_meal'),
-    path("api/log/delete", views.delete_log, name='delete_log')
 
 ]

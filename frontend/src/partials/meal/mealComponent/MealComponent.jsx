@@ -18,7 +18,6 @@ export default function MealComponent() {
     const [isMealOpen, setIsMealOpen] = useState(false);
     const [isAddFoodOpen, setIsAddFoodsOpen] = useState(false);
 
-    console.log(mealState);
     function hanldeDeleteMeal(id) {
         deleteMeal(id)
     }

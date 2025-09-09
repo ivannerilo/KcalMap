@@ -17,7 +17,6 @@ export default function Login({}) {
     
     async function handleLogin(event) {
         event.preventDefault()
-        console.log(`email: ${email} password: ${password}`);
         let response = await login(email, password);
         console.log(response)
     }
