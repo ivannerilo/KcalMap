@@ -7,7 +7,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from . import models
 from . import serializers
-from .services import log_services, meal_services
+from . import services
 from .exceptions import ServiceException
 
 # APLICAR O PADRÃO NAS RESPONSES 
@@ -48,30 +48,24 @@ def register(request):
 
 @api_view(['GET', 'POST', 'DELETE'])
 def meal(request):
-    meals = models.TemplateMeal.objects
-    meals = meals.prefetch_related("template_food__food", "food_log__food")
-    meals = meals.filter(user=request.user.pk, food_log__timestamp__date=datetime.now().date())
-    serialized_meals = serializers.MealSerializer(instance=meals, many=True)
-    serialized_data = serialized_meals.data
-    print(serialized_data)
-    return Response({"result": serialized_data})
-
-    # try:
-    #     match request.method:
-    #         case 'GET':
-    #             result = meal_services.get_meal(request.data, request.user)
-    #             return Response(result, status=200)
-    #         case 'POST':
-    #             result = meal_services.create_meal(request.data, request.user)
-    #             return Response(result, status=201)
-    #         case 'DELETE':
-    #             result = meal_services.delete_meal(request.data, request.user)
-    #             return Response(result, status=200)
-    # except ServiceException as e:
-    #     print(str(e))
-    #     return Response({"message": str(e)}, status=400)
-    # except Exception:
-    #     return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
+    try:
+        match request.method:
+            case 'GET':
+                meals = services.get_meal(request.data, request.user)
+                serialized_meals = serializers.CompleteTemplateMealSerializer(instance=meals, many=True)
+                return Response({"result": serialized_meals.data}, status=200)
+            case 'POST':
+                new_meal = services.create_meal(request.data, request.user)
+                serialized_meal = serializers.CompleteTemplateMealSerializer(instance=new_meal)
+                return Response({"result": serialized_meal.data}, status=201)
+            case 'DELETE':
+                deleted_meal = services.delete_meal(request.data, request.user)
+                return Response({"result": deleted_meal['id']}, status=200)
+    except ServiceException as e:
+        print(str(e))
+        return Response({"message": str(e)}, status=400)
+    except Exception:
+        return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
     
 @api_view(['POST', 'DELETE', 'PUT'])
 def log(request):
@@ -79,13 +73,13 @@ def log(request):
     try:
         match request.method:
             case 'POST':
-                result = log_services.create_log(request.data, request.user)
+                result = services.create_log(request.data, request.user)
                 return Response(result, status=201)
             case 'DELETE': 
-                result = log_services.delete_log(request.data, request.user)
+                result = services.delete_log(request.data, request.user)
                 return Response(result, status=200)
             case 'PUT':
-                result = log_services.update_log(request.data, request.user)
+                result = services.update_log(request.data, request.user)
                 return Response(result, status=200)
     except ServiceException as e:
         print(str(e))

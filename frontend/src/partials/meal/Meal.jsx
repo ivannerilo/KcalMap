@@ -30,13 +30,13 @@ export default function Meal({ meal }) {
 
     function setNewMealLog(mealLog) {
         setMealState((prevState) => {
-            let newLogsArray = prevState.logs.filter((item) => {
+            let newLogsArray = prevState.food_log.filter((item) => {
                 return item.food.id !== mealLog.food.id
             })
 
             return {
                 ...prevState,
-                logs: [
+                food_log: [
                     mealLog,
                     ...newLogsArray
                 ]
@@ -49,18 +49,18 @@ export default function Meal({ meal }) {
             if (mealLog.deletedFoodId) {
                 return {
                     ...prevState,
-                    logs: prevState.logs.filter((item) => item.food.id !== mealLog.deletedFoodId)
+                    food_log: prevState.food_log.filter((item) => item.food.id !== mealLog.deletedFoodId)
                 }
             }
 
-            let newLogsArray = prevState.logs.filter((item) => {
+            let newLogsArray = prevState.food_log.filter((item) => {
                 return item.food.id !== mealLog.food.id
             })
             
             console.log("Updated log", mealLog)
             const newState = {
                 ...prevState,
-                logs: [
+                food_log: [
                     ...newLogsArray,
                     mealLog
                 ]
@@ -74,7 +74,7 @@ export default function Meal({ meal }) {
     async function handleAddFood(item, quantity){
         console.log(item, quantity)
         try {
-            let response = await createFoodLog(item.id, quantity, mealState.id)
+            let response = await createFoodLog(item.food.id, quantity, mealState.id)
             setNewMealLog(response.result)
         } catch(e) {
             console.log("Erro!", e.message)

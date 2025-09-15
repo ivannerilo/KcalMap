@@ -13,15 +13,15 @@ export default function AddFoodItem({ item }){
 
     return (
         <section className={styles.container}>
-            <span className={styles.name}>{item.name}</span>
+            <span className={styles.name}>{item.food.name}</span>
             <div className={styles.quantityDiv}>
                 <Input
                     className={styles.quantityInput}
                     placeholder={"eg. 100"}
                     onChange={(e) => setQuantity(e.target.value)}
-                    defaultValue={item.default_quantity}
+                    defaultValue={item.food.default_quantity}
                 />
-                <span className={styles.unit}>{item.unit}</span>
+                <span className={styles.unit}>{item.food.unit}</span>
                 <Button 
                     className={styles.button}
                     onClick={(e) => meal.handleAddFood(item, quantity)}

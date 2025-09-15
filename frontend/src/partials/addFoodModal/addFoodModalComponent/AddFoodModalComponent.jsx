@@ -16,8 +16,8 @@ export default function AddFoodModalComponent({ setModalOpen }) {
     const [search, setSearch] = useState("")
 
     useEffect(() => {
-        setFilteredItems(meal?.mealState?.itens?.filter((item) => {
-            const itemName = item.name.toLowerCase();
+        setFilteredItems(meal?.mealState?.template_food?.filter((item) => {
+            const itemName = item.food.name.toLowerCase();
             return itemName.includes(search.toLowerCase());
         }))
     }, [search, meal.mealState?.itens])

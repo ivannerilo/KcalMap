@@ -41,7 +41,7 @@ export default function MealComponent() {
 
             <section className={styles.mealContent} style={{ display: isMealOpen ? "flex" : "none" }}>
                 <div className={styles.mealItens}>
-                        {mealState?.logs.map((item, index) => {
+                        {mealState?.food_log.map((item, index) => {
                             return <MealItem key={index} item={item} />
                         })}
                 </div>

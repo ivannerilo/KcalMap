@@ -66,10 +66,11 @@ export function UserContext({ children }){
     
     
     function calculateCalories(meals){
+        console.log("meals", meals)
         if (meals) {
             let cals = 0;
             meals.forEach(meal => {
-                meal.logs.forEach(log => {
+                meal.food_log.forEach(log => {
                     cals += parseFloat(log.quantity) * parseFloat(log.food.calories_per_unit)
                 })
             });
@@ -78,7 +79,8 @@ export function UserContext({ children }){
     }
 
     useEffect(() => {
-        getCaloriesGoal();
+        /* getCaloriesGoal(); */
+        setCaloriesGoal(3000)
     }, [])
 
 
