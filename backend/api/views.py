@@ -7,9 +7,8 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from . import models
 from . import serializers
-from . import services
+from .services import log_services, meal_services
 from .exceptions import ServiceException
-
 
 # APLICAR O PADRÃO NAS RESPONSES 
 # SUCCESS TRUE & RESULT
@@ -18,7 +17,6 @@ from .exceptions import ServiceException
 # OU TROCAR OS SUCCESS POR CÓDIGOS HTTP! ASSIM A REQUEST VEM OK OU NÃO!
 # OU IMPLEMENTAR OS 2, FODA-SE!
 
-
 @api_view(['GET'])
 def get_calories(request):
     try:
@@ -26,40 +24,7 @@ def get_calories(request):
         return Response({"result": profile.calories_goal}, status=200)
     except:
         return Response({"message": "Profile not find!"}, status=400)
-
-@api_view(['GET'])
-def get_meals(request):
-    try:
-        user = request.user
-        user_meals = models.TemplateMeal.objects.filter(user=user.pk)
-
-        meals_objects = []
-        for meal in user_meals:
-
-            serialized_meal_obj = serializers.TemplateMealSerializer(instance=meal)
-            serialized_meal_data = serialized_meal_obj.data
-            
-            user_foods = models.TemplateFood.objects.filter(template_meal=meal.pk)
-            foods_objects = []
-            for food in user_foods:
-                serialized_food_obj = serializers.FoodSerializer(instance=food.food)
-                serialized_food_data = serialized_food_obj.data
-                foods_objects.append(serialized_food_data)
-
-            serialized_meal_data["itens"] = foods_objects
-            meals_objects.append(serialized_meal_data)
-
-            user_logs = models.FoodLog.objects.filter(user=user.pk, timestamp__date=datetime.now().date(), meal=meal.pk)
-            serialized_logs_obj = serializers.FoodLogSerializer(instance=user_logs, many=True)
-            serialized_logs_data = serialized_logs_obj.data
-            serialized_meal_data["logs"] = serialized_logs_data
-        
-        return Response({"result": meals_objects}, status=200)
-    except:
-        return Response({"result": "Fail to gather data!"}, status=400)
-
-
-
+     
 @api_view(['POST'])
 def register(request):
     try:
@@ -81,6 +46,53 @@ def register(request):
     except:
       return Response({"message": "User not registered! Invalid credentials."}, status=400)
 
+@api_view(['GET', 'POST', 'DELETE'])
+def meal(request):
+    meals = models.TemplateMeal.objects
+    meals = meals.prefetch_related("template_food__food", "food_log__food")
+    meals = meals.filter(user=request.user.pk, food_log__timestamp__date=datetime.now().date())
+    serialized_meals = serializers.MealSerializer(instance=meals, many=True)
+    serialized_data = serialized_meals.data
+    print(serialized_data)
+    return Response({"result": serialized_data})
+
+    # try:
+    #     match request.method:
+    #         case 'GET':
+    #             result = meal_services.get_meal(request.data, request.user)
+    #             return Response(result, status=200)
+    #         case 'POST':
+    #             result = meal_services.create_meal(request.data, request.user)
+    #             return Response(result, status=201)
+    #         case 'DELETE':
+    #             result = meal_services.delete_meal(request.data, request.user)
+    #             return Response(result, status=200)
+    # except ServiceException as e:
+    #     print(str(e))
+    #     return Response({"message": str(e)}, status=400)
+    # except Exception:
+    #     return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
+    
+@api_view(['POST', 'DELETE', 'PUT'])
+def log(request):
+    result = {}
+    try:
+        match request.method:
+            case 'POST':
+                result = log_services.create_log(request.data, request.user)
+                return Response(result, status=201)
+            case 'DELETE': 
+                result = log_services.delete_log(request.data, request.user)
+                return Response(result, status=200)
+            case 'PUT':
+                result = log_services.update_log(request.data, request.user)
+                return Response(result, status=200)
+    except ServiceException as e:
+        print(str(e))
+        return Response({"message": str(e)}, status=400)
+    except Exception as e:
+        return Response({"message": "Ocorreu um erro no servidor!"}, status=500) 
+
 @api_view(['POST'])
 def profile(request):
     try:
@@ -101,28 +113,6 @@ def profile(request):
         return Response({"message": "Failed to create the user profile!"}, status=400)
 
 
-@api_view(['POST'])
-def create_meal(request):
-    try:
-        data = request.data
-
-        new_meal = models.TemplateMeal.objects.create(name=data['name'], user=request.user)
-        new_meal.save()
-        
-        return Response({"result": "Meal created with success!"}, status=201)
-    except Exception:
-        return Response({"message": "Failed to create this meal!"}, status=400)
-    
-@api_view(['DELETE'])
-def delete_meal(request):
-    try:
-        data = request.data
-
-        meal = models.TemplateMeal.objects.get(pk=data['id'], user=request.user)    
-        meal.delete()
-        return Response({"result": "Meal deleted with success!"}, status=202)
-    except Exception:
-        return Response({"message": "Failed to delete this meal!"}, status=400)
     
 @api_view(['POST'])
 def template_food(request):
@@ -154,27 +144,6 @@ def get_global_foods(request):
         return Response({"message": "Failed to get the global foods!"}, status=400)
     
 
-@api_view(['POST', 'DELETE', 'PUT'])
-def log(request):
-    result = {}
-    result = services.update_log(request.data, request.user)
-    return Response({"result": result}, status=200)
-    try:
-        match request.method:
-            case 'POST':
-                result = services.create_log(request.data, request.user)
-                return Response({"result": result}, status=201)
-            case 'DELETE': 
-                result = services.delete_log(request.data, request.user)
-                return Response({"result": result}, status=200)
-            case 'PUT':
-                result = services.update_log(request.data, request.user)
-                return Response({"result": result}, status=200)
-    except ServiceException as e:
-        print(str(e))
-        return Response({"message": str(e)}, status=400)
-    except Exception as e:
-        return Response({"message": "Ocorreu um erro no servidor!"}, status=500) 
             
 
             

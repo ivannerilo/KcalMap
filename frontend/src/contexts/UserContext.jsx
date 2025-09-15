@@ -87,13 +87,14 @@ export function UserContext({ children }){
     async function getMeals() {
         setIsLoading(true);
         try {
-            let response = await authFetch("http://localhost:8000/api/meals")
+            let response = await authFetch("http://localhost:8000/api/meal")
             
             if (!response.ok) { 
                 throw Error(response.message);
             }
             
             let data = await response.json()
+            console.log("responseGetMeals", data);
     
             setMeals(data.result);
             calculateCalories(data.result);
@@ -105,7 +106,7 @@ export function UserContext({ children }){
 
     async function createMeal(name) {
         try {
-            let response = await authFetch("http://localhost:8000/api/create", {
+            let response = await authFetch("http://localhost:8000/api/meal", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -118,8 +119,9 @@ export function UserContext({ children }){
             if (!response.ok){
                 throw Error(response.message)
             }
-
+            
             let data = await response.json()
+            console.log("responseCreateMeals", data);
 
             await getMeals()
 
@@ -132,7 +134,7 @@ export function UserContext({ children }){
 
     async function deleteMeal(mealId) {
         try {
-            let response = await authFetch("http://localhost:8000/api/delete", {
+            let response = await authFetch("http://localhost:8000/api/meal", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -145,8 +147,9 @@ export function UserContext({ children }){
             if (!response.ok){
                 throw Error(response.message)
             }
-
+            
             let data = await response.json()
+            console.log("responseDeleteMeals", data);
 
             await getMeals()
 
@@ -159,7 +162,7 @@ export function UserContext({ children }){
 
     async function addTemplateFood(foodId, mealId) {
         try {
-            let response = await authFetch("http://localhost:8000/api/template", {
+            let response = await authFetch("http://localhost:8000/api/template-food", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

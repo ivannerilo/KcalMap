@@ -5,6 +5,7 @@ function getRefreshToken() {
 }
 
 function setLocalRefreshToken(refreshToken) {
+    console.log("tirei do localStorage bro")
     localStorage.setItem("refresh", refreshToken);
 }
 
@@ -12,7 +13,7 @@ const InternalContext = createContext();
 
 export function AuthenticateContext({ children }) {
     const [accessToken, setAcessToken] = useState("");
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isNewUser, setIsNewUser] = useState(false);
 
@@ -129,6 +130,7 @@ export function AuthenticateContext({ children }) {
         setIsAuthenticated(false);
         setLocalRefreshToken("");
         setAcessToken("");
+        window.location.reload();
     }
     
     useEffect(() => {

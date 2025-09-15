@@ -19,22 +19,22 @@
 }
 
 .food {
-    text-wrap: nowrap;
+    white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 100%;
+    overflow: hidden;
     flex: 1;
+    min-width: 0;
 }
 
 .calories {
-    width: 7.1rem;
-    text-overflow: ellipsis;
-    text-wrap: nowrap;
+    flex-shrink: 0;
     text-align: end;
     color: var(--accent);
     font-weight: 700;
 }
 
 .editIcon {
+    flex-shrink: 0;
     color: var(--text-primary);
 }
 

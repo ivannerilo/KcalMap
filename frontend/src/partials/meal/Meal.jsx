@@ -72,9 +72,9 @@ export default function Meal({ meal }) {
     }
 
     async function handleAddFood(item, quantity){
-        console.log(item);
+        console.log(item, quantity)
         try {
-            let response = await createFoodLog(item.food.id, quantity, mealState.id)
+            let response = await createFoodLog(item.id, quantity, mealState.id)
             setNewMealLog(response.result)
         } catch(e) {
             console.log("Erro!", e.message)

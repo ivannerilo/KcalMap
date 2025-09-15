@@ -22,7 +22,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
                 tokens = {}
                 tokens["refresh"] = str(refresh)
                 tokens["access"] = str(refresh.access_token)
-                print(tokens)
 
                 return (tokens)
 
@@ -61,7 +60,22 @@ class FoodLogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.FoodLog
-        fields = ['id', 'food', 'quantity']
+        fields = ['id', 'food', 'quantity', 'timestamp']
+
+class TemplateFoodForMealSerializer(serializers.ModelSerializer):
+    food = FoodSerializer(read_only=True)
+
+    class Meta:
+        model = models.TemplateFood
+        fields = ['id', 'food']
+
+class MealSerializer(serializers.ModelSerializer):
+    template_food = TemplateFoodForMealSerializer(read_only=True, many=True)
+    food_log = FoodLogSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = models.TemplateMeal
+        fields = ['id', 'name', 'template_food', 'food_log']
 
                         
 
