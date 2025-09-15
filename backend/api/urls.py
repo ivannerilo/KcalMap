@@ -15,15 +15,14 @@ urlpatterns = [
     path('api/template-food', views.template_food, name='template_food'),
     path("api/log", views.log, name='log'),
     path("api/meal", views.meal, name='meal'),
+    path('api/profile', views.profile, name='profile'),
 
 
     # GET Routes
-    path('api/calories', views.get_calories, name='get_calories'),
     path('api/global-food', views.get_global_foods, name='get_global_foods'),
 
     #POST Routes
     path('api/register', views.register, name='register'),
-    path('api/profile', views.profile, name='profile'),
 
     #DELETE Routes
 

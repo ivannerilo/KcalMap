@@ -16,6 +16,8 @@ export default function Meal({ meal }) {
         updateMeals(mealState)
     }, [mealState])
 
+    // Manipuladores de estado
+
     function setNewMealItem(mealItem) {
         setMealState((prevState) => {
             return {
@@ -29,9 +31,10 @@ export default function Meal({ meal }) {
     }
 
     function setNewMealLog(mealLog) {
+        console.log("mealLog", mealLog)
         setMealState((prevState) => {
             let newLogsArray = prevState.food_log.filter((item) => {
-                return item.food.id !== mealLog.food.id
+                return item.food.id !== mealLog
             })
 
             return {
@@ -44,12 +47,12 @@ export default function Meal({ meal }) {
         })
     }
 
-    function removeMealLog(mealLog) {
+    function updateOrRemoveLog(mealLog) {
         setMealState((prevState) => {
-            if (mealLog.deletedFoodId) {
+            if (typeof mealLog === "number") {
                 return {
                     ...prevState,
-                    food_log: prevState.food_log.filter((item) => item.food.id !== mealLog.deletedFoodId)
+                    food_log: prevState.food_log.filter((item) => item.food.id !== mealLog)
                 }
             }
 
@@ -57,7 +60,6 @@ export default function Meal({ meal }) {
                 return item.food.id !== mealLog.food.id
             })
             
-            console.log("Updated log", mealLog)
             const newState = {
                 ...prevState,
                 food_log: [
@@ -65,11 +67,12 @@ export default function Meal({ meal }) {
                     mealLog
                 ]
             }
-            console.log("newstate", newState)
             return newState
         }) 
 
     }
+
+    // Handlers
 
     async function handleAddFood(item, quantity){
         console.log(item, quantity)
@@ -84,7 +87,7 @@ export default function Meal({ meal }) {
     async function handleUpdateFood(item, quantity) {
         try {
             let response = await updateFoodLog(item.food.id, quantity, mealState.id)
-            setNewMealLog(response.result)
+            updateOrRemoveLog(response.result)
         } catch(e) {
             console.log("Erro!", e.message)
         }
@@ -93,7 +96,7 @@ export default function Meal({ meal }) {
     async function handleRemoveFood(item, quantity){
         try {
             let response = await deleteFoodLog(item.food.id, quantity, mealState.id)
-            removeMealLog(response.result)
+            updateOrRemoveLog(response.result)
         } catch(e) {
             console.log("Erro!", e.message)
         }
@@ -103,7 +106,7 @@ export default function Meal({ meal }) {
         mealState,
         setNewMealItem,
         setNewMealLog,
-        removeMealLog,
+        updateOrRemoveLog,
         handleAddFood,
         handleRemoveFood,
         handleUpdateFood,

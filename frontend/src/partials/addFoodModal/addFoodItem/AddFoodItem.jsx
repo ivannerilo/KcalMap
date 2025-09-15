@@ -9,7 +9,7 @@ import { MealContext } from "../../meal/Meal";
 
 export default function AddFoodItem({ item }){
     const meal = useContext(MealContext)
-    const [quantity, setQuantity] = useState(item.default_quantity);
+    const [quantity, setQuantity] = useState(item.food.default_quantity);
 
     return (
         <section className={styles.container}>

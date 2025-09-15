@@ -1,0 +1,29 @@
+from datetime import datetime
+
+# Models / Serializers
+from django.contrib.auth.models import User
+from api import models
+from api import serializers
+from api.exceptions import ServiceException
+
+def get_profile(data, user):
+    try:
+        return models.Profile.objects.get(user=user)
+    except Exception:
+        raise ServiceException("Failed to get this profile!")
+
+
+def create_profile(data, user):
+    try:
+        profile = models.Profile.objects.create(
+            user=user,
+            kg_weight=data['weight'],
+            cm_height=data['height'],
+            age=data['age'],
+            sex=data['sex'],
+            calories_goal=data['goal'],
+        )
+        profile.save()
+        return profile
+    except Exception:
+        raise ServiceException("Failed to create this profile!")

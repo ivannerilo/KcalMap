@@ -38,6 +38,7 @@ export function FoodContext({ children }) {
     }
 
     async function createFoodLog(foodId, quantity, mealId = null) {
+        console.log("demonhoDeQuantity", quantity);
         try {
             let response = await authFetch("http://localhost:8000/api/log", {
                 method: "POST",

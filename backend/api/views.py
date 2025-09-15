@@ -16,28 +16,13 @@ from .exceptions import ServiceException
 
 # OU TROCAR OS SUCCESS POR CÓDIGOS HTTP! ASSIM A REQUEST VEM OK OU NÃO!
 # OU IMPLEMENTAR OS 2, FODA-SE!
-
-@api_view(['GET'])
-def get_calories(request):
-    try:
-        profile = models.Profile.objects.get(user=request.user)
-        return Response({"result": profile.calories_goal}, status=200)
-    except:
-        return Response({"message": "Profile not find!"}, status=400)
      
 @api_view(['POST'])
 def register(request):
     try:
-        # Getting the request body data.
-        register_data = request.data # -> Dict]
-
-        # Creating new user in the database.
+        register_data = request.data
         new_user = User.objects.create_user(register_data["name"], register_data["email"], register_data["password"])
-
-        # Generating authentication tokens for the new user.
         token_pair = RefreshToken.for_user(new_user)
-
-        # Returning users tokens.
         return Response({"message": "User registered with success!", "tokens": {
             "refresh": str(token_pair),
             "access": str(token_pair.access_token),
@@ -60,59 +45,59 @@ def meal(request):
                 return Response({"result": serialized_meal.data}, status=201)
             case 'DELETE':
                 deleted_meal = services.delete_meal(request.data, request.user)
-                return Response({"result": deleted_meal['id']}, status=200)
+                return Response({"result": request.data['id']}, status=200)
     except ServiceException as e:
-        print(str(e))
+        print(f"ServiceException: {str(e)}")
         return Response({"message": str(e)}, status=400)
     except Exception:
         return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
     
-@api_view(['POST', 'DELETE', 'PUT'])
+@api_view(['POST', 'PUT', 'DELETE'])
 def log(request):
-    result = {}
     try:
         match request.method:
             case 'POST':
-                result = services.create_log(request.data, request.user)
-                return Response(result, status=201)
+                log = services.add_log(request.data, request.user)
+                serialized_log = serializers.FoodLogSerializer(instance=log)
+                return Response({"result": serialized_log.data}, status=201)
+            case 'PUT':
+                log = services.update_log(request.data, request.user)
+                if log == None:
+                    return Response({"result": request.data['foodId']}, status=200)
+                
+                serialized_log = serializers.FoodLogSerializer(instance=log)
+                return Response({"result": serialized_log.data}, status=201)
             case 'DELETE': 
                 result = services.delete_log(request.data, request.user)
-                return Response(result, status=200)
-            case 'PUT':
-                result = services.update_log(request.data, request.user)
-                return Response(result, status=200)
+                return Response({"result": request.data['foodId']}, status=200)
     except ServiceException as e:
-        print(str(e))
+        print(f"ServiceException: {str(e)}")
         return Response({"message": str(e)}, status=400)
     except Exception as e:
         return Response({"message": "Ocorreu um erro no servidor!"}, status=500) 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def profile(request):
     try:
-        data = request.data
-
-        profile = models.Profile.objects.create(
-            user=request.user,
-            kg_weight=data['weight'],
-            cm_height=data['height'],
-            age=data['age'],
-            sex=data['sex'],
-            calories_goal=data['goal'],
-        )
-        profile.save()
-        
-        return Response({"result": "Profile created with success"}, status=201)
-    except:
-        return Response({"message": "Failed to create the user profile!"}, status=400)
-
-
+        match request.method:
+            case "GET":
+                profile = models.Profile.objects.get(user=request.user)
+                serialized_profile = serializers.ProfileSerializer(instance=profile)
+                return Response({"result": serialized_profile.data}, status=200)
+            case "POST":
+                profile = services.create_profile(request.data, request.user)
+                serialized_profile = serializers.ProfileSerializer(instance=profile)
+                return Response({"result": serialized_profile.data}, status=201)
+    except ServiceException as e:
+        print(f"ServiceException: {str(e)}")
+        return Response({"message": str(e)}, status=400)
+    except Exception as e:
+        return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
     
 @api_view(['POST'])
 def template_food(request):
     try:
         data = request.data
-
         meal = models.TemplateMeal.objects.get(pk=data['mealId'])
         food = models.Food.objects.get(pk=data['foodId'])
         new_template_food = models.TemplateFood.objects.create(template_meal=meal, food=food)
@@ -136,7 +121,7 @@ def get_global_foods(request):
         return Response({"foods": global_foods}, status=200)
     except Exception:
         return Response({"message": "Failed to get the global foods!"}, status=400)
-    
+            
 
             
 

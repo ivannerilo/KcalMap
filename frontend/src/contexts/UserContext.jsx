@@ -20,7 +20,7 @@ export function UserContext({ children }){
     // Calories Functions
     async function getCaloriesGoal() {
         try {
-            let response = await authFetch("http://localhost:8000/api/calories", {
+            let response = await authFetch("http://localhost:8000/api/profile", {
                 method: "GET"
             })
             if (!response.ok) {
@@ -29,7 +29,8 @@ export function UserContext({ children }){
 
             let data = await response.json()
 
-            setCaloriesGoal(data.result)
+            console.log("Profile", data.result)
+            setCaloriesGoal(data.result.calories_goal)
         } catch(e) {
             console.log(e.message)
         }
@@ -57,7 +58,7 @@ export function UserContext({ children }){
 
             let data = await response.json()
 
-            setCaloriesGoal(goal);
+            setCaloriesGoal(data.result.calories_goal);
             return {ok: true, result: data.result}
         } catch(e) {
             return {ok: false, message: e.message}
@@ -79,8 +80,7 @@ export function UserContext({ children }){
     }
 
     useEffect(() => {
-        /* getCaloriesGoal(); */
-        setCaloriesGoal(3000)
+        getCaloriesGoal();
     }, [])
 
 

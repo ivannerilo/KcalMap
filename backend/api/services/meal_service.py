@@ -36,6 +36,6 @@ def delete_meal(data, user):
         meal = models.TemplateMeal.objects.get(pk=data['id'], user=user)    
         meal.delete()
 
-        return {"id": data['id']}
+        return None
     except Exception:
         return ServiceException("Failed to delete this meal!")
