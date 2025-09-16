@@ -5,7 +5,6 @@ function getRefreshToken() {
 }
 
 function setLocalRefreshToken(refreshToken) {
-    console.log("tirei do localStorage bro")
     localStorage.setItem("refresh", refreshToken);
 }
 
@@ -130,7 +129,6 @@ export function AuthenticateContext({ children }) {
         setIsAuthenticated(false);
         setLocalRefreshToken("");
         setAcessToken("");
-        window.location.reload();
     }
     
     useEffect(() => {

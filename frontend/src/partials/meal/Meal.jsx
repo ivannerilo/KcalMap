@@ -31,10 +31,11 @@ export default function Meal({ meal }) {
     }
 
     function setNewMealLog(mealLog) {
-        console.log("mealLog", mealLog)
         setMealState((prevState) => {
+            console.log("prevState",prevState)
+            console.log("mealLog", mealLog)
             let newLogsArray = prevState.food_log.filter((item) => {
-                return item.food.id !== mealLog
+                return item.food.id !== mealLog.food.id
             })
 
             return {
@@ -50,21 +51,26 @@ export default function Meal({ meal }) {
     function updateOrRemoveLog(mealLog) {
         setMealState((prevState) => {
             if (typeof mealLog === "number") {
+                const deletedLogId = mealLog
                 return {
                     ...prevState,
-                    food_log: prevState.food_log.filter((item) => item.food.id !== mealLog)
+                    food_log: prevState.food_log.filter((item) => item.food.id !== deletedLogId)
                 }
             }
 
-            let newLogsArray = prevState.food_log.filter((item) => {
-                return item.food.id !== mealLog.food.id
+
+
+            let newLogsArray = prevState.food_log.map((item) => {
+                if (item.food.id === mealLog.food.id){
+                    return mealLog
+                }
+                return item
             })
             
             const newState = {
                 ...prevState,
                 food_log: [
                     ...newLogsArray,
-                    mealLog
                 ]
             }
             return newState
@@ -74,8 +80,7 @@ export default function Meal({ meal }) {
 
     // Handlers
 
-    async function handleAddFood(item, quantity){
-        console.log(item, quantity)
+    async function handleAddLog(item, quantity){
         try {
             let response = await createFoodLog(item.food.id, quantity, mealState.id)
             setNewMealLog(response.result)
@@ -84,7 +89,7 @@ export default function Meal({ meal }) {
         }
     }
 
-    async function handleUpdateFood(item, quantity) {
+    async function handleUpdateLog(item, quantity) {
         try {
             let response = await updateFoodLog(item.food.id, quantity, mealState.id)
             updateOrRemoveLog(response.result)
@@ -93,9 +98,10 @@ export default function Meal({ meal }) {
         }
     }
 
-    async function handleRemoveFood(item, quantity){
+    async function handleDeleteLog(item){
         try {
-            let response = await deleteFoodLog(item.food.id, quantity, mealState.id)
+            let response = await deleteFoodLog(item.food.id, mealState.id)
+            console.log("Eu sou a poha de um int", response.result, typeof response.result)
             updateOrRemoveLog(response.result)
         } catch(e) {
             console.log("Erro!", e.message)
@@ -107,9 +113,9 @@ export default function Meal({ meal }) {
         setNewMealItem,
         setNewMealLog,
         updateOrRemoveLog,
-        handleAddFood,
-        handleRemoveFood,
-        handleUpdateFood,
+        handleAddLog,
+        handleDeleteLog,
+        handleUpdateLog,
     }
     return(
         <MealContext value={value}>

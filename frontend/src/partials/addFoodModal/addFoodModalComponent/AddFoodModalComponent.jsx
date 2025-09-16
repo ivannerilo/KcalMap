@@ -15,6 +15,9 @@ export default function AddFoodModalComponent({ setModalOpen }) {
     const [filteredItems, setFilteredItems] = useState([]);
     const [search, setSearch] = useState("")
 
+    const [openNewTemplateFood, setOpenNewTemplateFood] = useState()
+
+
     useEffect(() => {
         setFilteredItems(meal?.mealState?.template_food?.filter((item) => {
             const itemName = item.food.name.toLowerCase();
@@ -36,16 +39,25 @@ export default function AddFoodModalComponent({ setModalOpen }) {
                         <AddFoodItem key={index} item={item}/>
                     ))}
                 </section>
-                
-                <Button
-                    className={styles.button}
-                    onClick={() => setModalOpen(false)}    
-                >Fechar</Button>
+
+                <section className={styles.buttonSection}>
+                    <Button
+                        className={styles.button}
+                        onClick={() => setModalOpen(false)}    
+                    >Fechar</Button>
+                    <Button 
+                        className={styles.button}
+                        onClick={() => setOpenNewTemplateFood(!openNewTemplateFood)}
+                    >Add new template foods.</Button>
+                </section>
             </Container>
         </div>
     ), document.body);
 }
 
+
+
+// Talvez tenha que ser uma laizy list, e separar por categorias também, possibilidade do usuário criar novos alimentos
 
 {/* <button onClick={() => setIsAddNewTemplateFoodOpen(!isAddNewTemplateFoodOpen)}>Add new template foods.</button>
 {isAddNewTemplateFoodOpen && (

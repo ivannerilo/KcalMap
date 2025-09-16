@@ -38,7 +38,6 @@ export function FoodContext({ children }) {
     }
 
     async function createFoodLog(foodId, quantity, mealId = null) {
-        console.log("demonhoDeQuantity", quantity);
         try {
             let response = await authFetch("http://localhost:8000/api/log", {
                 method: "POST",
@@ -90,7 +89,7 @@ export function FoodContext({ children }) {
         }
     }
 
-    async function deleteFoodLog(foodId, quantity, mealId = null) {
+    async function deleteFoodLog(foodId, mealId = null) {
         try {
             let response = await authFetch("http://localhost:8000/api/log", {
                 method: "DELETE",
@@ -100,7 +99,6 @@ export function FoodContext({ children }) {
                 body: JSON.stringify({
                     foodId: foodId,
                     mealId: mealId,
-                    quantity: quantity,
                 })
             })
             

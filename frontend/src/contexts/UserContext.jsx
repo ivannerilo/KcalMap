@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, useContext } from "react";
+import { useEffect, useState, createContext, useContext, useMemo } from "react";
 import { useAuthenticate } from "./AuthenticateContext";
 import { useFetch } from "../hooks/useFetch"
 
@@ -13,7 +13,6 @@ export function UserContext({ children }){
     const { authFetch } = useFetch()
 
     // Calories States: 
-    const [calories, setCalories] = useState(300);
     const [caloriesGoal, setCaloriesGoal] = useState(0);
     const [logHistory, setLogHistory] = useState([])
 
@@ -66,22 +65,23 @@ export function UserContext({ children }){
     }
     
     
-    function calculateCalories(meals){
-        console.log("meals", meals)
+    const calories = useMemo(() => {
         if (meals) {
-            let cals = 0;
-            meals.forEach(meal => {
-                meal.food_log.forEach(log => {
-                    cals += parseFloat(log.quantity) * parseFloat(log.food.calories_per_unit)
+            let cals = meals.reduce((acc, meal) => {
+                meal.food_log.forEach((log) => {
+                    acc += parseFloat(log.quantity) * parseFloat(log.food.calories_per_unit)
                 })
-            });
-            setCalories(cals)
+                return acc
+            }, 0)
+            return cals
         }
-    }
+    }, [meals])
 
     useEffect(() => {
-        getCaloriesGoal();
-    }, [])
+        if (isAuthenticated){
+            getCaloriesGoal();
+        }
+    }, [isAuthenticated])
 
 
 
@@ -96,10 +96,8 @@ export function UserContext({ children }){
             }
             
             let data = await response.json()
-            console.log("responseGetMeals", data);
     
             setMeals(data.result);
-            calculateCalories(data.result);
             setIsLoading(false);
         } catch(error) {
             console.log("error", error)
@@ -123,7 +121,6 @@ export function UserContext({ children }){
             }
             
             let data = await response.json()
-            console.log("responseCreateMeals", data);
 
             await getMeals()
 
@@ -151,7 +148,6 @@ export function UserContext({ children }){
             }
             
             let data = await response.json()
-            console.log("responseDeleteMeals", data);
 
             await getMeals()
 
@@ -200,11 +196,6 @@ export function UserContext({ children }){
     }
 
     useEffect(() => {
-        calculateCalories(meals)
-    }, [meals])
-
-
-    useEffect(() => {
         async function startMeals() {
             if (isAuthenticated) {
                 await getMeals();  
@@ -225,7 +216,6 @@ export function UserContext({ children }){
 
         //Calories 
         calories,
-        calculateCalories,
         caloriesGoal,
         createProfile,
     }

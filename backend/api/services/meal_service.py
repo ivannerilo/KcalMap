@@ -12,7 +12,7 @@ def get_meal(data, user):
     try:
         today_logs_cte = models.FoodLog.objects.filter(
             timestamp__date=datetime.now().date()
-        )
+        ).order_by('-timestamp')
         meals = models.TemplateMeal.objects.filter(user=user.pk)
         meals = meals.prefetch_related(
             'template_food',

@@ -36,7 +36,6 @@ export default function ProfileForm() {
 
     async function handleregister(event) {
         event.preventDefault();
-        console.log(`wheight: ${weight} height: ${height} age: ${age} sex: ${sex}, secaloriesGoal: ${caloriesGoal}`);
         
         let response = await createProfile(height, weight, sex, age, caloriesGoal);
         if (!response.ok){

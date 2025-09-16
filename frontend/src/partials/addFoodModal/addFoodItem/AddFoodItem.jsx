@@ -24,7 +24,7 @@ export default function AddFoodItem({ item }){
                 <span className={styles.unit}>{item.food.unit}</span>
                 <Button 
                     className={styles.button}
-                    onClick={(e) => meal.handleAddFood(item, quantity)}
+                    onClick={(e) => meal.handleAddLog(item, quantity)}
                 >+</Button>
             </div>
         </section>

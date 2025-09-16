@@ -18,7 +18,6 @@ export default function Login({}) {
     async function handleLogin(event) {
         event.preventDefault()
         let response = await login(email, password);
-        console.log(response)
     }
     
     if (!isAuthenticated) {

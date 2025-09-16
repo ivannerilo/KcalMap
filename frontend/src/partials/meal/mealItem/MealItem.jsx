@@ -1,6 +1,6 @@
 import TimelineBullet from "../../../components/timelineBullet/TimelineBullet"
 import styles from "./MealItem.module.css"
-import { FiEdit2, FiCheck , FiX } from "react-icons/fi";
+import { FiEdit2, FiCheck , FiX, FiTrash2  } from "react-icons/fi";
 import { useContext, useState } from "react";
 import Input from "../../../components/form/input/Input";
 import { MealContext } from "../Meal";
@@ -17,7 +17,7 @@ export default function MealItem({ item }){
             setOpenEditMode(false);
         } else {
             try{
-                meal.handleUpdateFood(item, quantity);
+                meal.handleUpdateLog(item, quantity);
                 setOpenEditMode(false);
             } catch(e){
                 console.log(e.message);
@@ -43,7 +43,7 @@ export default function MealItem({ item }){
                 {!openEditMode ? 
                     <>
                         <span className={styles.calories}>
-                            {calories} Kcal
+                            {calories.toFixed(1)} Kcal
                         </span> 
                         <FiEdit2 
                             onClick={() => setOpenEditMode((prev) => !prev)}
@@ -59,6 +59,10 @@ export default function MealItem({ item }){
                         <FiX
                             className={styles.editIcon}
                             onClick={() => setOpenEditMode(false)}
+                        />
+                        <FiTrash2
+                            className={styles.editIcon}
+                            onClick={() => meal.handleDeleteLog(item)}
                         />
                     </>
                 }
