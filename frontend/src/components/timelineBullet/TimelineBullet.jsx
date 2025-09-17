@@ -1,4 +1,4 @@
-import styles from "./TimelineBullet.module.css";
+import styles from "components/timelineBullet/TimelineBullet.module.css";
 
 export default function TimelineBullet({ className, ...attributes }) {
     return (

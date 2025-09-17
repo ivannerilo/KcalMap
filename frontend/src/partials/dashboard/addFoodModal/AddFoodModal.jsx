@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { MealContext } from "../meal/Meal";
-import { useUser } from "../../contexts/UserContext";
-import { useFood } from "../../contexts/FoodContext";
-import AddFoodModalComponent from "./addFoodModalComponent/AddFoodModalComponent";
+import { MealContext } from "partials/dashboard/meal/Meal";
+import { useUser } from "contexts/UserContext";
+import { useFood } from "contexts/FoodContext";
+import AddFoodModalComponent from "partials/dashboard/addFoodModal/addFoodModalComponent/AddFoodModalComponent";
 
 const AddFoodModalContext = createContext();
 

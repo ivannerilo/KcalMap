@@ -1,4 +1,4 @@
-import styles from "./Button.module.css";
+import styles from "components/button/Button.module.css";
 
 export default function Button({ children, className, ...buttonAttributes}) {
     return (

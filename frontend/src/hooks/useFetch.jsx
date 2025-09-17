@@ -1,5 +1,5 @@
 import { data } from "react-router-dom";
-import { useAuthenticate } from "../contexts/AuthenticateContext"
+import { useAuthenticate } from "contexts/AuthenticateContext"
 import {createContext, useContext} from 'react'
 
 const InternalContext = createContext();

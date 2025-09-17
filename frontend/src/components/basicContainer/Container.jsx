@@ -1,4 +1,4 @@
-import styles from "./Container.module.css";
+import styles from "components/basicContainer/Container.module.css";
 
 export default function Container({ children, className, ...containerAttributes}) {
     return (

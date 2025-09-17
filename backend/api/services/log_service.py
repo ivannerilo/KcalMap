@@ -13,6 +13,8 @@ def add_log(data, user):
             food = models.Food.objects.get(pk=data['foodId'])
             same_food_log = get_same_food_log(meal, food, user)
 
+            add_food_to_template(meal, food)
+
             if same_food_log:
                 same_food_log.quantity = int(same_food_log.quantity) + int(data['quantity'])
                 same_food_log.save()
@@ -75,3 +77,9 @@ def get_same_food_log(meal, food, user):
         ).first()
     except Exception:
         raise ServiceException("Failed to gather log data!")
+
+def add_food_to_template(meal, food):
+    template_food = models.TemplateFood.objects.filter(template_meal=meal, food=food)
+    if not template_food:
+        new_template_food = models.TemplateFood.objects.create(template_meal=meal, food=food)
+        new_template_food.save()

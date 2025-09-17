@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Button from "../../components/button/Button";
-import styles from "./MobileHeader.module.css"
-import NewMeal from "../meal/newMeal/NewMeal";
+import Button from "components/button/Button";
+import styles from "partials/dashboard/mobileHeader/MobileHeader.module.css"
+import NewMeal from "partials/dashboard/meal/newMeal/NewMeal";
 
 export default function() {
     const [isFormOpen, setIsFormOpen] = useState(false);

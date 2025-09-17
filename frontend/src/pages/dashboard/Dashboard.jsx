@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import CaloriesDash from "../../partials/caloriesDash/CaloriesDash";
-import NewMeal from "../../partials/meal/newMeal/NewMeal";
-import Meal from "../../partials/meal/Meal";
+import CaloriesDash from "partials/dashboard/caloriesDash/CaloriesDash";
+import Meal from "partials/dashboard/meal/Meal";
 import styles from "./Dashboard.module.css";
-import { useAuthenticate } from "../../contexts/AuthenticateContext";
-import { useUser } from "../../contexts/UserContext";
-import { useWindow } from "../../contexts/WindowContext";
-import MobileHeader from "../../partials/mobileHeader/MobileHeader";
+import { useAuthenticate } from "contexts/AuthenticateContext";
+import { useUser } from "contexts/UserContext";
+import { useWindow } from "contexts/WindowContext";
+import MobileHeader from "partials/dashboard/mobileHeader/MobileHeader";
 
 export default function Dashboard() {
     const [openNewMeal, setOpenNewMeal] = useState(false);

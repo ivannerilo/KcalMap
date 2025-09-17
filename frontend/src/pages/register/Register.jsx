@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useRef } from "react"
-import {useAuthenticate} from "../../contexts/AuthenticateContext";
+import {useAuthenticate} from "contexts/AuthenticateContext";
 import styles from "./Register.module.css"
-import FormContainer from "../../components/form/formContainer/FormContainer";
-import Input from "../../components/form/input/Input";
-import Button from "../../components/button/Button";
+import FormContainer from "components/form/formContainer/FormContainer";
+import Input from "components/form/input/Input";
+import Button from "components/button/Button";
 
 export default function Register() {
     const { register, isAuthenticated } = useAuthenticate();

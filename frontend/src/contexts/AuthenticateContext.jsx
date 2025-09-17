@@ -13,7 +13,7 @@ const InternalContext = createContext();
 export function AuthenticateContext({ children }) {
     const [accessToken, setAcessToken] = useState("");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isNewUser, setIsNewUser] = useState(false);
 
     

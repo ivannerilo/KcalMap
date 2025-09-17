@@ -1,16 +1,16 @@
-import styles from "../../meal/mealComponent/MealComponent.module.css";
+import styles from "partials/dashboard/meal/mealComponent/MealComponent.module.css";
 
 import { useContext, useEffect, useState } from "react";
-import { useUser } from "../../../contexts/UserContext";
-import { MealContext } from "../../meal/Meal";
-import Container from "../../../components/basicContainer/Container";
-import AddFoodModal from "../../addFoodModal/AddFoodModal";
+import { useUser } from "contexts/UserContext";
+import { MealContext } from "partials/dashboard/meal/Meal";
+import Container from "components/basicContainer/Container";
+import AddFoodModal from "partials/dashboard/addFoodModal/AddFoodModal";
 
 import { FiTrash2, FiChevronDown  } from "react-icons/fi";
-import BreakLine from "../../../components/breakLine/BreakLine";
-import Button from "../../../components/button/Button";
-import TimelineBullet from "../../../components/timelineBullet/TimelineBullet";
-import MealItem from "../mealItem/MealItem";
+import BreakLine from "components/breakLine/BreakLine";
+import Button from "components/button/Button";
+import TimelineBullet from "components/timelineBullet/TimelineBullet";
+import MealItem from "partials/dashboard/meal/mealItem/MealItem";
 
 export default function MealComponent() {
     const { mealState } = useContext(MealContext);

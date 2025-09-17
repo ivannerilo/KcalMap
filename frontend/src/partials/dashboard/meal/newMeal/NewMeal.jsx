@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import styles from "./NewMeal.module.css";
-import { useUser } from "../../../contexts/UserContext";
-import Button from "./../../../components/button/Button";
-import Input from "./../../../components/form/input/Input";
-import Container from "../../../components/basicContainer/Container";
+import styles from "partials/dashboard/meal/newMeal/NewMeal.module.css";
+import { useUser } from "contexts/UserContext";
+import Button from "components/button/Button";
+import Input from "components/form/input/Input";
+import Container from "components/basicContainer/Container";
 
 export default function NewMeal({ setIsFormOpen }) {
     const [mealName, setMealName] = useState("");

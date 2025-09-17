@@ -9,13 +9,6 @@ from . import models
 from . import serializers
 from . import services
 from .exceptions import ServiceException
-
-# APLICAR O PADRÃO NAS RESPONSES 
-# SUCCESS TRUE & RESULT
-# SUCCESS FALSE & MESSAGE
-
-# OU TROCAR OS SUCCESS POR CÓDIGOS HTTP! ASSIM A REQUEST VEM OK OU NÃO!
-# OU IMPLEMENTAR OS 2, FODA-SE!
      
 @api_view(['POST'])
 def register(request):
@@ -35,17 +28,21 @@ def register(request):
 def meal(request):
     try:
         match request.method:
+
             case 'GET':
                 meals = services.get_meal(request.data, request.user)
                 serialized_meals = serializers.CompleteTemplateMealSerializer(instance=meals, many=True)
                 return Response({"result": serialized_meals.data}, status=200)
+
             case 'POST':
                 new_meal = services.create_meal(request.data, request.user)
                 serialized_meal = serializers.CompleteTemplateMealSerializer(instance=new_meal)
                 return Response({"result": serialized_meal.data}, status=201)
+
             case 'DELETE':
                 deleted_meal = services.delete_meal(request.data, request.user)
                 return Response({"result": request.data['id']}, status=200)
+
     except ServiceException as e:
         print(f"ServiceException: {str(e)}")
         return Response({"message": str(e)}, status=400)
@@ -56,10 +53,12 @@ def meal(request):
 def log(request):
     try:
         match request.method:
+
             case 'POST':
                 log = services.add_log(request.data, request.user)
                 serialized_log = serializers.FoodLogSerializer(instance=log)
                 return Response({"result": serialized_log.data}, status=201)
+
             case 'PUT':
                 log = services.update_log(request.data, request.user)
                 if log == None:
@@ -67,9 +66,11 @@ def log(request):
                 
                 serialized_log = serializers.FoodLogSerializer(instance=log)
                 return Response({"result": serialized_log.data}, status=201)
+
             case 'DELETE': 
                 result = services.delete_log(request.data, request.user)
                 return Response({"result": request.data['foodId']}, status=200)
+
     except ServiceException as e:
         print(f"ServiceException: {str(e)}")
         return Response({"message": str(e)}, status=400)
@@ -80,58 +81,62 @@ def log(request):
 def profile(request):
     try:
         match request.method:
+
             case "GET":
                 profile = models.Profile.objects.get(user=request.user)
                 serialized_profile = serializers.ProfileSerializer(instance=profile)
                 return Response({"result": serialized_profile.data}, status=200)
+
             case "POST":
                 profile = services.create_profile(request.data, request.user)
                 serialized_profile = serializers.ProfileSerializer(instance=profile)
                 return Response({"result": serialized_profile.data}, status=201)
+
     except ServiceException as e:
         print(f"ServiceException: {str(e)}")
         return Response({"message": str(e)}, status=400)
     except Exception as e:
         return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
     
+@api_view(['GET'])
+def food(request):
+    try:
+        match request.method:
+
+            case "GET":
+                global_foods_obj = models.Food.objects.filter(is_global=True)
+
+                global_foods = []
+                for food in global_foods_obj:
+                    serialized_food = serializers.FoodSerializer(instance=food)
+                    global_foods.append(serialized_food.data)
+
+                return Response({"result": global_foods}, status=200)
+
+    except ServiceException as e:
+        print(f"ServiceException: {str(e)}")
+        return Response({"message": str(e)}, status=400)
+    except Exception as e:
+        return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
+
 @api_view(['POST'])
 def template_food(request):
     try:
-        data = request.data
-        meal = models.TemplateMeal.objects.get(pk=data['mealId'])
-        food = models.Food.objects.get(pk=data['foodId'])
-        new_template_food = models.TemplateFood.objects.create(template_meal=meal, food=food)
-        new_template_food.save()
-        
-        result = serializers.FoodSerializer(instance=new_template_food.food)
-        return Response({"result": result.data}, status=201)
-    except Exception:
-        return Response({"message": "Failed to create template food!"}, status=400)
+        match request.method:
+
+            case "POST":
+                data = request.data
+                meal = models.TemplateMeal.objects.get(pk=data['mealId'])
+                food = models.Food.objects.get(pk=data['foodId'])
+                new_template_food = models.TemplateFood.objects.create(template_meal=meal, food=food)
+                new_template_food.save()
+                
+                result = serializers.FoodSerializer(instance=new_template_food.food)
+                return Response({"result": result.data}, status=201)
+
+    except ServiceException as e:
+        print(f"ServiceException: {str(e)}")
+        return Response({"message": str(e)}, status=400)
+    except Exception as e:
+        return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
             
-@api_view(['GET'])
-def get_global_foods(request):
-    try:
-        global_foods_obj = models.Food.objects.filter(is_global=True)
-
-        global_foods = []
-        for food in global_foods_obj:
-            serialized_food = serializers.FoodSerializer(instance=food)
-            global_foods.append(serialized_food.data)
-
-        return Response({"foods": global_foods}, status=200)
-    except Exception:
-        return Response({"message": "Failed to get the global foods!"}, status=400)
-            
-
-            
-
-            
-
-        
-        
-
-
-
-
-
-

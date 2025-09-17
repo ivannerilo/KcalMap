@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Dashboard from './dashboard/Dashboard';
-import Login from './login/Login';
-import Register from './register/Register';
-import AuthenticationLayout from '../layouts/AuthenticationLayout';
+import Dashboard from 'pages/dashboard/Dashboard';
+import Login from 'pages/login/Login';
+import Register from 'pages/register/Register';
+import AuthenticationLayout from 'layouts/AuthenticationLayout';
 import './App.css';
-import ProfileForm from './profileForm/ProfileForm';
-import ProfileFormLayout from './profileForm/ProfileFormLayout';
-import SidebarLayout from '../layouts/sidebarLayout/SidebarLayout';
-import {AuthenticateContext} from '../contexts/AuthenticateContext';
-import { UserContext } from '../contexts/UserContext';
-import { FetchContext } from '../hooks/useFetch';
-import { FoodContext } from '../contexts/FoodContext';
-import WindowContext from '../contexts/WindowContext';
+import ProfileForm from 'pages/profileForm/ProfileForm';
+import ProfileFormLayout from 'pages/profileForm/ProfileFormLayout';
+import SidebarLayout from 'layouts/sidebarLayout/SidebarLayout';
+import {AuthenticateContext} from 'contexts/AuthenticateContext';
+import { UserContext } from 'contexts/UserContext';
+import { FetchContext } from 'hooks/useFetch';
+import { FoodContext } from 'contexts/FoodContext';
+import WindowContext from 'contexts/WindowContext';
 
 
 export default function App() {

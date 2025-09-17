@@ -1,35 +1,20 @@
 import { createContext, useContext, useState } from "react";
-import { useFetch } from "../hooks/useFetch";
+import { useFetch } from "hooks/useFetch";
 
 const InternalContext = createContext()
 
 export function FoodContext({ children }) {
     const { authFetch } = useFetch()
 
-    async function getUserFoods() {
+    async function getGlobalFoods() {
         try {
             let response = await authFetch("http://localhost:8000/api/food")
             
-            if (!response.ok) { //melhorar esse error handling aqui.
-                throw Error("Fail to fetch meals." + response.message);
-            }
-    
-            let data = await response.json()
-            return data
-        } catch(e) {
-            throw Error(e.message)
-        }
-    }
-
-    async function getGlobalFoods() {
-        try {
-            let response = await authFetch("http://localhost:8000/api/global-food")
             
-
             if (!response.ok) { //melhorar esse error handling aqui.
                 throw Error("Fail to fetch meals." + response.message);
             }
-    
+            
             let data = await response.json()
             return data
         } catch(e) {
@@ -117,8 +102,7 @@ export function FoodContext({ children }) {
 
 
     const value = {
-        getGlobalFoods, 
-        getUserFoods, 
+        getGlobalFoods,  
         createFoodLog, 
         deleteFoodLog,
         updateFoodLog,

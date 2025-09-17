@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthenticate } from "../../contexts/AuthenticateContext";
+import { useAuthenticate } from "contexts/AuthenticateContext";
 
 
 export default function ProfileFormWrapper() {

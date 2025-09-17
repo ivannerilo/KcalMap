@@ -1,10 +1,10 @@
 import { Link, Navigate } from "react-router-dom"
 import { useState, useRef } from "react"
-import { useAuthenticate } from "../../contexts/AuthenticateContext";
-import Input from "../../components/form/input/Input";
-import FormContainer from "../../components/form/formContainer/FormContainer";
+import { useAuthenticate } from "contexts/AuthenticateContext";
+import Input from "components/form/input/Input";
+import FormContainer from "components/form/formContainer/FormContainer";
 import styles from "./Login.module.css"
-import Button from "../../components/button/Button";
+import Button from "components/button/Button";
 
 export default function Login({}) {
     const { isAuthenticated, login } = useAuthenticate();

@@ -1,6 +1,6 @@
-import { useFood } from "../../contexts/FoodContext";
-import { useUser } from "../../contexts/UserContext";
-import MealComponent from "./mealComponent/MealComponent";
+import { useFood } from "contexts/FoodContext";
+import { useUser } from "contexts/UserContext";
+import MealComponent from "partials/dashboard/meal/mealComponent/MealComponent";
 import { createContext, useEffect, useState } from 'react'
 
 const MealContext = createContext()
@@ -82,7 +82,7 @@ export default function Meal({ meal }) {
 
     async function handleAddLog(item, quantity){
         try {
-            let response = await createFoodLog(item.food.id, quantity, mealState.id)
+            let response = await createFoodLog(item.id, quantity, mealState.id)
             setNewMealLog(response.result)
         } catch(e) {
             console.log("Erro!", e.message)
@@ -91,7 +91,7 @@ export default function Meal({ meal }) {
 
     async function handleUpdateLog(item, quantity) {
         try {
-            let response = await updateFoodLog(item.food.id, quantity, mealState.id)
+            let response = await updateFoodLog(item.id, quantity, mealState.id)
             updateOrRemoveLog(response.result)
         } catch(e) {
             console.log("Erro!", e.message)
@@ -100,7 +100,7 @@ export default function Meal({ meal }) {
 
     async function handleDeleteLog(item){
         try {
-            let response = await deleteFoodLog(item.food.id, mealState.id)
+            let response = await deleteFoodLog(item.id, mealState.id)
             console.log("Eu sou a poha de um int", response.result, typeof response.result)
             updateOrRemoveLog(response.result)
         } catch(e) {

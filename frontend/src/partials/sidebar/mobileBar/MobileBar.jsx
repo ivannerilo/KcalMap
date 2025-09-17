@@ -1,4 +1,4 @@
-import styles from "./MobileBar.module.css"
+import styles from "partials/sidebar/mobileBar/MobileBar.module.css"
 import { FiUser, FiUsers, FiBarChart2 } from "react-icons/fi";
 import { CiForkAndKnife } from "react-icons/ci";
 

@@ -1,6 +1,6 @@
 import { useEffect, useState, createContext, useContext, useMemo } from "react";
-import { useAuthenticate } from "./AuthenticateContext";
-import { useFetch } from "../hooks/useFetch"
+import { useAuthenticate } from "contexts/AuthenticateContext";
+import { useFetch } from "hooks/useFetch"
 
 const InternalContext = createContext()
 
@@ -28,7 +28,6 @@ export function UserContext({ children }){
 
             let data = await response.json()
 
-            console.log("Profile", data.result)
             setCaloriesGoal(data.result.calories_goal)
         } catch(e) {
             console.log(e.message)
