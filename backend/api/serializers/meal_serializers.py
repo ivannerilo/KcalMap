@@ -4,6 +4,13 @@ from rest_framework import serializers
 from .template_food_serializers import TemplateFoodForMealSerializer
 from .log_serializers import FoodLogSerializer
 
+class MealWithLogsSerializer(serializers.ModelSerializer):
+    food_log = FoodLogSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = models.TemplateMeal
+        fields = ['id', 'name', 'food_log']
+
 
 class CompleteTemplateMealSerializer(serializers.ModelSerializer):
     template_food = TemplateFoodForMealSerializer(read_only=True, many=True)

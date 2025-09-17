@@ -20,4 +20,5 @@ urlpatterns = [
     path("api/log", views.log, name='log'),
     path("api/meal", views.meal, name='meal'),
     path('api/profile', views.profile, name='profile'),
+    path('api/meal-template-food/<int:mealId>', views.meal_template_food, name='meal_template_food'),
 ]

@@ -98,7 +98,47 @@ export function FoodContext({ children }) {
             throw Error(e.message)
         }
     }
-    
+
+    async function getTemplateFoods(mealId, debounceSearch = null, page = 0) {
+
+        try {
+            let response;
+            if (debounceSearch) {
+                response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        debounceSearch: debounceSearch,
+                    })
+                })
+            } else if (page > 0) {
+                response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        page: page,
+                    })
+                })
+            }
+            else {
+                response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId)
+            }
+
+            if (!response.ok){
+                throw Error(response.message)
+            }
+
+            let data = await response.json()
+
+            return data 
+        } catch (e) {
+            throw Error(e.message)
+        }
+    }
 
 
     const value = {
@@ -106,6 +146,7 @@ export function FoodContext({ children }) {
         createFoodLog, 
         deleteFoodLog,
         updateFoodLog,
+        getTemplateFoods,
     }
 
     return (

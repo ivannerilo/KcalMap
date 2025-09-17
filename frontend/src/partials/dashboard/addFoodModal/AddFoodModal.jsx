@@ -8,35 +8,43 @@ const AddFoodModalContext = createContext();
 
 export default function AddFoodModal(props){
     const meal = useContext(MealContext)
-    const meals = useUser()
-    const { getGlobalFoods } = useFood()
+    const { getTemplateFoods } = useFood()
+    const [foods, setFoods] = useState([])
 
-    const [foodOptions, setFoodOptions] = useState([])
-    const [isAddNewTemplateFoodOpen, setIsAddNewTemplateFoodOpen] = useState()
-    const [newTemplateFoodId, setNewTemplateFoodId] = useState()
-
-
-    // adição de novas template foods
-    async function handleSubmit(e) {
-        try {
-            e.preventDefault()
-            let response = await meals.addTemplateFood(newTemplateFoodId, meal.mealState.id)
-            meal.setNewMealItem(response.result)
-        } catch(e) {
-            console.log("Erro!", e.message)
-        }
+    async function getFoods() {
+        let response = await getTemplateFoods(meal.mealState.id)
+        setFoods(response.result)
     }
 
+    async function searchFoods(debounceSearch) {
+        let response = await getTemplateFoods(meal.mealState.id, debounceSearch)
+        setFoods(prev => ({
+            ...prev,
+            global_foods: response.result.searched_foods
+        }))
+    }
+
+    async function loadPage(pageNum){
+        let response = await getTemplateFoods(meal.mealState.id, null, pageNum)
+        setFoods(prev => ({
+            ...prev,
+            global_foods: [
+                ...prev.global_foods,
+                response.result.searched_foods
+            ]
+        }))
+    }
+
+
     useEffect(() => {
-        async function setFoods() {
-            let response = await getGlobalFoods()
-            setFoodOptions(response.foods)
-        }
-        setFoods()
+        getFoods()
     }, [])
 
     const value = {
-        handleSubmit,
+        foods,
+        searchFoods,
+        getFoods,
+        loadPage,
     }
 
     return (

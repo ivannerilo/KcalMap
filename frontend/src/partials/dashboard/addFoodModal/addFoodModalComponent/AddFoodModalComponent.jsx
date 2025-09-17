@@ -6,7 +6,6 @@ import {createPortal} from "react-dom";
 import Container from "components/basicContainer/Container";
 import Input from "components/form/input/Input";
 import AddFoodItem from "partials/dashboard/addFoodModal/addFoodItem/AddFoodItem";
-import GlobalFoodItem from "partials/dashboard/addFoodModal/globalFoodItem/GlobalFoodItem";
 import BreakLine from "components/breakLine/BreakLine";
 import Button from "components/button/Button";
 import { useFood } from "contexts/FoodContext";
@@ -14,57 +13,84 @@ import { useDebounce } from "hooks/useDebounceSearch";
 
 
 export default function AddFoodModalComponent({ setModalOpen }) {
-    const meal = useContext(MealContext);
-    const { getGlobalFoods } = useFood()
     const [search, setSearch] = useState("")
-    const [globalItens, setGlobalItens] = useState();
-    
+    const { foods, searchFoods, getFoods, loadPage } = useContext(AddFoodModalContext)
+    const [isInfiniteScroll, setIsInfiniteScroll] = useState(false)
+    const [nextPage, setNextPage] = useState(1)
+    const infiniteScrollRef = useRef(null)
     const debounceSearch = useDebounce(search, 300)
 
-    useEffect(() => {
-        async function getFoodOptions() {
-            const response = await getGlobalFoods();
-            setGlobalItens(response.result);
+    
+    function handleScroll(e) {
+        const { scrollTop, clientHeight, scrollHeight } = e.target
+        if (scrollTop + clientHeight >= scrollHeight - 5) {
+            setIsInfiniteScroll(true)
+        } else {
+            setIsInfiniteScroll(false)
         }
-        getFoodOptions();
-    }, [])
-
-    const displayedItens = useMemo(() => {
-        const favFoodIds = meal?.mealState?.template_food.flatMap(
-            (item) => item.food.id
-        )
-        let favs = meal?.mealState?.template_food.map(
-            (item) => item.food
-        )
-        favs = favs.filter(
-            (item) => item.name.includes(debounceSearch)
-        )
-        const global = globalItens ? globalItens.filter(
-            (item) => !favFoodIds.includes(item.id) && item.name.includes(debounceSearch)
-        ) : []
-
-        const config = [
-            {
-                id: 0,
-                title: "Favoritos"
-            },
-            ...favs,
-            {
-                id: 0,
-                title: "Global"
-            },
-            ...global
-        ]
-
-        return config.map((item, index) => {
-            if (item) {
-                if (item.id === 0) {
-                    return <span>{item.title}</span>
+    }
+    
+    const displayedItens = useMemo(() => {        
+        if (foods && foods.template_foods && foods.global_foods){
+            let config = [];
+            
+            const templateFoods = foods.template_foods.filter(food => food.name.toLowerCase().includes(debounceSearch.toLowerCase()))
+            
+            if (templateFoods.length > 0){
+                config = [
+                    {
+                        title: "Favoritos"
+                    },
+                    ...templateFoods,
+                ]
+            } 
+            
+            if (foods.global_foods.length > 0){
+                config = [
+                    ...config,
+                    {
+                        title: "Global"
+                    }, 
+                    ...foods.global_foods
+                ]
+            }
+            
+            return config.map((item, index) => {
+                if (item) {
+                    if (item.title) {
+                        return <span>{item.title}</span>
+                    }
+                    return <AddFoodItem key={index} item={item}/>
                 }
-                return <AddFoodItem key={index} item={item}/>
+            })
+        }
+        return []
+    }, [foods])
+    
+    useEffect(() => {
+        if (debounceSearch){
+            searchFoods(debounceSearch)
+        } else {
+            getFoods()
+        }
+    }, [debounceSearch])
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(([ entry ]) => {
+            if (entry.isIntersecting){
+                setIsInfiniteScroll(true)
+                loadPage(nextPage)
+                setNextPage((prev) => prev + 1)
             }
         })
-    }, [debounceSearch, globalItens, meal.mealState.template_food])
+
+        observer.observe(infiniteScrollRef.current)
+
+        return () => {
+            observer.disconnect()
+        }
+    }, [])
+
 
     return createPortal((
         <div className={styles.overlay}>
@@ -75,8 +101,9 @@ export default function AddFoodModalComponent({ setModalOpen }) {
                     onChange={(e) => setSearch(e.target.value)}
                 />
                 <BreakLine />
-                <section className={styles.foodItems}>
+                <section className={styles.foodItems} onScroll={handleScroll}>
                     {displayedItens}
+                    <div ref={infiniteScrollRef}></div>
                 </section>
 
                 <section className={styles.buttonSection}>
