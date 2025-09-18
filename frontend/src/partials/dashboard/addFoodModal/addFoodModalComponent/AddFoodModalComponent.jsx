@@ -14,21 +14,14 @@ import { useDebounce } from "hooks/useDebounceSearch";
 
 export default function AddFoodModalComponent({ setModalOpen }) {
     const [search, setSearch] = useState("")
-    const { foods, searchFoods, getFoods, loadPage } = useContext(AddFoodModalContext)
+    const { foods, searchFoods, loadPage } = useContext(AddFoodModalContext)
     const [isInfiniteScroll, setIsInfiniteScroll] = useState(false)
-    const [nextPage, setNextPage] = useState(1)
+    const [nextPage, setNextPage] = useState(2) //  gambia
     const infiniteScrollRef = useRef(null)
     const debounceSearch = useDebounce(search, 300)
 
-    
-    function handleScroll(e) {
-        const { scrollTop, clientHeight, scrollHeight } = e.target
-        if (scrollTop + clientHeight >= scrollHeight - 5) {
-            setIsInfiniteScroll(true)
-        } else {
-            setIsInfiniteScroll(false)
-        }
-    }
+    console.log("infiniteScrollRef", infiniteScrollRef.current)
+
     
     const displayedItens = useMemo(() => {        
         if (foods && foods.template_foods && foods.global_foods){
@@ -66,30 +59,43 @@ export default function AddFoodModalComponent({ setModalOpen }) {
         }
         return []
     }, [foods])
+
+    function handleClick() {
+        loadPage(nextPage)
+        setNextPage((prev) => prev + 1)
+    }
     
     useEffect(() => {
         if (debounceSearch){
             searchFoods(debounceSearch)
         } else {
-            getFoods()
+            loadPage()
         }
     }, [debounceSearch])
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(([ entry ]) => {
-            if (entry.isIntersecting){
-                setIsInfiniteScroll(true)
-                loadPage(nextPage)
-                setNextPage((prev) => prev + 1)
-            }
-        })
-
-        observer.observe(infiniteScrollRef.current)
-
-        return () => {
-            observer.disconnect()
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (displayedItens) {
+    //         const observer = new IntersectionObserver(([ entry ]) => {
+    //             console.log(entry)
+    //             if (entry.isIntersecting ){
+    //                 console.log("isIntersecting")
+    //                 setIsInfiniteScroll(true)
+    //                 loadPage(nextPage)
+    //                 setNextPage((prev) => prev + 1)
+    //             }
+    //         }, {
+    //             root: null,
+    //             rootMargin: '0px',
+    //             threshold: 0.10
+    //         })
+    
+    //         observer.observe(infiniteScrollRef.current)
+    
+    //         return () => {
+    //             observer.disconnect()
+    //         }
+    //     }
+    // }, [])
 
 
     return createPortal((
@@ -100,10 +106,11 @@ export default function AddFoodModalComponent({ setModalOpen }) {
                     placeholder={"Busque por um alimento: "}
                     onChange={(e) => setSearch(e.target.value)}
                 />
+                <button onClick={handleClick}>+</button>
                 <BreakLine />
-                <section className={styles.foodItems} onScroll={handleScroll}>
+                <section className={styles.foodItems}>
                     {displayedItens}
-                    <div ref={infiniteScrollRef}></div>
+                    {displayedItens && <div ref={infiniteScrollRef}></div>}
                 </section>
 
                 <section className={styles.buttonSection}>

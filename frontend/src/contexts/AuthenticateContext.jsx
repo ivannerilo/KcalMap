@@ -134,8 +134,8 @@ export function AuthenticateContext({ children }) {
     useEffect(() => {
         async function checkAuthentication() {
             let token = await refreshAccessToken()
-            setIsLoading(false)
         }
+        setIsLoading(false)
         checkAuthentication();
     }, [])
 

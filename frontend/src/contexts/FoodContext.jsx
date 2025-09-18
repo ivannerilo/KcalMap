@@ -99,40 +99,35 @@ export function FoodContext({ children }) {
         }
     }
 
-    async function getTemplateFoods(mealId, debounceSearch = null, page = 0) {
-
+    async function getTemplateFoods(mealId, debounceSearch = null, page = 1) {
         try {
             let response;
-            if (debounceSearch) {
-                response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        debounceSearch: debounceSearch,
-                    })
-                })
-            } else if (page > 0) {
-                response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        page: page,
-                    })
-                })
+            const body = debounceSearch ?
+            {
+                debounceSearch: debounceSearch,
             }
-            else {
-                response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId)
+            :
+            {
+                page: page
             }
+
+            console.log("Body da fucking requisição", body)
+
+            response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body)
+            })
 
             if (!response.ok){
                 throw Error(response.message)
             }
 
             let data = await response.json()
+
+            console.log("REsponse da fucking requisição", data)
 
             return data 
         } catch (e) {

@@ -10,7 +10,7 @@ from . import serializers
 from . import services
 from .exceptions import ServiceException
 from django.db.models import Prefetch
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage
 
      
 @api_view(['POST'])
@@ -167,8 +167,9 @@ def meal_template_food(request, mealId):
                 data = request.data
                 user_tf = models.TemplateFood.objects.filter(template_meal__pk=mealId)
                 food_ids = user_tf.values_list('food__id', flat=True)
-                searched_foods = models.Food.objects.exclude(id__in=food_ids)
-
+                template_foods = models.Food.objects.filter(id__in=food_ids)
+                serialized_template_foods = serializers.FoodSerializer(instance=template_foods, many=True)
+                searched_foods = models.Food.objects.exclude(id__in=food_ids).order_by('name')
 
                 if 'debounceSearch' in data:
                     searched_foods = searched_foods.filter(name__icontains=data['debounceSearch'])
@@ -177,31 +178,20 @@ def meal_template_food(request, mealId):
                     paginator = Paginator(searched_foods, 10)
                     try:
                         searched_foods = paginator.page(int(data['page']))
+                        print(searched_foods)
+                        print("page: ", int(data['page']))
                     except EmptyPage:
                         return Response({"result": {
-                            "searched_foods": {}
+                            "template_foods": serialized_template_foods.data,
+                            "global_foods": []
                         }}, status=200)
 
                 serialized_searched_foods = serializers.FoodSerializer(instance=searched_foods, many=True)
+                print(serialized_searched_foods.data)
 
                 return Response({"result": {
-                    "searched_foods": serialized_searched_foods.data
-                }}, status=200)
-
-            case "PUT":
-
-                data = request.data
-
-                user_tf = models.TemplateFood.objects.filter(template_meal__pk=mealId)
-                food_ids = user_tf.values_list('food__id', flat=True)
-
-                global_foods = models.Food.objects.exclude(id__in=food_ids)
-                global_foods = global_foods.limit(request.data['page'] * 10).offset(request.data['page'] * 10)
-
-                serialized_global_foods = serializers.FoodSerializer(instance=global_foods, many=True)
-
-                return Response({"result": {
-                    "global_foods": serialized_global_foods.data
+                    "template_foods": serialized_template_foods.data,
+                    "global_foods": serialized_searched_foods.data
                 }}, status=200)
 
     except ServiceException as e:

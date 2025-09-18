@@ -11,11 +11,6 @@ export default function AddFoodModal(props){
     const { getTemplateFoods } = useFood()
     const [foods, setFoods] = useState([])
 
-    async function getFoods() {
-        let response = await getTemplateFoods(meal.mealState.id)
-        setFoods(response.result)
-    }
-
     async function searchFoods(debounceSearch) {
         let response = await getTemplateFoods(meal.mealState.id, debounceSearch)
         setFoods(prev => ({
@@ -24,26 +19,25 @@ export default function AddFoodModal(props){
         }))
     }
 
-    async function loadPage(pageNum){
+    async function loadPage(pageNum = 1){
         let response = await getTemplateFoods(meal.mealState.id, null, pageNum)
-        setFoods(prev => ({
-            ...prev,
-            global_foods: [
-                ...prev.global_foods,
-                response.result.searched_foods
-            ]
-        }))
+        setFoods(prev => {
+            const prevGlobalFoods = (prev && prev.length > 0) ? prev.global_foods : []
+            console.log("prevGlobalFoods", prevGlobalFoods)
+            console.log("prev", prev)
+            return {
+                template_foods: response.result.template_foods,
+                global_foods: [
+                    ...prevGlobalFoods,
+                    ...response.result.global_foods
+                ]
+            }
+        })
     }
-
-
-    useEffect(() => {
-        getFoods()
-    }, [])
 
     const value = {
         foods,
         searchFoods,
-        getFoods,
         loadPage,
     }
 
