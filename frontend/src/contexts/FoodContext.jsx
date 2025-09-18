@@ -111,8 +111,6 @@ export function FoodContext({ children }) {
                 page: page
             }
 
-            console.log("Body da fucking requisição", body)
-
             response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId, {
                 method: "POST",
                 headers: {
@@ -126,8 +124,6 @@ export function FoodContext({ children }) {
             }
 
             let data = await response.json()
-
-            console.log("REsponse da fucking requisição", data)
 
             return data 
         } catch (e) {

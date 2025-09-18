@@ -171,27 +171,28 @@ def meal_template_food(request, mealId):
                 serialized_template_foods = serializers.FoodSerializer(instance=template_foods, many=True)
                 searched_foods = models.Food.objects.exclude(id__in=food_ids).order_by('name')
 
+                has_next_page = False
                 if 'debounceSearch' in data:
                     searched_foods = searched_foods.filter(name__icontains=data['debounceSearch'])
-                
                 elif 'page' in data:
                     paginator = Paginator(searched_foods, 10)
                     try:
-                        searched_foods = paginator.page(int(data['page']))
-                        print(searched_foods)
-                        print("page: ", int(data['page']))
+                        page = paginator.get_page(int(data['page']))
+                        searched_foods = page
+                        has_next_page = page.has_next()
                     except EmptyPage:
                         return Response({"result": {
                             "template_foods": serialized_template_foods.data,
-                            "global_foods": []
+                            "global_foods": [],
+                            "has_next_page": False
                         }}, status=200)
 
                 serialized_searched_foods = serializers.FoodSerializer(instance=searched_foods, many=True)
-                print(serialized_searched_foods.data)
 
                 return Response({"result": {
                     "template_foods": serialized_template_foods.data,
-                    "global_foods": serialized_searched_foods.data
+                    "global_foods": serialized_searched_foods.data,
+                    "has_next_page": has_next_page
                 }}, status=200)
 
     except ServiceException as e:

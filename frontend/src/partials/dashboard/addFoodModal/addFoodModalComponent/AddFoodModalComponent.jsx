@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import styles from "partials/dashboard/addFoodModal/addFoodModalComponent/AddFoodModalComponent.module.css";
 import { AddFoodModalContext } from "partials/dashboard/addFoodModal/AddFoodModal";
 import { MealContext } from "partials/dashboard/meal/Meal";
@@ -10,93 +10,76 @@ import BreakLine from "components/breakLine/BreakLine";
 import Button from "components/button/Button";
 import { useFood } from "contexts/FoodContext";
 import { useDebounce } from "hooks/useDebounceSearch";
+import ItemLoader from "partials/dashboard/addFoodModal/itemLoader/ItemLoader";
 
 
 export default function AddFoodModalComponent({ setModalOpen }) {
     const [search, setSearch] = useState("")
-    const { foods, searchFoods, loadPage } = useContext(AddFoodModalContext)
-    const [isInfiniteScroll, setIsInfiniteScroll] = useState(false)
-    const [nextPage, setNextPage] = useState(2) //  gambia
     const infiniteScrollRef = useRef(null)
+    const isComponentMount = useRef(true);
     const debounceSearch = useDebounce(search, 300)
+    const meal = useContext(MealContext)
+    const { getTemplateFoods } = useFood()
+    const [foods, setFoods] = useState({})
+    const [page, setPage] = useState(1)
 
-    console.log("infiniteScrollRef", infiniteScrollRef.current)
+    const searchFoods = useCallback(async (debounceSearch) => {
+        let response = await getTemplateFoods(meal.mealState.id, debounceSearch)
+        setFoods(prev => ({
+            template_foods: prev.template_foods.filter((item) => item.name.includes(debounceSearch)),
+            global_foods: response.result.searched_foods
+        }))
+    }, [])
 
-    
-    const displayedItens = useMemo(() => {        
-        if (foods && foods.template_foods && foods.global_foods){
-            let config = [];
-            
-            const templateFoods = foods.template_foods.filter(food => food.name.toLowerCase().includes(debounceSearch.toLowerCase()))
-            
-            if (templateFoods.length > 0){
-                config = [
-                    {
-                        title: "Favoritos"
-                    },
-                    ...templateFoods,
-                ]
-            } 
-            
-            if (foods.global_foods.length > 0){
-                config = [
-                    ...config,
-                    {
-                        title: "Global"
-                    }, 
-                    ...foods.global_foods
+    const loadPage = useCallback(async (pageNum) => {
+        let response = await getTemplateFoods(meal.mealState.id, null, pageNum)
+        console.log(`Rendering page ${pageNum}, response =>`, response)
+        setFoods(prev => {
+            const prevGlobalFoods = (prev && prev?.global_foods?.length > 0) ? prev.global_foods : []
+            return {
+                template_foods: response.result.template_foods,
+                global_foods: [
+                    ...prevGlobalFoods,
+                    ...response.result.global_foods
                 ]
             }
-            
-            return config.map((item, index) => {
-                if (item) {
-                    if (item.title) {
-                        return <span>{item.title}</span>
-                    }
-                    return <AddFoodItem key={index} item={item}/>
-                }
-            })
-        }
-        return []
-    }, [foods])
+        
+        })
+    }, [])
 
-    function handleClick() {
-        loadPage(nextPage)
-        setNextPage((prev) => prev + 1)
+    async function loadNextPage() {
+        loadPage(page)
+        setPage((prev) => prev + 1)
     }
-    
+                
     useEffect(() => {
         if (debounceSearch){
             searchFoods(debounceSearch)
-        } else {
-            loadPage()
-        }
+        } 
+
     }, [debounceSearch])
 
-    // useEffect(() => {
-    //     if (displayedItens) {
-    //         const observer = new IntersectionObserver(([ entry ]) => {
-    //             console.log(entry)
-    //             if (entry.isIntersecting ){
-    //                 console.log("isIntersecting")
-    //                 setIsInfiniteScroll(true)
-    //                 loadPage(nextPage)
-    //                 setNextPage((prev) => prev + 1)
-    //             }
-    //         }, {
-    //             root: null,
-    //             rootMargin: '0px',
-    //             threshold: 0.10
-    //         })
-    
-    //         observer.observe(infiniteScrollRef.current)
-    
-    //         return () => {
-    //             observer.disconnect()
-    //         }
-    //     }
-    // }, [])
+    useEffect(() => {
+        loadNextPage()
+    }, [])
 
+    useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && !isComponentMount.current){
+                loadNextPage()
+            }
+
+            isComponentMount.current = false
+        }, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.50
+        })
+
+        observer.observe(infiniteScrollRef.current)
+
+        return () => observer.disconnect()
+    }, [page])
 
     return createPortal((
         <div className={styles.overlay}>
@@ -106,11 +89,13 @@ export default function AddFoodModalComponent({ setModalOpen }) {
                     placeholder={"Busque por um alimento: "}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <button onClick={handleClick}>+</button>
+
                 <BreakLine />
                 <section className={styles.foodItems}>
-                    {displayedItens}
-                    {displayedItens && <div ref={infiniteScrollRef}></div>}
+                    <ItemLoader 
+                        foods={foods} 
+                    />
+                    <div ref={infiniteScrollRef}></div>
                 </section>
 
                 <section className={styles.buttonSection}>

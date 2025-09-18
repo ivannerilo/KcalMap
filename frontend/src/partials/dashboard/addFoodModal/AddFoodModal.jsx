@@ -14,17 +14,15 @@ export default function AddFoodModal(props){
     async function searchFoods(debounceSearch) {
         let response = await getTemplateFoods(meal.mealState.id, debounceSearch)
         setFoods(prev => ({
-            ...prev,
+            template_foods: prev.template_foods.filter((item) => item.name.toLowerCase().includes(debounceSearch.toLowerCase())),
             global_foods: response.result.searched_foods
         }))
     }
 
-    async function loadPage(pageNum = 1){
+    async function getFoodsPage(pageNum = 1){
         let response = await getTemplateFoods(meal.mealState.id, null, pageNum)
         setFoods(prev => {
-            const prevGlobalFoods = (prev && prev.length > 0) ? prev.global_foods : []
-            console.log("prevGlobalFoods", prevGlobalFoods)
-            console.log("prev", prev)
+            const prevGlobalFoods = (prev && prev?.global_foods?.length > 0) ? prev.global_foods : []
             return {
                 template_foods: response.result.template_foods,
                 global_foods: [
@@ -38,7 +36,7 @@ export default function AddFoodModal(props){
     const value = {
         foods,
         searchFoods,
-        loadPage,
+        getFoodsPage,
     }
 
     return (
