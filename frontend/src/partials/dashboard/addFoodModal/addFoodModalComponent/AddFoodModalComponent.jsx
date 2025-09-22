@@ -15,6 +15,7 @@ import ItemLoader from "partials/dashboard/addFoodModal/itemLoader/ItemLoader";
 
 export default function AddFoodModalComponent({ setModalOpen }) {
     const [search, setSearch] = useState("")
+    const [isLoading, setIsLoading] = useState(true);
     const infiniteScrollRef = useRef(null)
     const isComponentMount = useRef(true);
     const debounceSearch = useDebounce(search, 300)
@@ -22,6 +23,7 @@ export default function AddFoodModalComponent({ setModalOpen }) {
     const { getTemplateFoods } = useFood()
     const [foods, setFoods] = useState({})
     const [page, setPage] = useState(1)
+
 
     const searchFoods = useCallback(async (debounceSearch) => {
         let response = await getTemplateFoods(meal.mealState.id, debounceSearch)
@@ -33,7 +35,6 @@ export default function AddFoodModalComponent({ setModalOpen }) {
 
     const loadPage = useCallback(async (pageNum) => {
         let response = await getTemplateFoods(meal.mealState.id, null, pageNum)
-        console.log(`Rendering page ${pageNum}, response =>`, response)
         setFoods(prev => {
             const prevGlobalFoods = (prev && prev?.global_foods?.length > 0) ? prev.global_foods : []
             return {
@@ -48,6 +49,7 @@ export default function AddFoodModalComponent({ setModalOpen }) {
     }, [])
 
     async function loadNextPage() {
+        setIsLoading(true)
         loadPage(page)
         setPage((prev) => prev + 1)
     }
@@ -56,7 +58,6 @@ export default function AddFoodModalComponent({ setModalOpen }) {
         if (debounceSearch){
             searchFoods(debounceSearch)
         } 
-
     }, [debounceSearch])
 
     useEffect(() => {
@@ -64,22 +65,24 @@ export default function AddFoodModalComponent({ setModalOpen }) {
     }, [])
 
     useEffect(() => {
-        const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !isComponentMount.current){
-                loadNextPage()
-            }
-
-            isComponentMount.current = false
-        }, {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.50
-        })
-
-        observer.observe(infiniteScrollRef.current)
-
-        return () => observer.disconnect()
-    }, [page])
+        if (infiniteScrollRef.current !== null) {
+            const observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting && !isComponentMount.current && !isLoading){
+                    loadNextPage()
+                }
+    
+                isComponentMount.current = false
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.50
+            })
+    
+            observer.observe(infiniteScrollRef.current)
+    
+            return () => observer.disconnect()
+        }
+    }, [page, infiniteScrollRef.current])
 
     return createPortal((
         <div className={styles.overlay}>
@@ -93,9 +96,10 @@ export default function AddFoodModalComponent({ setModalOpen }) {
                 <BreakLine />
                 <section className={styles.foodItems}>
                     <ItemLoader 
-                        foods={foods} 
+                        foods={foods}
+                        setIsLoading={setIsLoading}
+                        ref={infiniteScrollRef} 
                     />
-                    <div ref={infiniteScrollRef}></div>
                 </section>
 
                 <section className={styles.buttonSection}>

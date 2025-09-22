@@ -188,7 +188,7 @@ def meal_template_food(request, mealId):
                         }}, status=200)
 
                 serialized_searched_foods = serializers.FoodSerializer(instance=searched_foods, many=True)
-
+                
                 return Response({"result": {
                     "template_foods": serialized_template_foods.data,
                     "global_foods": serialized_searched_foods.data,
