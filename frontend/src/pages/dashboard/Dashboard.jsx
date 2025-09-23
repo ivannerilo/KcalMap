@@ -8,8 +8,7 @@ import { useWindow } from "contexts/WindowContext";
 import MobileHeader from "partials/dashboard/mobileHeader/MobileHeader";
 
 export default function Dashboard() {
-    const [openNewMeal, setOpenNewMeal] = useState(false);
-    
+    const [openNewMeal, setOpenNewMeal] = useState(false);    
     const { meals, isLoading} = useUser();
     const {isMobile} = useWindow();
 

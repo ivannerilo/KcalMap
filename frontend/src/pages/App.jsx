@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from 'pages/dashboard/Dashboard';
 import Login from 'pages/login/Login';
 import Register from 'pages/register/Register';
@@ -41,11 +41,14 @@ export default function App() {
                       <Route element={<AuthenticationLayout />}>
                       
                         <Route path="/" element={<SidebarLayout />}>
+                          {/* Redireciona o user para a rota "padrão" se ele acessar sem nenhuma rota */}
+                          <Route index element={<Navigate to="/dashboard" />} />
                           <Route path="dashboard" element={<Dashboard />} />
                           <Route path="profile" element={<h1>profile</h1>} />
                           <Route path="foods" element={<h1>foods</h1>} />
                           <Route path="results" element={<h1>results</h1>} />
                           <Route path="friends" element={<h1>friends</h1>} />
+                          
                         </Route>
                       
                       </Route>

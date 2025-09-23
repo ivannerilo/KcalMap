@@ -14,64 +14,19 @@ import ItemLoader from "partials/dashboard/addFoodModal/itemLoader/ItemLoader";
 
 
 export default function AddFoodModalComponent({ setModalOpen }) {
-    const [search, setSearch] = useState("")
-    const [isLoading, setIsLoading] = useState(true);
-    const infiniteScrollRef = useRef(null)
-    const isComponentMount = useRef(true);
+    const {page, isLoading, setIsLoading, hasNextPage, loadNextPage, loadSearchedFoods, foods, resetSearch } = useContext(AddFoodModalContext)
+
+    const [search, setSearch] = useState(null)
     const debounceSearch = useDebounce(search, 300)
-    const meal = useContext(MealContext)
-    const { getTemplateFoods } = useFood()
-    const [foods, setFoods] = useState({})
-    const [page, setPage] = useState(1)
+    const infiniteScrollRef = useRef(null)
 
-
-    const searchFoods = useCallback(async (debounceSearch) => {
-        let response = await getTemplateFoods(meal.mealState.id, debounceSearch)
-        setFoods(prev => ({
-            template_foods: prev.template_foods.filter((item) => item.name.includes(debounceSearch)),
-            global_foods: response.result.searched_foods
-        }))
-    }, [])
-
-    const loadPage = useCallback(async (pageNum) => {
-        let response = await getTemplateFoods(meal.mealState.id, null, pageNum)
-        setFoods(prev => {
-            const prevGlobalFoods = (prev && prev?.global_foods?.length > 0) ? prev.global_foods : []
-            return {
-                template_foods: response.result.template_foods,
-                global_foods: [
-                    ...prevGlobalFoods,
-                    ...response.result.global_foods
-                ]
-            }
-        
-        })
-    }, [])
-
-    async function loadNextPage() {
-        setIsLoading(true)
-        loadPage(page)
-        setPage((prev) => prev + 1)
-    }
-                
-    useEffect(() => {
-        if (debounceSearch){
-            searchFoods(debounceSearch)
-        } 
-    }, [debounceSearch])
-
-    useEffect(() => {
-        loadNextPage()
-    }, [])
 
     useEffect(() => {
         if (infiniteScrollRef.current !== null) {
             const observer = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting && !isComponentMount.current && !isLoading){
+                if (entry.isIntersecting && !isLoading && hasNextPage){
                     loadNextPage()
-                }
-    
-                isComponentMount.current = false
+                }    
             }, {
                 root: null,
                 rootMargin: '0px',
@@ -83,6 +38,18 @@ export default function AddFoodModalComponent({ setModalOpen }) {
             return () => observer.disconnect()
         }
     }, [page, infiniteScrollRef.current])
+                
+    useEffect(() => {
+        if (debounceSearch){
+            loadSearchedFoods(debounceSearch)
+        } else if (debounceSearch !== null && debounceSearch.length <= 0) {
+            resetSearch();
+        }
+    }, [debounceSearch])
+
+    useEffect(() => {
+        loadNextPage()
+    }, [])
 
     return createPortal((
         <div className={styles.overlay}>

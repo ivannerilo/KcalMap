@@ -2,17 +2,17 @@ import Button from "components/button/Button";
 import Input from "components/form/input/Input";
 import styles from "./AddFoodItem.module.css";
 import { AddFoodModalContext } from "partials/dashboard/addFoodModal/AddFoodModal";
-import { useContext, useState } from "react";
+import { forwardRef, useContext, useState } from "react";
 import { MealContext } from "partials/dashboard/meal/Meal";
 
 
 
-export default function AddFoodItem({ item }){
+const AddFoodItem = forwardRef(({ item }, ref) => {
     const meal = useContext(MealContext)
     const [quantity, setQuantity] = useState(item.default_quantity);
 
     return (
-        <section className={styles.container}>
+        <section className={styles.container} ref={ref}>
             <span className={styles.name}>{item.name}</span>
             <div className={styles.quantityDiv}>
                 <Input
@@ -29,4 +29,6 @@ export default function AddFoodItem({ item }){
             </div>
         </section>
     )
-}
+});
+
+export default AddFoodItem
