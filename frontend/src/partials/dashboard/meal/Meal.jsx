@@ -32,8 +32,6 @@ export default function Meal({ meal }) {
 
     function setNewMealLog(mealLog) {
         setMealState((prevState) => {
-            console.log("prevState",prevState)
-            console.log("mealLog", mealLog)
             let newLogsArray = prevState.food_log.filter((item) => {
                 return item.food.id !== mealLog.food.id
             })
@@ -101,7 +99,6 @@ export default function Meal({ meal }) {
     async function handleDeleteLog(item){
         try {
             let response = await deleteFoodLog(item.id, mealState.id)
-            console.log("Eu sou a poha de um int", response.result, typeof response.result)
             updateOrRemoveLog(response.result)
         } catch(e) {
             console.log("Erro!", e.message)

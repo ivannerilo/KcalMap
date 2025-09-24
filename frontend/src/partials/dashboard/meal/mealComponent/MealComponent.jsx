@@ -21,7 +21,7 @@ export default function MealComponent() {
     function hanldeDeleteMeal(id) {
         deleteMeal(id)
     }
-   
+
     return (
         <Container className={styles.mealContainer}>
             <section  className={styles.titleContainer}>
@@ -48,10 +48,10 @@ export default function MealComponent() {
 
                 <Button
                     className={styles.contentButton}
-                    onClick={() => setIsAddFoodsOpen(!isAddFoodOpen)}
+                    onClick={() => setIsAddFoodsOpen(true)}
                 >Add Item</Button>
 
-                {isAddFoodOpen && <AddFoodModal setModalOpen={setIsAddFoodsOpen}/>}
+                {isAddFoodOpen && <AddFoodModal setModalOpen={setIsAddFoodsOpen} isAddFoodOpen={isAddFoodOpen}/>}
             </section>
         </Container>
     );

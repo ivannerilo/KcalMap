@@ -13,9 +13,8 @@ const InternalContext = createContext();
 export function AuthenticateContext({ children }) {
     const [accessToken, setAcessToken] = useState("");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isInitialLoading, setIsInitialLoading] = useState(true);
     const [isNewUser, setIsNewUser] = useState(false);
-
     
     function setTokens(tokenPair) {
         setAcessToken(tokenPair.access);
@@ -24,10 +23,11 @@ export function AuthenticateContext({ children }) {
     }
     
     async function refreshAccessToken() {
-        setIsLoading(true);
+        setIsInitialLoading(true);
+
         const refreshToken = getRefreshToken()
         if (!refreshToken){
-            setIsLoading(false)
+            setIsInitialLoading(false)
             return {ok: false, message: "You need to Register / Login"}
         }
         try {
@@ -54,12 +54,12 @@ export function AuthenticateContext({ children }) {
             setIsAuthenticated(false)
             return {ok: false, message: e}
         } finally {
-            setIsLoading(false)
+            setIsInitialLoading(false);
         }
     }
     
     async function register(name, email, password) {
-        setIsLoading(true)
+        setIsInitialLoading(true);
         try {
             let response = await fetch("http://localhost:8000/api/register", {
                 method: "POST",
@@ -86,12 +86,12 @@ export function AuthenticateContext({ children }) {
             setIsAuthenticated(false);
             return {ok: false, message: e.message}
         } finally {
-            setIsLoading(false)
+            setIsInitialLoading(false);
         }
     }
     
     async function login(email, password) {
-        setIsLoading(true);
+        setIsInitialLoading(true);
         try {
             let response = await fetch("http://localhost:8000/api/token", {
                 method: "POST",
@@ -121,7 +121,7 @@ export function AuthenticateContext({ children }) {
             setIsAuthenticated(false);
             return {ok: false, message: e.message}
         } finally {
-            setIsLoading(false)
+            setIsInitialLoading(false);
         }
     }
     
@@ -135,14 +135,14 @@ export function AuthenticateContext({ children }) {
         async function checkAuthentication() {
             let token = await refreshAccessToken()
         }
-        setIsLoading(false)
+        setIsInitialLoading(false);
         checkAuthentication();
     }, [])
 
     const contextValue = {
         accessToken,
         isAuthenticated,
-        isLoading,
+        isInitialLoading,
         refreshAccessToken,
         register,
         login,

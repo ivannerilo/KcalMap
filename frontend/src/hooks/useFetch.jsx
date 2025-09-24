@@ -18,7 +18,7 @@ export function FetchContext({ children }){
                 ...authHeader,
             }
         })
-    
+        
         if (response.status === 401){
             try {
                 let newAccessToken = await refreshAccessToken()
@@ -29,7 +29,7 @@ export function FetchContext({ children }){
 
 
                 authHeader = {"Authorization": "Bearer " + newAccessToken.token}
-    
+                
                 response = await fetch(url, {
                     ...options,
                     headers: {

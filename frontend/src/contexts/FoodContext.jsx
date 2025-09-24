@@ -123,6 +123,7 @@ export function FoodContext({ children }) {
                 throw Error(response.message)
             }
 
+            
             let data = await response.json()
 
             return data 

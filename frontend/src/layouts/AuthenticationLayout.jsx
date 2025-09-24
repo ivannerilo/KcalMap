@@ -2,11 +2,11 @@ import {Navigate, Outlet} from "react-router-dom"
 import {useAuthenticate} from "contexts/AuthenticateContext"
 
 export default function AuthenticationLayout() {
-    const { isAuthenticated, isLoading } = useAuthenticate();
+    const { isAuthenticated, isInitialLoading, isRefreshing } = useAuthenticate();
 
-    if (isAuthenticated && !isLoading) {
+    if (isAuthenticated) {
         return <Outlet />
-    } else if (!isLoading) {
+    } else if (!isAuthenticated && !isInitialLoading) {
         return <Navigate to="/login" />
     }
 }
