@@ -12,6 +12,7 @@ import { UserContext } from 'contexts/UserContext';
 import { FetchContext } from 'hooks/useFetch';
 import { FoodContext } from 'contexts/FoodContext';
 import WindowContext from 'contexts/WindowContext';
+import Profile from 'pages/profile/Profile';
 
 
 export default function App() {
@@ -44,11 +45,11 @@ export default function App() {
                           {/* Redireciona o user para a rota "padrão" se ele acessar sem nenhuma rota */}
                           <Route index element={<Navigate to="/dashboard" />} />
                           <Route path="dashboard" element={<Dashboard />} />
-                          <Route path="profile" element={<h1>profile</h1>} />
+                          <Route path="profile" element={<Profile />} />
                           <Route path="foods" element={<h1>foods</h1>} />
                           <Route path="results" element={<h1>results</h1>} />
                           <Route path="friends" element={<h1>friends</h1>} />
-                          
+        
                         </Route>
                       
                       </Route>

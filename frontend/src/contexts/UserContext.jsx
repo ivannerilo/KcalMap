@@ -13,8 +13,8 @@ export function UserContext({ children }){
     const { authFetch } = useFetch()
 
     // Calories States: 
+    const [profile, setProfile] = useState();
     const [caloriesGoal, setCaloriesGoal] = useState(0);
-    const [logHistory, setLogHistory] = useState([])
 
     // Calories Functions
     async function getCaloriesGoal() {
@@ -28,7 +28,24 @@ export function UserContext({ children }){
 
             let data = await response.json()
 
-            setCaloriesGoal(data.result.calories_goal)
+            setCaloriesGoal(data.result.profile.calories_goal)
+        } catch(e) {
+            console.log(e.message)
+        }
+    }
+
+    async function getProfile() {
+        try {
+            let response = await authFetch("http://localhost:8000/api/profile", {
+                method: "GET"
+            })
+            if (!response.ok) {
+                throw Error(response.message)
+            }
+
+            let data = await response.json()
+
+            setProfile(data.result)
         } catch(e) {
             console.log(e.message)
         }
@@ -212,6 +229,10 @@ export function UserContext({ children }){
         createMeal, 
         deleteMeal, 
         addTemplateFood,
+
+        //Profile
+        profile,
+        getProfile,
 
         //Calories 
         calories,

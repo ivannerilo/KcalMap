@@ -4,3 +4,4 @@ from .log_serializers import FoodLogSerializer
 from .meal_serializers import CompleteTemplateMealSerializer, TemplateMealSerializer, MealWithLogsSerializer
 from .profile_serializers import ProfileSerializer
 from .template_food_serializers import TemplateFoodForMealSerializer, TemplateFoodSerializer
+from .user_serializer import UserSerializer

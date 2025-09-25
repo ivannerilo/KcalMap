@@ -12,7 +12,6 @@ def get_profile(data, user):
     except Exception:
         raise ServiceException("Failed to get this profile!")
 
-
 def create_profile(data, user):
     try:
         profile = models.Profile.objects.create(

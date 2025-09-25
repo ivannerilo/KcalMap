@@ -87,8 +87,13 @@ def profile(request):
 
             case "GET":
                 profile = models.Profile.objects.get(user=request.user)
+                user = models.User.objects.get(pk=request.user.pk)
+                serialized_user = serializers.UserSerializer(instance=user)
                 serialized_profile = serializers.ProfileSerializer(instance=profile)
-                return Response({"result": serialized_profile.data}, status=200)
+                return Response({"result": {
+                    "profile": serialized_profile.data,
+                    "user": serialized_user.data
+                }}, status=200)
 
             case "POST":
                 profile = services.create_profile(request.data, request.user)

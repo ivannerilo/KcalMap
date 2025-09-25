@@ -9,7 +9,9 @@ export default function SidebarLayout() {
 
     return (
         <main className={styles.external}>
-            <Outlet />
+            <div className={styles.page}>
+                <Outlet />
+            </div>
             <section className={styles.sidebarContainer}>
                 {isMobile && <MobileBar />}
             </section>

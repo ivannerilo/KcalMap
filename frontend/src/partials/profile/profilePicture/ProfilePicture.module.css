@@ -1,0 +1,28 @@
+.container {
+    width: 100%;
+    height: 15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.frame {
+    height: 15rem;
+    width: 15rem;
+    border-radius: 10rem;
+    padding: 0.8rem;
+}
+
+.icon {
+    font-size: 8rem;
+    stroke-width: 1;
+    color: var(--text-primary);
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    overflow: hidden;
+    border-radius: inherit;
+}
