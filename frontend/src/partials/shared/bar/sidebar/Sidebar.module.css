@@ -1,0 +1,15 @@
+:root {
+    --sidebar-widht: 32rem;
+}
+
+.bar {
+    width: 100%;
+    max-height: var(--mobile-bar-height);
+    background-color: var(--surface);
+    display: flex;
+    flex-direction: row;
+    padding: 1.6rem 2.4rem;
+    justify-content: center;
+    border-top: 1px solid var(--neutral);
+}
+

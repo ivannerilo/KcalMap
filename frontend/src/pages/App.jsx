@@ -6,7 +6,7 @@ import AuthenticationLayout from 'layouts/AuthenticationLayout';
 import './App.css';
 import ProfileForm from 'pages/profileForm/ProfileForm';
 import ProfileFormLayout from 'pages/profileForm/ProfileFormLayout';
-import SidebarLayout from 'layouts/sidebarLayout/SidebarLayout';
+import BarLayout from 'layouts/barLayout/BarLayout';
 import {AuthenticateContext} from 'contexts/AuthenticateContext';
 import { UserContext } from 'contexts/UserContext';
 import { FetchContext } from 'hooks/useFetch';
@@ -41,7 +41,7 @@ export default function App() {
                       {/* Rotas Autenticadas */}
                       <Route element={<AuthenticationLayout />}>
                       
-                        <Route path="/" element={<SidebarLayout />}>
+                        <Route path="/" element={<BarLayout />}>
                           {/* Redireciona o user para a rota "padrão" se ele acessar sem nenhuma rota */}
                           <Route index element={<Navigate to="/dashboard" />} />
                           <Route path="dashboard" element={<Dashboard />} />
