@@ -1,0 +1,15 @@
+.buttonsDiv {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 1.6rem;
+}
+
+.button {
+    width: 12.8rem;
+}
+
+.button > button {
+    padding: 0.8rem;
+}

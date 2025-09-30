@@ -9,11 +9,15 @@ export default function BarLayout() {
     const {isMobile} = useWindow();
 
     return (
-        <main className={isMobile ? styles.mobileExternal : styles.external}>
+        <main
+            className={isMobile ? styles.mobileExternal : styles.external}
+        >
             <div className={styles.page}>
                 <Outlet />
             </div>
-            <section className={isMobile ? styles.mobileSidebarContainer : styles.sidebarContainer}>
+            <section
+                className={isMobile ? styles.mobileSidebarContainer : styles.sidebarContainer}
+            >
                 {isMobile && <MobileBar />}
                 {!isMobile && <Sidebar />}
             </section>

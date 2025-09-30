@@ -8,10 +8,22 @@ import Button from "components/button/Button";
 export default function ProfileInfo() {
     const { getProfile } = useUser();
     const [profile, setProfile] = useState();
-
-    console.log("profile", profile);
+    const [formValues, setFormValues] = useState();
 
     function handleSave() {
+        console.log("formValue", formValues)
+    }
+
+    function handleChange(e) {
+        const element = e.target;
+        const key = element.name;
+        const value = element.value;
+        setFormValues((prev) => {
+            return {
+                ...prev,
+                [key]: value
+            }
+        })
     }
 
     useEffect(() => {
@@ -25,40 +37,55 @@ export default function ProfileInfo() {
     return (
         <Container className={styles.container}>
             <Input
+                name={'username'}
                 className={styles.input}
                 label={"Username"} 
                 defaultValue={profile?.user?.username}
+                onChange={handleChange}
             />
             <Input
+                name={'email'}
                 className={styles.input}
                 label={"Email"} 
                 defaultValue={profile?.user?.email}
+                onChange={handleChange}
             />
             <Input
+                name={'calories_goal'}
                 className={styles.input}
                 label={"Calories Goal"} 
                 defaultValue={profile?.profile?.calories_goal}
+                onChange={handleChange}
             />
             <Input
+                name={'cm_height'}
                 className={styles.input}
                 label={"Height"} 
                 defaultValue={profile?.profile?.cm_height}
+                onChange={handleChange}
             />
             <Input
+                name={'kg_weight'}
                 className={styles.input}
                 label={"Weight"} 
                 defaultValue={profile?.profile?.kg_weight}
+                onChange={handleChange}
             />
             <Input
+                name={'age'}
                 className={styles.input}
                 label={"Age"} 
                 defaultValue={profile?.profile?.age}
+                onChange={handleChange}
             />
-            <Button
-                onClick={handleSave}
-            >
-                Save
-            </Button>
+            <div className={styles.buttonsDiv}>
+                <Button
+                    className={styles.button}
+                    onClick={handleSave}
+                >
+                    Save
+                </Button>
+            </div>
         </Container>
     )
 }

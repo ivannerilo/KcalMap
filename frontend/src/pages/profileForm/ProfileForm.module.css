@@ -44,6 +44,8 @@
     color: var(--text-secondary);
 }
 
+.input {}
+
 @media (min-width: 768px) {
     .external {
         padding: 0;
@@ -63,5 +65,8 @@
     }
     .container {
         padding: 0.8rem 2.4rem 2.4rem;
+    }
+    .input > input {
+        min-height: 5.6rem;
     }
 }

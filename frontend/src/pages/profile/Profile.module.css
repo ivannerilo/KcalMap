@@ -1,0 +1,6 @@
+.logout > button {
+    height: 5rem;
+    background-color: red;
+    color: white;
+    padding: 0.8rem;
+}

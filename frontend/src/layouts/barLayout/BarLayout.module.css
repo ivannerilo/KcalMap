@@ -1,18 +1,7 @@
 .external {
     height: 100%;
     display: flex;
-    flex-direction: row;
-    padding-left: var(--sidebar-widht);
-}
-
-.sidebarContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    height: 100%;
-    width: var(--sidebar-widht);
-    background-color: var(--background);
+    flex-direction: row-reverse;
 }
 
 .mobileExternal {
@@ -20,6 +9,11 @@
     display: flex;
     flex-direction: column;
     padding-bottom: var(--mobile-bar-height);
+}
+
+.sidebarContainer {
+    height: 100%;
+    background-color: var(--background);
 }
 
 .mobileSidebarContainer {

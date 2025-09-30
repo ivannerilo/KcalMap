@@ -35,9 +35,3 @@
     transition: all 0.2s ease-in-out;
     box-shadow: 0 0 0 1px var(--accent);
 }
-
-@media (min-width: 1200px) {
-    .input {
-        min-height: 5.6rem;
-    }
-}
