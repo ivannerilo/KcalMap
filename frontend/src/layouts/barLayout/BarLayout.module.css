@@ -12,7 +12,7 @@
     z-index: 1;
     height: 100%;
     width: var(--sidebar-widht);
-    background-color: red;
+    background-color: var(--background);
 }
 
 .mobileExternal {
