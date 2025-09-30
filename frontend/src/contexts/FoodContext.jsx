@@ -4,6 +4,7 @@ import { useFetch } from "hooks/useFetch";
 const InternalContext = createContext()
 
 export function FoodContext({ children }) {
+    
     const { authFetch } = useFetch()
 
     async function getGlobalFoods() {

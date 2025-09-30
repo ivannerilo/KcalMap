@@ -10,6 +10,7 @@ export default function Dashboard() {
     const { meals, isLoading} = useUser();
     const {isMobile} = useWindow();
 
+    console.log("Dashboard: Renderizei")
     return (
         <>
             {isMobile && <MobileHeader />}

@@ -13,7 +13,6 @@ export function UserContext({ children }){
     const { authFetch } = useFetch()
 
     // Calories States: 
-    const [profile, setProfile] = useState();
     const [caloriesGoal, setCaloriesGoal] = useState(0);
 
     // Calories Functions
@@ -45,7 +44,7 @@ export function UserContext({ children }){
 
             let data = await response.json()
 
-            setProfile(data.result)
+            return data.result;
         } catch(e) {
             console.log(e.message)
         }
@@ -231,7 +230,6 @@ export function UserContext({ children }){
         addTemplateFood,
 
         //Profile
-        profile,
         getProfile,
 
         //Calories 
