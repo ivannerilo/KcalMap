@@ -2,8 +2,6 @@
 
 Uma aplicação web moderna para monitoramento de calorias, desenvolvida com Django e React, com foco em uma experiência de usuário ágil, gamificada e totalmente responsiva.
 
-![Mockup do App](https://storage.googleapis.com/gemini-prod-us-central1-xl-assets/72bbdc99_KcalApp_Light_Theme.png)
-
 ## 📜 Sobre o Projeto
 
 KcalMap nasceu da ideia de simplificar o processo de contagem de calorias. Em vez de formulários complexos e múltiplas telas, a aplicação se concentra em uma interface de timeline intuitiva, onde o usuário pode registrar e visualizar suas refeições de forma cronológica e fluida. A arquitetura foi pensada para ser escalável e performática, separando o backend (API RESTful) do frontend (Single-Page Application).
