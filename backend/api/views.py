@@ -80,7 +80,7 @@ def log(request):
     except Exception as e:
         return Response({"message": "Ocorreu um erro no servidor!"}, status=500) 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'PUT'])
 def profile(request):
     try:
         match request.method:
@@ -97,6 +97,11 @@ def profile(request):
 
             case "POST":
                 profile = services.create_profile(request.data, request.user)
+                serialized_profile = serializers.ProfileSerializer(instance=profile)
+                return Response({"result": serialized_profile.data}, status=201)
+            
+            case "PUT":
+                profile = services.update_profile(request.data, request.user)
                 serialized_profile = serializers.ProfileSerializer(instance=profile)
                 return Response({"result": serialized_profile.data}, status=201)
 

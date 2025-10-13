@@ -26,3 +26,11 @@ def create_profile(data, user):
         return profile
     except Exception:
         raise ServiceException("Failed to create this profile!")
+    
+def update_profile(data, user):
+    try:
+        num_updates = models.Profile.objects.filter(pk=user.pk).update(**data['values'])
+        print(num_updates)
+        return models.Profile.objects.get(pk=user.pk)
+    except Exception:
+        raise ServiceException("Failed to update this profile!")

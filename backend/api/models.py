@@ -8,6 +8,7 @@ class Profile(models.Model): #Dados Tecnicos do User, Altura, Peso, Idade, etc..
     kg_weight = models.FloatField(blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
     sex = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female')])
+    profile_picture = models.ImageField(upload_to="profile_pictures/")
 
     def __str__(self):
         return self.user.username

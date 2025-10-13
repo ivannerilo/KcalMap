@@ -6,12 +6,13 @@ import { useState, useEffect } from "react";
 import Button from "components/button/Button";
 
 export default function ProfileInfo() {
-    const { getProfile } = useUser();
+    const { getProfile, updateProfile } = useUser();
     const [profile, setProfile] = useState();
     const [formValues, setFormValues] = useState();
 
-    function handleSave() {
-        console.log("formValue", formValues)
+    async function handleSave() {
+        const response = await updateProfile(formValues);
+        console.log("responseShit", response);
     }
 
     function handleChange(e) {
@@ -35,7 +36,7 @@ export default function ProfileInfo() {
     }, [])
 
     return (
-        <Container className={styles.container}>
+        <>
             <Input
                 name={'username'}
                 className={styles.input}
@@ -86,6 +87,6 @@ export default function ProfileInfo() {
                     Save
                 </Button>
             </div>
-        </Container>
+        </>
     )
 }

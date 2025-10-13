@@ -78,6 +78,31 @@ export function UserContext({ children }){
             return {ok: false, message: e.message}
         }
     }
+
+    async function updateProfile(values) {
+        try {
+            let response = await authFetch("http://localhost:8000/api/profile", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    values
+                }) 
+            })
+
+            if (!response.ok) {
+                throw Error(response.message)
+            }
+
+            let data = await response.json()
+
+            setCaloriesGoal(data.result.calories_goal);
+            return {ok: true, result: data.result}
+        } catch(e) {
+            return {ok: false, message: e.message}
+        }
+    }
     
     
     const calories = useMemo(() => {
@@ -231,11 +256,12 @@ export function UserContext({ children }){
 
         //Profile
         getProfile,
+        updateProfile,
+        createProfile,
 
         //Calories 
         calories,
         caloriesGoal,
-        createProfile,
     }
     return(
         <InternalContext.Provider value={contextValue}>

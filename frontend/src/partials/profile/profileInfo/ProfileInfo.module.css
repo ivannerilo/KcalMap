@@ -8,6 +8,7 @@
 
 .button {
     width: 12.8rem;
+    margin-bottom: 1.6rem;
 }
 
 .button > button {
