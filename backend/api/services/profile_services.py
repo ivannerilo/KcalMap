@@ -30,7 +30,18 @@ def create_profile(data, user):
 def update_profile(data, user):
     try:
         num_updates = models.Profile.objects.filter(pk=user.pk).update(**data['values'])
-        print(num_updates)
         return models.Profile.objects.get(pk=user.pk)
+    except Exception:
+        raise ServiceException("Failed to update this profile!")
+
+def update_profile_picture(data, user):
+    try:
+        profile = user.profile
+        serializer = serializers.ProfilePictureSerializer(instance=profile, data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+
+        return profile
     except Exception:
         raise ServiceException("Failed to update this profile!")

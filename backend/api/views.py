@@ -1,7 +1,9 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
 
 # Models / Serializers
 from django.contrib.auth.models import User
@@ -78,9 +80,10 @@ def log(request):
         print(f"ServiceException: {str(e)}")
         return Response({"message": str(e)}, status=400)
     except Exception as e:
-        return Response({"message": "Ocorreu um erro no servidor!"}, status=500) 
+        return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
 
 @api_view(['GET', 'POST', 'PUT'])
+@parser_classes([MultiPartParser, FormParser])
 def profile(request):
     try:
         match request.method:
@@ -101,9 +104,14 @@ def profile(request):
                 return Response({"result": serialized_profile.data}, status=201)
             
             case "PUT":
-                profile = services.update_profile(request.data, request.user)
-                serialized_profile = serializers.ProfileSerializer(instance=profile)
-                return Response({"result": serialized_profile.data}, status=201)
+                if request.headers['content-type'] == 'application/json':
+                    profile = services.update_profile(request.data, request.user)
+                    serialized_profile = serializers.ProfileSerializer(instance=profile)
+                    return Response({"result": serialized_profile.data}, status=201)
+                else:
+                    profile = services.update_profile_picture(request.data, request.user)
+                    serialized_profile = serializers.ProfileSerializer(instance=profile)
+                    return Response({"result": serialized_profile.data}, status=201)
 
     except ServiceException as e:
         print(f"ServiceException: {str(e)}")

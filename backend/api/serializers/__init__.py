@@ -2,6 +2,6 @@ from .food_serializers import FoodSerializer, FoodForLogSerializer
 from .jwt_token_serializers import MyTokenObtainPairSerializer
 from .log_serializers import FoodLogSerializer
 from .meal_serializers import CompleteTemplateMealSerializer, TemplateMealSerializer, MealWithLogsSerializer
-from .profile_serializers import ProfileSerializer
+from .profile_serializers import ProfileSerializer, ProfilePictureSerializer
 from .template_food_serializers import TemplateFoodForMealSerializer, TemplateFoodSerializer
 from .user_serializer import UserSerializer

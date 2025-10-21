@@ -7,8 +7,10 @@ export default function ProfilePicture(){
     // const imgSrc = "https://media.licdn.com/dms/image/v2/D4D03AQHneARuhc5dJw/profile-displayphoto-crop_800_800/B4DZmAqu8SIYAI-/0/1758800311774?e=1761782400&v=beta&t=XhQGNak8mRjMfL1oMOHHjtvhrTes76althSCd0pwy1s"
     let imgSrc;
 
-    function handleSubmitImage(file) {
-
+    function handleSubmitImage(e) {
+        const file = e.target.files[0]
+        const formData = new FormData();
+        formData.append('foto_perfil', formData)
     }
 
     function handleEdit(e) {
@@ -19,6 +21,7 @@ export default function ProfilePicture(){
         form.addEventListener('cancel', () => {
             form.removeEventListener('change', handleSubmitImage)
         })
+        form.click();
     }
 
     return (

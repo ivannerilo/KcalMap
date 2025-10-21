@@ -15,6 +15,8 @@ export default function ProfileInfo() {
         console.log("responseShit", response);
     }
 
+    console.log("profile", profile);
+
     function handleChange(e) {
         const element = e.target;
         const key = element.name;

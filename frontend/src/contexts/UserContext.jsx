@@ -103,6 +103,25 @@ export function UserContext({ children }){
             return {ok: false, message: e.message}
         }
     }
+
+    async function updateProfilePicture(formData) {
+        try {
+            let response = await authFetch("http://localhost:8000/api/profile", {
+                method: "PUT",
+                body: formData
+            })
+
+            if (!response.ok) {
+                throw Error(response.message)
+            }
+
+            let data = await response.json()
+
+            return {ok: true, result: data.result}
+        } catch(e) {
+            return {ok: false, message: e.message}
+        }
+    }
     
     
     const calories = useMemo(() => {
