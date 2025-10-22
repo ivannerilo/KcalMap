@@ -5,9 +5,8 @@ import { useUser } from "contexts/UserContext";
 import { useState, useEffect } from "react";
 import Button from "components/button/Button";
 
-export default function ProfileInfo() {
-    const { getProfile, updateProfile } = useUser();
-    const [profile, setProfile] = useState();
+export default function ProfileInfo({ profile }) {
+    const { updateProfile } = useUser();
     const [formValues, setFormValues] = useState();
 
     async function handleSave() {
@@ -28,14 +27,6 @@ export default function ProfileInfo() {
             }
         })
     }
-
-    useEffect(() => {
-        async function load() {
-            const response = await getProfile();
-            setProfile(response)
-        }
-        load();
-    }, [])
 
     return (
         <>

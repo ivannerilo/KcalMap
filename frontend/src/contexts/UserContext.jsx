@@ -43,6 +43,7 @@ export function UserContext({ children }){
             }
 
             let data = await response.json()
+            console.log("resposta", data)
 
             return data.result;
         } catch(e) {
@@ -275,6 +276,7 @@ export function UserContext({ children }){
 
         //Profile
         getProfile,
+        updateProfilePicture,
         updateProfile,
         createProfile,
 

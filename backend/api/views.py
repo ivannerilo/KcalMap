@@ -92,7 +92,7 @@ def profile(request):
                 profile = models.Profile.objects.get(user=request.user)
                 user = models.User.objects.get(pk=request.user.pk)
                 serialized_user = serializers.UserSerializer(instance=user)
-                serialized_profile = serializers.ProfileSerializer(instance=profile)
+                serialized_profile = serializers.ProfileSerializer(instance=profile, context={'request': request})
                 return Response({"result": {
                     "profile": serialized_profile.data,
                     "user": serialized_user.data
@@ -109,8 +109,7 @@ def profile(request):
                     serialized_profile = serializers.ProfileSerializer(instance=profile)
                     return Response({"result": serialized_profile.data}, status=201)
                 else:
-                    profile = services.update_profile_picture(request.data, request.user)
-                    serialized_profile = serializers.ProfileSerializer(instance=profile)
+                    serialized_profile = services.update_profile_picture(request.data, request.user)
                     return Response({"result": serialized_profile.data}, status=201)
 
     except ServiceException as e:

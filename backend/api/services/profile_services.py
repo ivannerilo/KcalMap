@@ -38,10 +38,11 @@ def update_profile_picture(data, user):
     try:
         profile = user.profile
         serializer = serializers.ProfilePictureSerializer(instance=profile, data=data)
+        print(serializer)
 
         if serializer.is_valid():
             serializer.save()
 
-        return profile
+        return serializer
     except Exception:
         raise ServiceException("Failed to update this profile!")

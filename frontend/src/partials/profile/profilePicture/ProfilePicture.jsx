@@ -1,16 +1,19 @@
 import Container from "components/basicContainer/Container";
 import styles from "./ProfilePicture.module.css";
 import { FiUser } from "react-icons/fi";
+import { useUser } from "contexts/UserContext";
+import { useEffect, useInsertionEffect, useState } from "react";
 
+export default function ProfilePicture ({ profile }) {
+    const {updateProfilePicture} = useUser();
+    const [imgSrc, setImgSrc] = useState(null)
 
-export default function ProfilePicture(){
-    // const imgSrc = "https://media.licdn.com/dms/image/v2/D4D03AQHneARuhc5dJw/profile-displayphoto-crop_800_800/B4DZmAqu8SIYAI-/0/1758800311774?e=1761782400&v=beta&t=XhQGNak8mRjMfL1oMOHHjtvhrTes76althSCd0pwy1s"
-    let imgSrc;
-
-    function handleSubmitImage(e) {
-        const file = e.target.files[0]
+    async function handleSubmitImage(e) {
+        const file = e.target.files[0];
         const formData = new FormData();
-        formData.append('foto_perfil', formData)
+        formData.append('foto_perfil', formData);
+        const response = await updateProfilePicture(formData);
+        console.log("Rexposta", response);
     }
 
     function handleEdit(e) {
@@ -24,12 +27,18 @@ export default function ProfilePicture(){
         form.click();
     }
 
+    useEffect(() => {
+        setImgSrc(profile?.profile?.profile_picture)
+    }, [profile])
+
     return (
         <main 
             className={styles.container}
-            onClick={handleEdit}
         >
-            <Container className={styles.frame}>
+            <Container 
+                className={styles.frame}
+                onClick={handleEdit}
+            >
                 {!imgSrc && <FiUser
                     className={styles.icon} 
                 />}
