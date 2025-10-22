@@ -2,7 +2,7 @@ import { useUser } from "contexts/UserContext"
 import styles from "./ProfileHeader.module.css"
 
 export default function ProfileHeader({ profile }) {
-    const captalizedName = profile?.user?.username?.charAt(0).toUpper() + profile?.profile?.name.slice(1);
+    const captalizedName = profile?.user?.username?.charAt(0)?.toUpperCase() + profile?.user?.username?.slice(1);
 
     return (
         <header className={styles.header}>

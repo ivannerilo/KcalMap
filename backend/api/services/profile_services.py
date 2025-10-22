@@ -38,10 +38,13 @@ def update_profile_picture(data, user):
     try:
         profile = user.profile
         serializer = serializers.ProfilePictureSerializer(instance=profile, data=data)
-        print(serializer)
+        file_object = data.get("profile_picture")
 
-        if serializer.is_valid():
-            serializer.save()
+        if serializer.is_valid() and file_object:
+            profile.profile_picture = file_object
+            profile.save()
+        else:
+            raise ServiceException("Null or invalid file type")
 
         return serializer
     except Exception:
