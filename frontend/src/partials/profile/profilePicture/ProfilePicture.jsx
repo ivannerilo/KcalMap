@@ -11,9 +11,10 @@ export default function ProfilePicture ({ profile }) {
     async function handleSubmitImage(e) {
         const file = e.target.files[0];
         const formData = new FormData();
-        formData.append('profile_picture', formData);
+        formData.append('profile_picture', file);
         const response = await updateProfilePicture(formData);
         console.log("Rexposta", response);
+        setImgSrc(response?.result?.profile_picture)
     }
 
     function handleEdit(e) {

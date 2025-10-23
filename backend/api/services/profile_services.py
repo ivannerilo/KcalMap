@@ -35,17 +35,22 @@ def update_profile(data, user):
         raise ServiceException("Failed to update this profile!")
 
 def update_profile_picture(data, user):
+    profile = user.profile
+    serializer = serializers.ProfilePictureSerializer(instance=profile, data=data, partial=True)
+
+    if serializer.is_valid():
+        new_profile = serializer.save()
+        return new_profile
+    else:
+        raise ServiceException(serializer.errors)
     try:
         profile = user.profile
-        serializer = serializers.ProfilePictureSerializer(instance=profile, data=data)
-        file_object = data.get("profile_picture")
+        serializer = serializers.ProfilePictureSerializer(instance=profile, data=data, partial=True)
 
-        if serializer.is_valid() and file_object:
-            profile.profile_picture = file_object
-            profile.save()
+        if serializer.is_valid():
+            new_profile = serializer.save()
+            return new_profile
         else:
-            raise ServiceException("Null or invalid file type")
-
-        return serializer
+            raise ServiceException(serializer.errors)
     except Exception:
         raise ServiceException("Failed to update this profile!")

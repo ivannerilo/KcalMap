@@ -104,12 +104,13 @@ def profile(request):
                 return Response({"result": serialized_profile.data}, status=201)
             
             case "PUT":
-                if request.headers['content-type'] == 'application/json':
+                if request.content_type == 'application/json':
                     profile = services.update_profile(request.data, request.user)
                     serialized_profile = serializers.ProfileSerializer(instance=profile)
                     return Response({"result": serialized_profile.data}, status=201)
                 else:
-                    serialized_profile = services.update_profile_picture(request.data, request.user)
+                    profile = services.update_profile_picture(request.data, request.user)
+                    serialized_profile = serializers.ProfileSerializer(instance=profile, context={'request': request})
                     return Response({"result": serialized_profile.data}, status=201)
 
     except ServiceException as e:
