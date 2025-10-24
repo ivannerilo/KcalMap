@@ -1,6 +1,6 @@
 import Container from "components/basicContainer/Container";
 import styles from "./ProfileInfo.module.css";
-import Input from "components/form/input/Input";
+import Input from "components/input/Input";
 import { useUser } from "contexts/UserContext";
 import { useState, useEffect } from "react";
 import Button from "components/button/Button";

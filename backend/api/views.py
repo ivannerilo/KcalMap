@@ -119,7 +119,7 @@ def profile(request):
     except Exception as e:
         return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
     
-@api_view(['GET'])
+@api_view(['GET', 'POST' ,'PATCH'])
 def food(request):
     try:
         match request.method:
@@ -133,6 +133,22 @@ def food(request):
                     global_foods.append(serialized_food.data)
 
                 return Response({"result": global_foods}, status=200)
+
+            # global foods with pagination
+            case "PATCH":
+                foods = services.get_global_foods(request.data)
+
+                serialized_searched_foods = serializers.FoodSerializer(instance=foods['global_foods'], many=True)
+
+                return Response({"result": {
+                    "global_foods": serialized_searched_foods.data,
+                    "has_next_page": foods['has_next_page']
+                }}, status=200)
+
+            case "POST":
+                new_food = services.create_food(request.data, request.user)
+                serialized_food = serializers.FoodSerializer(instance=new_food)
+                return Response({"result": serialized_food.data}, status=201)
 
     except ServiceException as e:
         print(f"ServiceException: {str(e)}")
@@ -183,13 +199,13 @@ def meal_template_food(request, mealId):
 
             case "POST":
                 foods = services.get_foods(request.data, mealId)
-                
+
                 serialized_template_foods = serializers.FoodSerializer(instance=foods['template_foods'], many=True)
                 serialized_searched_foods = serializers.FoodSerializer(instance=foods['global_foods'], many=True)
-                
+
                 return Response({"result": {
-                    "template_foods": serialized_template_foods.data,
-                    "global_foods": serialized_searched_foods.data,
+                    "template_foods": serialized_template_foods.data if serialized_template_foods else [],
+                    "global_foods": serialized_searched_foods.data if serialized_searched_foods else [],
                     "has_next_page": foods['has_next_page']
                 }}, status=200)
 

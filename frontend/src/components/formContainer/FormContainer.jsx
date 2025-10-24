@@ -1,4 +1,4 @@
-import styles from "components/form/formContainer/FormContainer.module.css"
+import styles from "components/formContainer/FormContainer.module.css"
 
 export default function FormContainer({ children, className, ...containerAttributes }){
     return (

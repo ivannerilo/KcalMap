@@ -1,8 +1,8 @@
 import TimelineBullet from "components/timelineBullet/TimelineBullet"
-import styles from "partials/dashboard/meal/mealItem/MealItem.module.css"
+import styles from "partials/dashboard/mealItem/MealItem.module.css"
 import { FiEdit2, FiCheck , FiX, FiTrash2  } from "react-icons/fi";
 import { useContext, useState } from "react";
-import Input from "components/form/input/Input";
+import Input from "components/input/Input";
 import { MealContext } from "partials/dashboard/meal/Meal";
 
 

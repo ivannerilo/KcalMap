@@ -1,5 +1,6 @@
-import AddFoodItem from "partials/dashboard/addFoodModal/addFoodItem/AddFoodItem";
+import AddFoodItem from "partials/dashboard/addFoodItem/AddFoodItem";
 import { forwardRef, useEffect} from "react";
+import FoodItem from "partials/foods/foodItem/FoodItem";
 
 const ItemLoader = forwardRef(({ foods, setIsLoading }, ref) => {
     const lastItemId = foods?.global_foods?.at(-1)?.id;
@@ -26,7 +27,16 @@ const ItemLoader = forwardRef(({ foods, setIsLoading }, ref) => {
                 return <AddFoodItem key={item.id} item={item}/>
             })}
         </>
-    ) : null 
+    ) : (
+        <>
+            {foods?.global_foods?.map((item) => {
+                if (item.id === lastItemId) {
+                    return <FoodItem key={item.id} item={item} ref={ref}/>
+                }
+                return <FoodItem key={item.id} item={item}/>
+            })}
+        </>
+    )
 });
 
 export default ItemLoader;

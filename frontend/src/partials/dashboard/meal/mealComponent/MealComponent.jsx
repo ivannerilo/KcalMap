@@ -10,7 +10,7 @@ import { FiTrash2, FiChevronDown  } from "react-icons/fi";
 import BreakLine from "components/breakLine/BreakLine";
 import Button from "components/button/Button";
 import TimelineBullet from "components/timelineBullet/TimelineBullet";
-import MealItem from "partials/dashboard/meal/mealItem/MealItem";
+import MealItem from "partials/dashboard/mealItem/MealItem";
 
 export default function MealComponent() {
     const { mealState } = useContext(MealContext);

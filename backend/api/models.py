@@ -42,16 +42,16 @@ class Food(models.Model): #A classificação dos alimentos, todos são registrad
     def __str__(self):
         return self.name
 
-"""     def calculate_default_quantity(self):
-        if self.unit == "g" or self.unit == "ml":
-            self.default_quantity = 100
-        else:
-            self.default_quantity = 1
-        
-    def save(self, *args, **kwargs):
-        if not default_quantity:
-            self.calculate_default_quantity()
-        super().save(*args, **kwargs) """
+    # def calculate_default_quantity(self):
+    #     if self.unit == "g" or self.unit == "ml":
+    #         self.default_quantity = 100
+    #     else:
+    #         self.default_quantity = 1
+    #
+    # def save(self, *args, **kwargs):
+    #     if not default_quantity:
+    #         self.calculate_default_quantity()
+    #     super().save(*args, **kwargs)
 
 class TemplateFood(models.Model): #Alimentos que são de costume do User, consumir nessa refeição.
     template_meal = models.ForeignKey(TemplateMeal, on_delete=models.CASCADE, related_name="template_food")

@@ -3,10 +3,10 @@ import { useState, useRef, Children } from "react"
 import styles from "./ProfileForm.module.css"
 import { useAuthenticate } from "contexts/AuthenticateContext";
 import { useUser } from "contexts/UserContext";
-import Input from "components/form/input/Input";
-import FormContainer from "components/form/formContainer/FormContainer";
+import Input from "components/input/Input";
+import FormContainer from "components/formContainer/FormContainer";
 import Button from "components/button/Button";
-import Select from "components/form/select/Select";
+import Select from "components/select/Select";
 
 export default function ProfileForm() {
     const [weight, setWeight] = useState(0);

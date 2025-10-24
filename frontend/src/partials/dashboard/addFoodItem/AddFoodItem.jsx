@@ -1,5 +1,5 @@
 import Button from "components/button/Button";
-import Input from "components/form/input/Input";
+import Input from "components/input/Input";
 import styles from "./AddFoodItem.module.css";
 import { AddFoodModalContext } from "partials/dashboard/addFoodModal/AddFoodModal";
 import { forwardRef, useContext, useState } from "react";

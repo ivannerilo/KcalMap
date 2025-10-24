@@ -1,5 +1,9 @@
+import FoodsList from "partials/foods/foodsList/FoodsList";
+
 export default function Foods() {
     return (
-        <h1> FOODS </h1>
+        <>
+            <FoodsList />
+        </>
     )
 }

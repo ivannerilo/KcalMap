@@ -7,11 +7,24 @@ export function FoodContext({ children }) {
     
     const { authFetch } = useFetch()
 
-    async function getGlobalFoods() {
+    async function getGlobalFoods(debounceSearch = null, page = 1) {
         try {
-            let response = await authFetch("http://localhost:8000/api/food")
-            
-            
+            const body = debounceSearch ?
+            {
+                debounceSearch: debounceSearch,
+            }
+            :
+            {
+                page: page
+            }
+            let response = await authFetch("http://localhost:8000/api/food", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body)
+            });
+
             if (!response.ok) { //melhorar esse error handling aqui.
                 throw Error("Fail to fetch meals." + response.message);
             }
@@ -112,6 +125,7 @@ export function FoodContext({ children }) {
                 page: page
             }
 
+            console.log("body", body)
             response = await authFetch("http://localhost:8000/api/meal-template-food/" + mealId, {
                 method: "POST",
                 headers: {
@@ -133,6 +147,35 @@ export function FoodContext({ children }) {
         }
     }
 
+    async function createFood(name, calories, unit) {
+        try {
+            const body = JSON.stringify({
+                name,
+                calories,
+                unit,
+            });
+
+            console.log("body", body)
+            let response = await authFetch("http://localhost:8000/api/food", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: body
+            })
+
+            if (!response.ok){
+                throw Error(response.message)
+            }
+
+            let data = await response.json()
+
+            return data
+        } catch (e) {
+            throw Error(e.message)
+        }
+    }
+
 
     const value = {
         getGlobalFoods,  
@@ -140,6 +183,7 @@ export function FoodContext({ children }) {
         deleteFoodLog,
         updateFoodLog,
         getTemplateFoods,
+        createFood,
     }
 
     return (

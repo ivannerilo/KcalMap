@@ -1,5 +1,5 @@
 import { forwardRef } from "react"
-import styles from "components/form/input/Input.module.css"
+import styles from "components/input/Input.module.css"
 
 const Input = forwardRef(({label, className, labelAttributes, containerAttributes, ...inputAttributes}, ref) => {
     return (

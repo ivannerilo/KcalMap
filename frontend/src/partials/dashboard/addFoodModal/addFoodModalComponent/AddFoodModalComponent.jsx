@@ -4,13 +4,13 @@ import { AddFoodModalContext } from "partials/dashboard/addFoodModal/AddFoodModa
 import { MealContext } from "partials/dashboard/meal/Meal";
 import {createPortal} from "react-dom";
 import Container from "components/basicContainer/Container";
-import Input from "components/form/input/Input";
-import AddFoodItem from "partials/dashboard/addFoodModal/addFoodItem/AddFoodItem";
+import Input from "components/input/Input";
+import AddFoodItem from "partials/dashboard/addFoodItem/AddFoodItem";
 import BreakLine from "components/breakLine/BreakLine";
 import Button from "components/button/Button";
 import { useFood } from "contexts/FoodContext";
 import { useDebounce } from "hooks/useDebounceSearch";
-import ItemLoader from "partials/dashboard/addFoodModal/itemLoader/ItemLoader";
+import ItemLoader from "components/itemLoader/ItemLoader";
 
 
 export default function AddFoodModalComponent({ setModalOpen }) {
@@ -18,8 +18,15 @@ export default function AddFoodModalComponent({ setModalOpen }) {
 
     const [search, setSearch] = useState(null)
     const debounceSearch = useDebounce(search, 300)
+    const overlayRef = useRef(null)
     const infiniteScrollRef = useRef(null)
 
+    function handleClickOusideModal(e) {
+        const target = e.target;
+        if (target === overlayRef.current) {
+            setModalOpen(false);
+        }
+    }
 
     useEffect(() => {
         if (infiniteScrollRef.current !== null) {
@@ -52,7 +59,11 @@ export default function AddFoodModalComponent({ setModalOpen }) {
     }, [])
 
     return createPortal((
-        <div className={styles.overlay}>
+        <div
+            ref={overlayRef}
+            className={styles.overlay}
+            onClick={handleClickOusideModal}
+        >
             <Container className={styles.container}>
                 <Input
                     className={styles.searchInput}

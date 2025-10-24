@@ -1,5 +1,5 @@
 import { forwardRef } from "react"
-import styles from "components/form/select/Select.module.css"
+import styles from "components/select/Select.module.css"
 
 // options = [
 //     {

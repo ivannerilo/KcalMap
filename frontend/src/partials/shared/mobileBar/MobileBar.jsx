@@ -1,4 +1,4 @@
-import styles from "partials/shared/bar/mobileBar/MobileBar.module.css"
+import styles from "partials/shared/mobileBar/MobileBar.module.css"
 import { FiUser, FiUsers, FiBarChart2 } from "react-icons/fi";
 import { CiForkAndKnife } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
