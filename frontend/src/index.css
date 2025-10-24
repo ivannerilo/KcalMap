@@ -27,6 +27,8 @@ html {
   --text-primary: #3D315B;
   --text-secondary: #757575;
 
+  
+
   /* Window Sizes Comparatives */
 
   /* Everything less than 600px */
@@ -34,6 +36,16 @@ html {
   /* Everything less than 1200px */
   --tablet: 1200px;
   /* Desktop covers every size more than 1200px */
+}
+
+[data-theme="dark"] {
+  --background: #1E192B; /* Roxo Meia-Noite */
+  --surface: #2F2841;    /* Roxo Sombra */
+  --neutral: #413E4A;     /* Cinza Vulcânico */
+  --accent: #FFD15B;      /* Dourado Solar */
+  --accent-danger: #E84D4D; /* Vermelho Alerta */
+  --text-primary: #F5F5F5; /* Quase Branco */
+  --text-secondary: #A8A6AC; /* Cinza Médio */
 }
 
 body {

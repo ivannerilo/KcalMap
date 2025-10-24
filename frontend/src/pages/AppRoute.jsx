@@ -9,6 +9,7 @@ import ProfileForm from 'pages/profileForm/ProfileForm';
 import ProfileFormLayout from 'pages/profileForm/ProfileFormLayout';
 import BarLayout from 'layouts/barLayout/BarLayout';
 import Profile from 'pages/profile/Profile';
+import Foods from "pages/foods/Foods";
 
 
 function AppRoute() {
@@ -33,7 +34,7 @@ function AppRoute() {
                 <Route index element={<Navigate to="/dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="profile" element={<Profile />} />
-                <Route path="foods" element={<h1>foods</h1>} />
+                <Route path="foods" element={<Foods />} />
                 <Route path="results" element={<h1>results</h1>} />
                 <Route path="friends" element={<h1>friends</h1>} />
 

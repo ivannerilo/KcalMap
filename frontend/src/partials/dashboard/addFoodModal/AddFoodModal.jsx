@@ -14,7 +14,7 @@ export default function AddFoodModal(props){
     const [isLoading, setIsLoading] = useState(true)
 
     
-    async function loadSearchedFoods(debounceSearch) {
+    async function loadSearchedFoods(debounceSearch) { // Lista
         let response = await getTemplateFoods(meal.mealState.id, debounceSearch)
         setFoods(prev => ({
             template_foods: prev.template_foods.filter((item) => item.name.toLowerCase().includes(debounceSearch.toLowerCase())),
@@ -22,7 +22,7 @@ export default function AddFoodModal(props){
         }))
     }
     
-    async function loadNextPage() {
+    async function loadNextPage() { //Lista
         setIsLoading(true)
         let response = await getTemplateFoods(meal.mealState.id, null, page)
         setPage((prev) => prev + 1)
@@ -39,7 +39,7 @@ export default function AddFoodModal(props){
         })
     }
 
-    async function resetSearch() {
+    async function resetSearch() { //Lista
         setIsLoading(true)
         let response = await getTemplateFoods(meal.mealState.id, null, 1)
         setPage(2)
