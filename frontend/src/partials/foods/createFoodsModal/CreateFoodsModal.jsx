@@ -85,7 +85,6 @@ export function CreateFoodsModal({ setIsModalOpen }) {
                         />
                     </div>
                 </div>
-                <span>a</span>
                 <div className={styles.buttonsContainer}>
                     <Button
                         className={styles.button}
