@@ -11,15 +11,22 @@ import BreakLine from "components/breakLine/BreakLine";
 import Button from "components/button/Button";
 import TimelineBullet from "components/timelineBullet/TimelineBullet";
 import MealItem from "partials/dashboard/mealItem/MealItem";
+import {usePopup} from "../../../../contexts/PopupContext";
 
 export default function MealComponent() {
     const { mealState } = useContext(MealContext);
     const { deleteMeal } = useUser();
+    const {openPopup} = usePopup();
     const [isMealOpen, setIsMealOpen] = useState(false);
     const [isAddFoodOpen, setIsAddFoodsOpen] = useState(false);
 
-    function hanldeDeleteMeal(id) {
-        deleteMeal(id)
+    async function hanldeDeleteMeal(id) {
+        const response = await deleteMeal(id);
+        if (!response.ok) {
+            openPopup(response.message, "error");
+        } else {
+            openPopup("Meal deleted successfully!", "success");
+        }
     }
 
     return (

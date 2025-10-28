@@ -1,10 +1,12 @@
 import { useEffect, useState, createContext, useContext, useMemo } from "react";
 import { useAuthenticate } from "contexts/AuthenticateContext";
 import { useFetch } from "hooks/useFetch"
+import {usePopup} from "./PopupContext";
 
 const InternalContext = createContext()
 
 export function UserContext({ children }){
+    const {openPopup} = usePopup();
 
     //Meals States
     const [meals, setMeals] = useState([]);
@@ -29,7 +31,7 @@ export function UserContext({ children }){
 
             setCaloriesGoal(data.result.profile.calories_goal)
         } catch(e) {
-            console.log(e.message)
+            openPopup(e.message, "error");
         }
     }
 
@@ -43,11 +45,10 @@ export function UserContext({ children }){
             }
 
             let data = await response.json()
-            console.log("resposta", data)
 
             return data.result;
         } catch(e) {
-            console.log(e.message)
+            openPopup(e.message, "error");
         }
     }
 
@@ -159,8 +160,8 @@ export function UserContext({ children }){
     
             setMeals(data.result);
             setIsLoading(false);
-        } catch(error) {
-            console.log("error", error)
+        } catch(e) {
+            openPopup(e.message, "error");
         }
     }
 
@@ -184,10 +185,9 @@ export function UserContext({ children }){
 
             await getMeals()
 
-            return data
-        } catch (e) {
-            console.log("error", e.message)
-            throw Error(e.message)
+            return {ok: true, result: data.result}
+        } catch(e) {
+            return {ok: false, message: e.message}
         }
     }
 
@@ -211,10 +211,9 @@ export function UserContext({ children }){
 
             await getMeals()
 
-            return data
-        } catch (e) {
-            console.log("error", e.message)
-            return e.message
+            return {ok: true, result: data.result}
+        } catch(e) {
+            return {ok: false, message: e.message}
         }
     }
 
@@ -237,10 +236,9 @@ export function UserContext({ children }){
 
             let data = await response.json()
 
-            return data
-        } catch (e) {
-            console.log("error", e.message)
-            return e.message
+            return {ok: true, result: data.result}
+        } catch(e) {
+            return {ok: false, message: e.message}
         }
     }
 

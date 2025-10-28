@@ -4,21 +4,23 @@ import { useUser } from "contexts/UserContext";
 import Button from "components/button/Button";
 import Input from "components/input/Input";
 import Container from "components/basicContainer/Container";
+import {usePopup} from "../../../contexts/PopupContext";
 
 export default function NewMeal({ setIsFormOpen }) {
     const [mealName, setMealName] = useState("");
     const inputRef = useRef(null);
     const { createMeal } = useUser();
+    const { openPopup } = usePopup();
     
 
     async function handleCreateMeal(event) {
-        try {
-            event.preventDefault();
-            let response = await createMeal(mealName)
-    
+        event.preventDefault();
+        let response = await createMeal(mealName)
+        if (!response.ok) {
+            openPopup(response.message, "error");
+        } else {
             setIsFormOpen(false);
-        } catch(e) {
-            console.log(e.message)
+            openPopup("Meal created successfully!", "success");
         }
     }
 

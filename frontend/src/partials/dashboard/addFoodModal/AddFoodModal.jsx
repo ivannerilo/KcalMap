@@ -9,6 +9,7 @@ export default function AddFoodModal(props){
     const meal = useContext(MealContext)
     const { getTemplateFoods } = useFood()
     const [foods, setFoods] = useState([])
+    const [templateFoods, setTemplateFoods] = useState([])
     const [page, setPage] = useState(1)
     const [hasNextPage, setHasNextPage] = useState(true);
     const [isLoading, setIsLoading] = useState(true)
@@ -17,7 +18,7 @@ export default function AddFoodModal(props){
     async function loadSearchedFoods(debounceSearch) { // Lista
         let response = await getTemplateFoods(meal.mealState.id, debounceSearch)
         setFoods(prev => ({
-            template_foods: prev.template_foods.filter((item) => item.name.toLowerCase().includes(debounceSearch.toLowerCase())),
+            template_foods: templateFoods.filter((item) => item.name.toLowerCase().includes(debounceSearch.toLowerCase())),
             global_foods: response.result.global_foods
         }))
     }
@@ -52,6 +53,7 @@ export default function AddFoodModal(props){
                 ]
             }
         })
+        setTemplateFoods(response.result.template_foods)
     }
     
     const value = {

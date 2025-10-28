@@ -13,7 +13,6 @@ export default function Profile() {
     useEffect(() => {
         async function load() {
             const response = await getProfile();
-            console.log(response)
             setProfile(response)
         }
         load();

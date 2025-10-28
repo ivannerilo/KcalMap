@@ -64,6 +64,30 @@ def get_global_foods(data):
         "has_next_page": has_next_page
     }
 
+def get_global_user_foods(data, user):
+    user_foods = models.Food.objects.filter(creator=user)
+    user_foods_ids = user_foods.values_list('id', flat=True)
+
+    global_foods = models.Food.objects.exclude(id__in=user_foods_ids).order_by('name')
+
+    has_next_page = False
+    if 'debounceSearch' in data:
+        global_foods = global_foods.filter(name__icontains=data['debounceSearch'])
+    elif 'page' in data:
+        paginator = Paginator(global_foods, 10)
+        try:
+            page = paginator.get_page(int(data['page']))
+            global_foods = page
+            has_next_page = page.has_next()
+        except EmptyPage as e:
+            print(str(e))
+
+    return {
+        "user_foods": user_foods,
+        "global_foods": global_foods,
+        "has_next_page": has_next_page
+    }
+
 
 def create_food(data, user):
     try:

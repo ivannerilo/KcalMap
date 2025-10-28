@@ -4,21 +4,22 @@ import { FetchContext } from 'hooks/useFetch';
 import { FoodContext } from 'contexts/FoodContext';
 import WindowContext from 'contexts/WindowContext';
 import AppRoute from 'pages/AppRoute';
+import {PopupContext} from "../contexts/PopupContext";
 
 export default function App() {
-  // Requisição para backend, para verificar se está logado ou não!
-
   return (
     <WindowContext>
-      <AuthenticateContext>
-        <FetchContext>
-            <UserContext>
-              <FoodContext>
-                <AppRoute />
-              </FoodContext>
-            </UserContext>
-        </FetchContext>
-      </AuthenticateContext>
+      <PopupContext>
+          <AuthenticateContext>
+            <FetchContext>
+                <UserContext>
+                  <FoodContext>
+                            <AppRoute />
+                  </FoodContext>
+                </UserContext>
+            </FetchContext>
+          </AuthenticateContext>
+      </PopupContext>
     </WindowContext>
   );
 }

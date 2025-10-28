@@ -17,7 +17,8 @@ export default function FoodsList(props){
     async function loadSearchedFoods(debounceSearch) { // Lista
         let response = await getGlobalFoods(debounceSearch)
         setFoods(prev => ({
-            global_foods: response.result.global_foods
+            user_foods: prev.user_foods.filter((item) => item.name.toLowerCase().includes(debounceSearch.toLowerCase())),
+            global_foods: response?.result?.global_foods
         }))
     }
 
@@ -29,6 +30,7 @@ export default function FoodsList(props){
         setFoods(prev => {
             const prevGlobalFoods = (prev && prev?.global_foods?.length > 0) ? prev.global_foods : []
             return {
+                user_foods: response?.result?.user_foods,
                 global_foods: [
                     ...prevGlobalFoods,
                     ...response.result.global_foods
@@ -44,6 +46,7 @@ export default function FoodsList(props){
         setHasNextPage(response.result.has_next_page)
         setFoods(prev => {
             return {
+                user_foods: response?.result?.user_foods,
                 global_foods: [
                     ...response.result.global_foods
                 ]

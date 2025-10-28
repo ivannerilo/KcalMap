@@ -18,24 +18,29 @@ html {
 }
 
 :root {
-  /* Paleta Light Theme */
-  --background: #F8F7F4;
-  --surface: #FFFFFF;
-  --neutral: #EAEAEA;
-  --accent: #F7B801;
-  --accent-danger: #E53E3E;
-  --text-primary: #3D315B;
-  --text-secondary: #757575;
+    /* Paleta Light Theme */
+    --background: #F8F7F4;
+    --surface: #FFFFFF;
+    --neutral: #EAEAEA;
+    --accent: #F7B801;
+    --accent-danger: #E53E3E;
+    --text-primary: #3D315B;
+    --text-secondary: #757575;
+    --success-primary: #B0FFB5;
+    --success-secondary: #679E6A;
+    --warning-primary: #FFB0B0;
+    --warning-secondary: #9E6D67;
 
-  
 
-  /* Window Sizes Comparatives */
 
-  /* Everything less than 600px */
-  --mobile: 600px; 
-  /* Everything less than 1200px */
-  --tablet: 1200px;
-  /* Desktop covers every size more than 1200px */
+
+    /* Window Sizes Comparatives */
+
+    /* Everything less than 600px */
+    --mobile: 600px;
+    /* Everything less than 1200px */
+    --tablet: 1200px;
+    /* Desktop covers every size more than 1200px */
 }
 
 [data-theme="dark"] {

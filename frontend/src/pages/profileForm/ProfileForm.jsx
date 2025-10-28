@@ -7,6 +7,7 @@ import Input from "components/input/Input";
 import FormContainer from "components/formContainer/FormContainer";
 import Button from "components/button/Button";
 import Select from "components/select/Select";
+import {usePopup} from "../../contexts/PopupContext";
 
 export default function ProfileForm() {
     const [weight, setWeight] = useState(0);
@@ -17,6 +18,7 @@ export default function ProfileForm() {
 
     const { setIsNewUser } = useAuthenticate();
     const { createProfile } = useUser();
+    const { openPopup } = usePopup();
 
     const wheightInputRef = useRef(null);
     const heightInputRef = useRef(null);
@@ -39,7 +41,7 @@ export default function ProfileForm() {
         
         let response = await createProfile(height, weight, sex, age, caloriesGoal);
         if (!response.ok){
-            console.log("deu ruim")
+            openPopup(response.message, "error");
         } else {
             clearForm();
             setIsNewUser(false);
@@ -52,9 +54,8 @@ export default function ProfileForm() {
     }
 
     return(
-
-    <div className={styles.external}>
-            <FormContainer className={styles.container}>            
+        <div className={styles.external}>
+            <FormContainer className={styles.container}>
                 <h1 className={styles.header}>Almost There</h1>
                 <p className={styles.infoText}>
                     Tell us a little bit more about you.
@@ -62,32 +63,32 @@ export default function ProfileForm() {
                 <form className={styles.form}>
                     <Input
                         label={"Your Wheight"}
-                        type="number" 
+                        type="number"
                         placeholder={"e.g 80(kg)"}
-                        onChange={(e) => setWeight(e.target.value)} 
+                        onChange={(e) => setWeight(e.target.value)}
                         ref={wheightInputRef}
                         className={styles.input}
                     />
                     <Input
                         label={"Your Height"}
-                        type="number" 
+                        type="number"
                         placeholder={"e.g 180(cm)"}
-                        onChange={(e) => setHeight(e.target.value)} 
+                        onChange={(e) => setHeight(e.target.value)}
                         ref={heightInputRef}
                         className={styles.input}
                     />
                     <Input
                         label={"Your Age"}
-                        type="number" 
+                        type="number"
                         placeholder={"e.g 18(y)"}
-                        onChange={(e) => setAge(e.target.value)} 
+                        onChange={(e) => setAge(e.target.value)}
                         ref={ageInputRef}
                         className={styles.input}
                     />
-                    <Select 
+                    <Select
                         label={"Your Biological Sex"}
-                        onChange={(e) => seeOnchange(e.target.value)} 
-                        ref={sexInputRef} 
+                        onChange={(e) => seeOnchange(e.target.value)}
+                        ref={sexInputRef}
                         className={styles.input}
                         options={[
                             {
@@ -107,13 +108,13 @@ export default function ProfileForm() {
                     />
                     <Input
                         label={"Your Calories Goal"}
-                        type="number" 
+                        type="number"
                         placeholder={"e.g 2000(kcal)"}
-                        onChange={(e) => setCaloriesGoal(e.target.value)} 
+                        onChange={(e) => setCaloriesGoal(e.target.value)}
                         ref={caloriesGoalRef}
                         className={styles.input}
                     />
-                    <Button 
+                    <Button
                         className={styles.button}
                         onClick={handleregister}
                     >
@@ -122,7 +123,6 @@ export default function ProfileForm() {
                 </form>
             </FormContainer>
         </div>
-       
     )
 }
 

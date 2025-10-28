@@ -8,6 +8,7 @@ import { useDebounce } from "hooks/useDebounceSearch";
 import ItemLoader from "components/itemLoader/ItemLoader";
 import {FoodsListContext} from "partials/foods/foodsList/FoodsList";
 import {CreateFoodsModal} from "../../createFoodsModal/CreateFoodsModal";
+import FoodItem from "../../foodItem/FoodItem";
 
 
 export default function FoodsListComponent() {
@@ -62,7 +63,19 @@ export default function FoodsListComponent() {
                 <ItemLoader
                     foods={foods}
                     setIsLoading={setIsLoading}
-                    ref={infiniteScrollRef}
+                    firstGroupKey={"user_foods"}
+                    firstGroupName={"Your foods"}
+                    secondGroupKey={"global_foods"}
+                    secondGroupName={"Globals"}
+                    itemCallback={(item) => {
+                        return <FoodItem key={item.id} item={item} />
+                    }}
+                    refItemCallback={(item, lastItemId) => {
+                        if (item.id === lastItemId) {
+                            return <FoodItem key={item.id} item={item} ref={infiniteScrollRef} />
+                        }
+                        return <FoodItem key={item.id} item={item} />
+                    }}
                 />
             </section>
 

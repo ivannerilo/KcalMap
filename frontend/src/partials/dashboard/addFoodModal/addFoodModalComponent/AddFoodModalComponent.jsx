@@ -11,6 +11,7 @@ import Button from "components/button/Button";
 import { useFood } from "contexts/FoodContext";
 import { useDebounce } from "hooks/useDebounceSearch";
 import ItemLoader from "components/itemLoader/ItemLoader";
+import FoodItem from "../../../foods/foodItem/FoodItem";
 
 
 export default function AddFoodModalComponent({ setModalOpen }) {
@@ -27,6 +28,8 @@ export default function AddFoodModalComponent({ setModalOpen }) {
             setModalOpen(false);
         }
     }
+
+    console.log("debounceSearch", debounceSearch)
 
     useEffect(() => {
         if (infiniteScrollRef.current !== null) {
@@ -76,7 +79,19 @@ export default function AddFoodModalComponent({ setModalOpen }) {
                     <ItemLoader 
                         foods={foods}
                         setIsLoading={setIsLoading}
-                        ref={infiniteScrollRef} 
+                        firstGroupKey={"template_foods"}
+                        firstGroupName={"Favorites"}
+                        secondGroupKey={"global_foods"}
+                        secondGroupName={"Globals"}
+                        itemCallback={(item) => {
+                            return <AddFoodItem key={item.id} item={item} />
+                        }}
+                        refItemCallback={(item, lastItemId) => {
+                            if (item.id === lastItemId) {
+                                return <AddFoodItem key={item.id} item={item} ref={infiniteScrollRef} />
+                            }
+                            return <AddFoodItem key={item.id} item={item} />
+                        }}
                     />
                 </section>
 

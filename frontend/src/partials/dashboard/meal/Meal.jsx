@@ -2,6 +2,7 @@ import { useFood } from "contexts/FoodContext";
 import { useUser } from "contexts/UserContext";
 import MealComponent from "partials/dashboard/meal/mealComponent/MealComponent";
 import { createContext, useEffect, useState } from 'react'
+import {usePopup} from "../../../contexts/PopupContext";
 
 const MealContext = createContext()
 
@@ -9,6 +10,7 @@ export default function Meal({ meal }) {
     const [mealState, setMealState] = useState({...meal});
     const { updateFoodLog, createFoodLog, deleteFoodLog } = useFood();
     const { updateMeals } = useUser();
+    const {openPopup} = usePopup();
 
     // Toda vez que o estado de uma meal mudar, elas todas serão atualizadas,
     // recalculando as calorias, etc...
@@ -82,8 +84,10 @@ export default function Meal({ meal }) {
         try {
             let response = await createFoodLog(item.id, quantity, mealState.id)
             setNewMealLog(response.result)
+            openPopup("Item adicionado com sucesso!", "success");
         } catch(e) {
             console.log("Erro!", e.message)
+            openPopup("Não foi possível adicionar o item, tente novamente mais tarde!", "error");
         }
     }
 

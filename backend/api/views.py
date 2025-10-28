@@ -136,11 +136,13 @@ def food(request):
 
             # global foods with pagination
             case "PATCH":
-                foods = services.get_global_foods(request.data)
+                foods = services.get_global_user_foods(request.data, request.user)
 
                 serialized_searched_foods = serializers.FoodSerializer(instance=foods['global_foods'], many=True)
+                serialized_user_foods = serializers.FoodSerializer(instance=foods['user_foods'], many=True)
 
                 return Response({"result": {
+                    "user_foods": serialized_user_foods.data,
                     "global_foods": serialized_searched_foods.data,
                     "has_next_page": foods['has_next_page']
                 }}, status=200)

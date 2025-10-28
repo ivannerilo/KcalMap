@@ -3,9 +3,11 @@ import styles from "./ProfilePicture.module.css";
 import { FiUser } from "react-icons/fi";
 import { useUser } from "contexts/UserContext";
 import { useEffect, useInsertionEffect, useState } from "react";
+import {usePopup} from "../../../contexts/PopupContext";
 
 export default function ProfilePicture ({ profile }) {
     const {updateProfilePicture} = useUser();
+    const {openPopup} = usePopup();
     const [imgSrc, setImgSrc] = useState(null)
 
     async function handleSubmitImage(e) {
@@ -13,8 +15,12 @@ export default function ProfilePicture ({ profile }) {
         const formData = new FormData();
         formData.append('profile_picture', file);
         const response = await updateProfilePicture(formData);
-        console.log("Rexposta", response);
-        setImgSrc(response?.result?.profile_picture)
+        if (!response.ok) {
+            openPopup(response.message, "error");
+        } else {
+            openPopup("Profile picture updated successfully!", "success");
+            setImgSrc(response?.result?.profile_picture)
+        }
     }
 
     function handleEdit(e) {

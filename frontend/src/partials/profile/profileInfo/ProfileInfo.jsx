@@ -4,17 +4,21 @@ import Input from "components/input/Input";
 import { useUser } from "contexts/UserContext";
 import { useState, useEffect } from "react";
 import Button from "components/button/Button";
+import {usePopup} from "../../../contexts/PopupContext";
 
 export default function ProfileInfo({ profile }) {
     const { updateProfile } = useUser();
+    const { openPopup } = usePopup();
     const [formValues, setFormValues] = useState();
 
     async function handleSave() {
         const response = await updateProfile(formValues);
-        console.log("responseShit", response);
+        if (!response.ok) {
+            openPopup(response.message, "error");
+        } else {
+            openPopup("Profile updated successfully!", "success");
+        }
     }
-
-    console.log("profile", profile);
 
     function handleChange(e) {
         const element = e.target;
