@@ -47,6 +47,19 @@ def delete_log(data, user):
         raise ServiceException("Failed to delete this log!")
     
 def update_log(data, user):
+    meal = models.TemplateMeal.objects.get(pk=data['mealId'])
+    food = models.Food.objects.get(pk=data['foodId'])
+    same_food_log = get_same_food_log(meal, food, user)
+    quantity = int(data['quantity'])
+
+    if quantity <= 0:
+        same_food_log.delete()
+        return None
+    else:
+        same_food_log.quantity = quantity
+        same_food_log.save()
+
+        return same_food_log
     try:
         meal = models.TemplateMeal.objects.get(pk=data['mealId'])
         food = models.Food.objects.get(pk=data['foodId'])

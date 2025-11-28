@@ -10,7 +10,7 @@ import ProfileFormLayout from 'pages/profileForm/ProfileFormLayout';
 import BarLayout from 'layouts/barLayout/BarLayout';
 import Profile from 'pages/profile/Profile';
 import Foods from "pages/foods/Foods";
-import { Popup } from "../components/popup/Popup";
+import { Popup } from "./components/popup/Popup";
 
 function AppRoute() {
     return (

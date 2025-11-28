@@ -55,7 +55,14 @@ def meal(request):
         return Response({"message": "Ocorreu um erro no servidor!"}, status=500)
     
 @api_view(['POST', 'PUT', 'DELETE'])
+
 def log(request):
+    log = services.update_log(request.data, request.user)
+    if log == None:
+        return Response({"result": request.data['foodId']}, status=200)
+
+    serialized_log = serializers.FoodLogSerializer(instance=log)
+    return Response({"result": serialized_log.data}, status=201)
     try:
         match request.method:
 

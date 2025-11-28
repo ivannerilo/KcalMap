@@ -3,8 +3,8 @@ import { UserContext } from 'contexts/UserContext';
 import { FetchContext } from 'hooks/useFetch';
 import { FoodContext } from 'contexts/FoodContext';
 import WindowContext from 'contexts/WindowContext';
-import AppRoute from 'pages/AppRoute';
-import {PopupContext} from "../contexts/PopupContext";
+import AppRoute from 'AppRoute';
+import {PopupContext} from "./contexts/PopupContext";
 
 export default function App() {
   return (
