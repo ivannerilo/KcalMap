@@ -1,106 +1,134 @@
-# 🗺️ KcalMap - Seu Mapa Diário de Calorias
+# KcalMap - Daily Calorie Tracker
 
-Uma aplicação web moderna para monitoramento de calorias, desenvolvida com Django e React, com foco em uma experiência de usuário ágil, gamificada e totalmente responsiva.
+## Overview
+KcalMap is a single-page web application (SPA) designed to help users track their daily caloric intake in a simple, agile, and engaging way. Unlike traditional trackers that rely on complex forms and scattered menus, KcalMap focuses on a timeline-based dashboard that mirrors the user's day, allowing for quick logging, real-time feedback, and easy management of dietary habits.
 
-## 📜 Sobre o Projeto
+The application is built with a decoupled architecture, utilizing Django (with Django Rest Framework) for a robust backend API and React for a dynamic, responsive frontend interface. It features secure JWT authentication, profile customization, a comprehensive food database, and an intuitive "in-place" editing system.
 
-KcalMap nasceu da ideia de simplificar o processo de contagem de calorias. Em vez de formulários complexos e múltiplas telas, a aplicação se concentra em uma interface de timeline intuitiva, onde o usuário pode registrar e visualizar suas refeições de forma cronológica e fluida. A arquitetura foi pensada para ser escalável e performática, separando o backend (API RESTful) do frontend (Single-Page Application).
+---
 
-Este projeto foi desenvolvido como parte de um processo de aprendizado e mentoria, explorando as melhores práticas de arquitetura tanto no Django (camada de serviços, serializers otimizados) quanto no React (hooks, contextos, design responsivo).
+## Distinctiveness and Complexity
+This project satisfies the distinctiveness and complexity requirements of the CS50 Web Capstone in several key ways:
 
-## ✨ Principais Funcionalidades
+### 1. Distinctiveness from Other Course Projects
+* **Not a Social Network or E-commerce:** KcalMap is strictly a utility/health application. It does not feature user-to-user messaging, following mechanisms, or a "feed" of other users' content (Project 4: Network). Nor does it involve listings, bids, or auctions (Project 2: Commerce). It is a personal tool focused on data tracking and visualization.
+* **Unique Domain Logic:** The core logic revolves around nutritional data management, time-based logging, and personalized goal tracking. This domain is fundamentally different from the wiki, email, commerce, or social network domains explored in previous projects.
+* **Timeline Architecture:** Instead of standard CRUD pages, the application is designed around a chronological timeline of meals (Breakfast, Lunch, etc.), offering a unique user experience that differs significantly from the standard list/detail views of previous assignments.
 
-* **Autenticação Segura:** Sistema completo de registro e login com tokens JWT (`simple-jwt`).
-* **Perfil de Usuário:** Configuração de dados essenciais como peso, altura, idade e metas de calorias.
-* **Dashboard em Timeline:** Visualização cronológica de todas as refeições e alimentos consumidos durante o dia.
-* **Registro Rápido de Alimentos:** Um modal de busca inteligente que prioriza alimentos frequentes/favoritos e permite a busca em uma base de dados global.
-* **Edição "In-place":** Altere a quantidade ou remova um alimento diretamente na timeline, sem precisar navegar para outra tela.
-* **Painel de Calorias em Tempo Real:** Um "widget" que atualiza instantaneamente o progresso de calorias do dia.
-* **Design Responsivo (Mobile-First):** Interface projetada para funcionar perfeitamente em celulares, tablets e desktops.
-* **Temas Light & Dark:** Suporte a temas claro e escuro para melhor conforto visual.
+### 2. Complexity Implementation
+KcalMap implements a level of complexity that exceeds previous projects through advanced architectural patterns and features:
 
-## 🛠️ Tecnologias Utilizadas
+* **Decoupled Architecture (API + SPA):** Unlike previous projects that used Django templates, this project completely separates the backend (Django REST Framework) from the frontend (React). This required implementing a full RESTful API, handling CORS, and managing state on the client-side asynchronously.
+* **Advanced Authentication (JWT):** Instead of standard Django sessions, the app implements stateless authentication using JSON Web Tokens (Simple JWT). This involves handling access tokens, refresh tokens, and automatic token rotation on the frontend via interceptors, ensuring a seamless user session.
+* **Service Layer Pattern in Backend:** To keep views clean and "thin," business logic was abstracted into a dedicated `services/` layer. This separates the HTTP request handling from the actual data manipulation logic, making the codebase more modular and testable.
+* **Optimized Database Queries:** The application utilizes advanced Django ORM features like `prefetch_related` with custom `Prefetch` objects to solve the N+1 query problem. Complex data structures (e.g., meals nested with logs and food details) are serialized efficiently using nested serializers.
+* **Complex React State Management:** The frontend uses the Context API extensively to manage global state (User Data, Authentication, Food Database) while optimizing performance with `useMemo` and `useCallback` to prevent unnecessary re-renders.
+* **Smart Search & Data Handling:**
+    * **Debounced Search:** The food search feature implements debouncing to minimize API calls while the user types.
+    * **Infinite Scroll:** The food list implements an intersection observer pattern to load data progressively (infinite scroll), rather than simple pagination links.
+    * **In-Place Editing:** Users can edit quantities or delete items directly within the timeline component, requiring complex state updates and optimistic UI rendering.
 
-Este projeto foi construído utilizando um stack moderno e robusto:
+---
 
-#### **Backend**
-* **Python 3.11+**
-* **Django 5.0+**
-* **Django Rest Framework (DRF):** Para a construção da API RESTful.
-* **Simple JWT:** Para autenticação baseada em tokens.
-* **SQLite 3:** Banco de dados padrão para desenvolvimento.
+## File Contents
 
-#### **Frontend**
-* **React 18+**
-* **React Router:** Para o gerenciamento de rotas.
-* **React Context:** Para gerenciamento de estado global (autenticação, dados do usuário, etc.).
-* **CSS Modules:** Para estilização componentizada e sem conflitos.
+### Backend (`backend/`)
+* `core/`: Main project configuration settings.
+    * `settings.py`: Configured for DRF, CORS headers, Simple JWT, and static/media files.
+* `api/`: The main application handling the logic.
+    * `models.py`: Defines the database schema for User, Profile, TemplateMeal, TemplateFood, Food, and FoodLog.
+    * `views/`: Contains the API views separated by domain, that handle HTTP requests and responses.
+    * `services/`: Contains business logic separated by domain (`user_services.py`, `meal_services.py`, `log_services.py`). Handles DB transactions and complex operations.
+    * `serializers/`: DRF serializers separated by domain (`user_serializers.py`, `meal_serializers.py`, `food_serializers.py`) for data validation and transformation.
+    * `urls.py`: Nested routing configuration for the API endpoints.
+    * `management/commands/seed_foods.py`: Custom management command to populate the database with initial food data.
 
-## 🚀 Começando
+### Frontend (`frontend/`)
+* `src/`: Source code for the React application.
+    * `contexts/`: React Context providers (`AuthenticateContext`, `UserContext`, `FoodContext`, `WindowContext`) for global state management.
+    * `hooks/`: Custom hooks like `useFetch` (for authenticated requests) and `useDebounce`.
+    * `layouts/`: Layout wrappers for different sections (e.g., `SidebarLayout`, `AuthenticationLayout`).
+    * `pages/`: Main view components (`Dashboard`, `Login`, `Register`, `ProfileForm`).
+    * `components/`: Reusable UI components.
+        * `Sidebar/`: Responsive navigation sidebar.
+        * `CaloriesDash/`: Real-time calorie progress widget.
+        * `Meal/`: Complex component handling meal display and interactions.
+        * `AddFoodModal/`: Smart search modal with infinite scroll.
+        * `form/`: Custom input and button components.
+    * `index.css`: Global styles, CSS variables for theming (light/dark), and reset.
 
-Siga estas instruções para configurar e rodar o projeto em seu ambiente de desenvolvimento local.
+---
 
-### Pré-requisitos
+## How to Run the Application
+This project requires Python and Node.js to be installed.
 
-Antes de começar, garanta que você tenha as seguintes ferramentas instaladas:
-* Python (versão 3.11 ou superior)
-* Node.js e npm (versão 18 ou superior)
-* Git
+### 1. Backend Setup (Django)
+Navigate to the backend directory:
 
-### Instalação e Configuração
+```bash
+cd backend
+```
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone https://github.com/ivannerilo/KcalMap.git
-    cd KcalMap # Ou o nome da pasta do seu projeto
-    ```
+Create and activate a virtual environment:
 
-2.  **Configurando o Backend (Django):**
-    ```bash
-    # Navegue até a pasta do backend
-    cd backend
+```bash
+python -m venv venv
+# Windows:
+# venv\Scripts\activate
+# macOS/Linux:
+# source venv/bin/activate
+```
 
-    # Crie e ative um ambiente virtual
-    python -m venv venv
-    # No Windows:
-    # venv\Scripts\activate
-    # No macOS/Linux:
-    # source venv/bin/activate
+Install dependencies:
 
-    # Instale as dependências do Python
-    pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
-    # Aplique as migrações do banco de dados
-    python manage.py migrate
+Apply migrations:
 
-    # (Opcional) Popule o banco com dados iniciais de alimentos
-    python manage.py seed_foods
+```bash
+python manage.py migrate
+```
 
-    # Inicie o servidor do backend
-    python manage.py runserver
-    ```
-    🎉 O backend estará rodando em `http://localhost:8000`.
+(Optional) Seed the database with initial food data:
 
-3.  **Configurando o Frontend (React):**
-    Abra um **novo terminal**.
-    ```bash
-    # A partir da pasta raiz do projeto, navegue até a pasta do frontend
-    cd frontend
+```bash
+python manage.py seed_foods
+```
 
-    # Instale as dependências do Node.js
-    npm install
+Start the server:
 
-    # Inicie o servidor de desenvolvimento do React
-    npm start
-    ```
-    🎉 A aplicação estará acessível em `http://localhost:3000`.
+```bash
+python manage.py runserver
+```
 
-## 📄 Licença
+The backend will run at `http://127.0.0.1:8000/`.
 
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+### 2. Frontend Setup (React)
+Open a new terminal and navigate to the frontend directory:
 
-## 👤 Contato
+```bash
+cd frontend
+```
 
-**Ivan Nerilo** - [https://www.linkedin.com/in/ivan-lopes-nerilo-ab3a18351/] - [ivannerilo05@gmail.com]
+Install Node dependencies:
 
-Link do Projeto: [https://github.com/ivannerilo/KcalMap](https://github.com/ivannerilo/KcalMap)
+```bash
+npm install
+```
+
+Start the React development server:
+
+```bash
+npm start
+```
+
+The application will open in your browser at `http://localhost:3000/`.
+
+---
+
+## Additional Information
+* **Responsive Design:** The application is built with a "Mobile-First" CSS strategy. It adapts layout, font sizes, and visibility of elements (like the sidebar) based on the viewport width (`isMobile`, `isTablet`, `isDesktop` contexts).
+* **Media Files:** The project handles profile picture uploads. In development mode, Django is configured to serve media files directly.
+* **Security:** Passwords are hashed (via Django's default system), and API endpoints are protected via JWT. The frontend automatically handles token expiration and refreshing.
